@@ -8,10 +8,11 @@
     .a{
         width: 120px;
         height: 120px;
-        background: white;
-        /* background: red; */
+        background: red;
         display: inline-block;
         cursor: pointer;
+        position: relative;
+        left: 100;
     }
 </style>
 <body>
@@ -19,7 +20,8 @@
 </body>
 <script src="./drag.js"></script>
 <script>
-var obj = new drag(".a");
-console.log(obj.name);
+
+var obj = new drag("a");
+
 </script>
 </html>
