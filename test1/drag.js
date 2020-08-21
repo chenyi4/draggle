@@ -14,8 +14,7 @@
     var drag = function () {
         this.name = "sdss";
     }
-
-
+    
     if(!window.drag){
         window.drag = drag;
     }
