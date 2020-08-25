@@ -46,7 +46,7 @@
         this.moveThing();
         this.stopThing();
     }
-
+    
     drag.prototype.getOrginData = function(){
         this.orgStyleData = {
             position: "relative", left: 0, top: 0
