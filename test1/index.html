@@ -5,7 +5,7 @@
     <title>Document</title>
 </head>
 <style> 
-    .a{
+    .a,.b{
         width: 120px;
         height: 120px;
         background: red;
@@ -14,14 +14,19 @@
         position: relative;
         left: 100;
     }
+    body{
+        user-select: none;
+    }
 </style>
 <body>
     <div class="a"></div>
+    <div class="b b1"></div>
 </body>
-<script src="./drag.js"></script>
+<script src="./drag2.js"></script>
 <script>
 
 var obj = new drag("a");
+var obj2 = new drag("b");
 
 </script>
 </html>

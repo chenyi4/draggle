@@ -20,7 +20,6 @@
  //https://blog.csdn.net/IT_czh/article/details/80454070
  //对不同浏览器兼容方法的封装
 
-
 (function (global) {
     'use strict';
 
@@ -60,8 +59,7 @@
     drag.prototype.clickThing = function(){
         var self = this;
         this.dom.addEventListener('mousedown',function(e){
-            this.start = true;
-            console.log('dssss');
+            self.start = true;
             self.getOrginData();
             self.move = {
                 org: {
@@ -79,15 +77,15 @@
 
     drag.prototype.moveThing = function(){
         var self = this;
-        this.dom.addEventListener('mousemove', function(e){
-            if(this.start){
+        document.onmousemove = function(e){
+            if(self.start){
                 self.move.moveLength = {
                     left: e.x,
                     top: e.y
                 }
                 self.math();
-            }   
-        });
+            }
+        }
     }
     drag.prototype.math = function(){
         var self = this;
@@ -98,8 +96,9 @@
     }
 
     drag.prototype.stopThing = function(){
+        var self = this;
         this.dom.addEventListener('mouseup',function(){
-            this.start = false;
+            self.start = false;
         });
     }
 
