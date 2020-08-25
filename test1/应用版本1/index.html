@@ -9,6 +9,7 @@ body{
     font-size: 0px;
     margin: 0;
     padding: 0;
+    overflow: hidden;
 }
 .left{
     width: 400px;
@@ -16,11 +17,12 @@ body{
     display: inline-block;
 }
 
-.left .cube{
+.cube{
     width: 50px;
     height: 50px;
     background: red;
-    position: relative;
+    position: absolute;
+    cursor: pointer;
 }
 .all{
     width: calc(100% - 400px);
@@ -70,6 +72,7 @@ body{
         <div class="small"></div>
     </div>
 </body>
+<!-- 移出以后的位置是position: absolute; 绝对值 -->
 <script src="./drag2.js"></script>
 </html>
 <script>

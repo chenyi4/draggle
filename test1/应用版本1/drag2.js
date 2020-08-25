@@ -93,6 +93,7 @@
                 document.onmousemove = function(e){
                     if(drag.current.dom){
                         drag.current.moveThing(e);
+                        // self.mathParent();
                     }
                 }
             });
@@ -151,6 +152,7 @@
     }
 
     drag.prototype.mathParent = function(){
+        var self = this;
         var dom = document.getElementsByClassName(this.ParentOrgObj.name)[0];
         var widthLength = this.ParentOrgObj.width;
         var heightLength = this.ParentOrgObj.height;
@@ -167,24 +169,63 @@
 
         for( var i = 0; i< this.Parent.childNumber; i = i+1 ){
             var width = this.Parent.width/widthLength;
-            var lefti = (i+1) < (widthLength+1)? i+1: (((i+1)%widthLength)!=0?((i+1)%widthLength):widthLength);
-
+            var height = this.Parent.height/heightLength;
+            var lefti = (i+widthLength+1)%widthLength;
+            lefti = lefti== 0?widthLength:lefti;
+            var topi = Math.ceil((i+1)/height)-1;
             array.push({
                 num: i+1,
                 left: this.Parent.x+width*(lefti-1)+1,//this.Parent.x + 
                 right: this.Parent.x+width*(lefti),
-                top: this.Parent.y,
-                bottom: 0
+                top: this.Parent.y+height*topi+1,
+                bottom: this.Parent.y+height*(topi+1)
             });
         }
+
+        var number = null;
         console.log(array);
-
-
+        array.forEach((dom, i) => {
+            if(dom.left < this.dom.offsetLeft){
+                if(dom.right > (this.dom.offsetLeft + this.dom.clientWidth)){
+                    if(dom.top < this.dom.offsetTop){
+                        if(dom.bottom > (this.dom.offsetTop + this.dom.clientHeight)){
+                            console.log(dom);
+                            number = dom.num;
+                        }
+                    }
+                }
+            }
+        });
+        // console.log(number);
         // console.log(this.Parent.childNumber);
         // // console.log("计算树");
         // console.log(this.Parent);
         // console.log(this.dom.offsetTop);
         // console.log(this.dom.offsetLeft);
+        self.parentChangColor(number);
+    }
+
+    drag.prototype.parentChangColor = function(number){
+        var self = this;
+        var child = this.Parent.dom.getElementsByTagName('div');
+        // child.forEach((dom) => {
+        //     dom.style.backgroundColor = "grey"
+        // });
+        
+        if(child[number-1] != this.parentChild){
+            this.parentChild = child[number-1];
+            if(this.parentChild){
+                for(var i = 0; i < child.length; i = i + 1){
+                    child[i].style.backgroundColor = "grey"
+                }
+                this.parentChild.style.backgroundColor = "black";
+                self.dom.style.backgroundColor = "red";
+                // document.appendChild(self.dom);
+                
+                self.parentChild.appendChild(self.dom);
+                // console.log(self.dom);
+            }
+        }
     }
 
     if(!window.drag){
