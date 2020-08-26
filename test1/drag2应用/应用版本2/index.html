@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+body{
+    font-size: 0px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+.left{
+    width: 400px;
+    height: 100%;
+    display: inline-block;
+}
+
+.cube{
+    width: 50px;
+    height: 50px;
+    background: red;
+    position: absolute;
+    cursor: pointer;
+}
+.all{
+    width: calc(100% - 400px);
+    height: 100%;
+    background: grey;
+    display: inline-block;
+    vertical-align: top;
+}
+.all .small{
+    width: calc(20% - 1px);
+    height: calc(20% - 1px);
+    border: 1px solid green;
+    border-right: none;
+    border-bottom: none;
+    display: inline-block;
+}
+</style>
+<body>
+    <div class="left">
+        <div class="cube"></div>
+    </div>
+    <div class="all">
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+        <div class="small"></div>
+    </div>
+</body>
+<!-- 移出以后的位置是position: absolute; 绝对值 -->
+<script src="./drag2.js"></script>
+</html>
+<script>
+    var dom = new drag("cube");
+    dom.setParent({
+        name: 'all',
+        width: 5,
+        height: 5,
+    });
+</script>

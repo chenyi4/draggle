@@ -27,7 +27,6 @@
         this.start = false;
         if(name){
             this.dom = document.getElementsByClassName(name)[0];
-            console.log(document.getElementsByClassName(name));
         }
         this.move = {
             org: {
@@ -93,7 +92,7 @@
                 document.onmousemove = function(e){
                     if(drag.current.dom){
                         drag.current.moveThing(e);
-                        // self.mathParent();
+                        self.mathParent();
                     }
                 }
             });
@@ -172,24 +171,22 @@
             var height = this.Parent.height/heightLength;
             var lefti = (i+widthLength+1)%widthLength;
             lefti = lefti== 0?widthLength:lefti;
-            var topi = Math.ceil((i+1)/height)-1;
+            var topi = Math.ceil((i+1)/heightLength)-1;
             array.push({
                 num: i+1,
-                left: this.Parent.x+width*(lefti-1)+1,//this.Parent.x + 
+                left: this.Parent.x+(lefti-1)*width+1,//this.Parent.x + 
                 right: this.Parent.x+width*(lefti),
-                top: this.Parent.y+height*topi+1,
-                bottom: this.Parent.y+height*(topi+1)
+                top: this.Parent.y+(height*topi)+1,
+                bottom: this.Parent.y+(height*(topi+1))
             });
         }
 
         var number = null;
-        console.log(array);
         array.forEach((dom, i) => {
             if(dom.left < this.dom.offsetLeft){
                 if(dom.right > (this.dom.offsetLeft + this.dom.clientWidth)){
                     if(dom.top < this.dom.offsetTop){
                         if(dom.bottom > (this.dom.offsetTop + this.dom.clientHeight)){
-                            console.log(dom);
                             number = dom.num;
                         }
                     }
@@ -207,11 +204,10 @@
 
     drag.prototype.parentChangColor = function(number){
         var self = this;
-        var child = this.Parent.dom.getElementsByTagName('div');
+        var child = this.Parent.dom.getElementsByClassName('small');
         // child.forEach((dom) => {
         //     dom.style.backgroundColor = "grey"
         // });
-        
         if(child[number-1] != this.parentChild){
             this.parentChild = child[number-1];
             if(this.parentChild){
