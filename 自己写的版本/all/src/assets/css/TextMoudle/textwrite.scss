@@ -1,0 +1,37 @@
+.textwrite{
+    display: inline-block;
+    position: fixed;
+    // background: white;
+    padding: 0px;
+    .right-top{
+        right: -20px;
+    }
+}
+.text-all-box{
+    text-align: left;
+    .textwrite{
+        padding: 0px;
+        .text{
+            width: auto;
+        }
+    }
+}
+
+.center{
+    .textwrite{
+        width: auto;
+        position: relative;
+        margin-left: 1.5%;
+        .text{
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            overflow: hidden;
+            top: 5px;
+            position: relative;
+            text-align: left;
+            background: white;
+            font-size: 12px;
+        }
+    }   
+}

@@ -1,0 +1,57 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    body{
+        margin: 0px;
+        padding: 0px;
+        font-size: 0px;
+    }
+    .a, .b, .c, .d, .e{
+        width: 30px;
+        height: 30px;
+        background: red;
+        position: relative;
+        left: 20px;
+        top: 20px;
+    }
+    .b,.e{
+        position: absolute;
+        left: 100px;
+        top: 100px;
+    }
+
+    .c{
+        width: 200px;
+        height: 200px;
+        position: relative;
+        background-color: grey;
+        margin-top: 100px;
+        margin-left: 100px;
+    }
+</style>
+<body>
+    <div class="a">
+
+    </div>
+    <div class="b">
+
+    </div>
+    <div class="c">
+        <div class="d"></div>
+        <div class="e"></div>
+    </div>
+</body>
+<script src="./index.js"></script>
+</html>
+<script>
+   var a = document.getElementsByClassName('a')[0];
+   var b = document.getElementsByClassName('b')[0]; 
+   var c = document.getElementsByClassName('c')[0]; 
+   var d = document.getElementsByClassName('d')[0]; 
+   var e = document.getElementsByClassName('e')[0]; 
+   console.log(c.offsetWidth);
+</script>

@@ -1,0 +1,195 @@
+@import '@/assets/css/common.set.scss';
+
+$table-border-color: #e6e6e6;
+.tableBottom-css{
+    width: 100px;
+    height: 40px;
+    border: 1px solid black;
+    position: relative;
+    .background-grey{
+        display: none;
+        z-index: 1;
+    }
+    .topClick{
+        display: none;
+    }
+    .one-line{
+       width: auto;
+       min-width: 49px;
+       height: 100%;
+       display: inline-block;
+       border-right: 1px solid black;
+       vertical-align: top;
+       max-width: 100px;
+       z-index: 2;
+       position: relative;
+       &:last-child{
+          border: none;
+       }
+       .her{
+           width: 100%;
+           height: 20px;
+           border-bottom: 1px solid black;
+           .text{
+               font-size: 12px;
+               width: auto;
+               height: 15px;
+               overflow: hidden;
+               color: black;
+               position: relative;
+               top: 50%;
+               transform: translateY(-50%);
+           }
+       }
+       .input-box{
+           width: 100%;
+           height: 48px;
+       }
+    }
+}
+
+.leftMenus {
+    // background: red;
+    .tableBottom-css{
+        position: relative;
+        //  top: inherit !important;
+        //  left: 10px !important;
+        .input-box{
+            display: none;
+        }
+    }
+}
+
+#center {
+    .tableBottom-css{
+        position: relative !important;
+        left: 0%;
+        width: 96%;
+        top: 10px;
+        margin-left: 0px;
+        height: 120px;
+        border: 1px solid $table-border-color;
+        margin-top: 5px;
+        background: white;
+        .addAll{
+            flex-direction: row;
+            flex-wrap: nowrap;
+            // display: flex;
+        }
+        
+        .background-grey{
+            width: 100%;
+            height: 72px;
+            background: #f1f1f1;
+            position: absolute;
+            left: 0px;
+            top: 0px;
+            display: block;
+        }
+        .addAll-width{
+            display: block;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            .one-line{
+                // width: auto;
+                width: 100px;
+                // max-width: 150px;
+            }
+        }
+        .one-line{
+            width: auto;
+            min-width: 100px;
+            height: 89px;
+            width: 100px;
+            max-width: 400px;
+            // flex-grow: 1;
+            border-color: $table-border-color;
+            // background: red;
+            .her{
+                height: 40px;
+                text-align: center;
+                border-color: $table-border-color;
+            }
+        }
+        .one-line-choose{
+            background-color: blanchedalmond;
+        }
+        .topClick{
+            width: 100%;
+            height: 30px;
+            display: block;
+            border-bottom: 1px solid #e6e6e6;
+            z-index: 2;
+            position: relative;
+            .button{
+                font-size: 12px;
+                padding: 7px 19px;
+                display: inline-block;
+                position: relative;
+                &:after{
+                    content: '';
+                    width: 1px;
+                    height: 6px;
+                    background: #d1d1d1;
+                    position: absolute;
+                    right: 0px;
+                    top: 12px;
+                }
+            }
+            .button-hidden{
+                width: 1px;
+                height: 1px;
+                overflow: hidden;
+                padding: 0px;
+                &:after{
+                    width: 0px;
+                }
+            }
+        }
+    }
+    .module1{
+        .tableBottom-css{
+            margin: 0 auto;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+    }
+}
+
+
+#center{
+    .tableBottom-css-auto{
+        .one-line{
+            width: auto;
+        }
+        .addAll-width{
+            .one-line{
+                width: auto;
+            }
+        }
+    }
+}
+
+#center {
+    .type1-module{
+        .tableBottom-css{
+            .topClick{
+                .button{
+                    line-height: initial;
+                    text-align: center;
+                }
+                // .button-hidden{
+                //     width: ;
+                // }
+            } 
+            .one-line {
+                .her{
+                    .text{
+                        line-height: initial;  
+                    }
+                } 
+            }
+        }
+    }
+}

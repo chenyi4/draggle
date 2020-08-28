@@ -30,7 +30,9 @@ var obj = drag({
     select: 'a',
     // isCopy: true, //是否使用拷贝的组件
     helper: function(dom){
-        return dom;
+        dom.style.position = "fixed";
+        var cloneDom = dom.cloneNode(true);
+        return cloneDom;
     }
 });
 

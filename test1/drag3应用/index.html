@@ -1,0 +1,94 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style> 
+    .a,.b{
+        width: 60px;
+        height: 60px;
+        background: red;
+        cursor: pointer;
+        opacity: 0.1;
+        position: relative;
+        left: 100;
+    }
+    .a{
+        width: 100px;
+        height: 100px;
+    }
+    body{
+        user-select: none;
+        font-size: 0px;
+        margin: 0px;
+        padding: 0px;
+    }
+    .left{
+        width: 400px;
+        height: 100%;
+        background: grey;
+        display: inline-block;
+        vertical-align: top;
+    }
+    .center{
+        width: calc(100% - 400px);
+        height: 100%;
+        background-color: rgba(0,1,1, 0.1);
+        display: inline-block;
+    }
+    .center .a{
+        background-color: rgba(0,0,0,0);
+        border: 1px solid red;
+        width: 100%;
+        box-sizing: border-box;
+        height: 200px;
+    }
+</style>
+<body>
+    <div class="left">
+        <div class="a"></div>
+        <div style="margin-bottom: 12px;"></div>
+        <div class="b"></div>
+    </div>
+    <div class="center"></div>
+    <!-- <div class="b b1"></div> -->
+</body>
+<script src="./drag3.js"></script>
+<script>
+var center = document.getElementsByClassName('center')[0];
+var obj = drag({ //碰撞检测
+    select: 'a',
+    // isCopy: true, //是否使用拷贝的组件
+    helper: function(dom){
+        var cloneDom = dom.cloneNode(true);
+        cloneDom.style.position = "fixed";
+        return cloneDom;
+    },
+    stop: function(dom){
+        // dom.style.opacity = 1;
+        // dom.style.position = "relative";
+        // dom.style.left = 0 + "px";
+        // dom.style.top = 0 + "px";
+        // center.appendChild(dom);
+    },
+    accept: function(acceptDom, dom){ //能够接受元素
+        console.log(acceptDom);
+        // console.log(dom);
+    }
+});
+
+var obj = drag({ //碰撞检测
+    select: 'b',
+    // isCopy: true, //是否使用拷贝的组件
+    helper: function(dom){
+        var cloneDom = dom.cloneNode(true);
+        cloneDom.style.position = "fixed";
+        return cloneDom;
+    },
+    stop: function(dom){
+      
+    }
+});
+</script>
+</html>
