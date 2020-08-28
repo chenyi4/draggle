@@ -16,19 +16,6 @@ import passwordinput from './components/passwordinput'
 import numberinput from './components/numberinput'
 import textwrite from './components/textwrite'
 
-import header from './header'
-import date from './date'
-import table from './Modules/table'
-import leftTree from './Modules/leftTree'
-import draw from './Modules/draw'
-import button from './Modules/button'
-import backSet from './Modules/backSet'
-import keyword from './Modules/keyword';
-import allThing from './Modules/allThing';
-import dataDictionarie from './Modules/dataDictionarie';
-import publish from './Modules/publish';
-import page from './Modules/page';
-import thingFlow from './Modules/thingFlow';
 // ======================================
 import { isTest } from './defaultDate';
 
@@ -41,6 +28,7 @@ export default new Vuex.Store({
       ],  
       isTest: isTest,
       currentDom: null,
+      bodySet: {}
   },
   mutations: {
      setCunnentDom(state){
@@ -66,18 +54,5 @@ export default new Vuex.Store({
     passwordinput,
     numberinput,
     textwrite,
-    date,
-    header,
-    table,
-    leftTree,
-    draw,
-    button,
-    backSet,
-    keyword,
-    dataDictionarie,
-    publish,
-    page,
-    allThing,
-    thingFlow
   }
 })

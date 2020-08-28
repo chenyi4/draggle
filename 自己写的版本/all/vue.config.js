@@ -16,7 +16,7 @@ module.exports = {
       '/': {
         // target: 'http://10.12.42.65:8080', //文路的接口
         // target: 'http://10.12.42.127:8090/', //王欣的接口
-        target: 'http://10.12.65.25/ddp/api',
+        target: 'http://localhost:3000',
         changeOrigin: true,
         pathRewrite: {
             

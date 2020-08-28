@@ -1,31 +1,42 @@
 <template>
 <div>
   <div class="head">
-      <div class="button">body设置</div>
-      <div class="button" @click="viewAfter">预览</div>
+      <div class="button" @click="showBodySet">body设置</div>
+      <div class="button" @click="viewAfter">发布</div>
   </div>
   <div class="body">
      <div class="trueBody"></div>
   </div>
+  <bodySet></bodySet>
   <!-- <layer></layer> -->
 </div>
 </template>
 <script>
-// import layer from '@/components/all/layer'
+import bodySet from '@/components/all/bodySet'
+import eventHub from '@/event-hub/index';
+import {  thingFlowDate } from '@/api/index';
 // @ is an alias to /src
 export default {
   name: 'home',
   components: {
-    // layer
+    bodySet
   },
    data() {
       return {
-        
+          
       }
   },
   methods: {
     viewAfter(){
-       
+      console.log(this.$store.state.bodySet);
+       thingFlowDate.save({
+          body: this.$store.state.bodySet
+        }, ()=> {
+
+       });
+    },
+    showBodySet(){
+       eventHub.$emit(eventHub.header.SHOW_BODY_SET);
     }
   },
   created(){
@@ -45,6 +56,7 @@ export default {
     display: inline-block;
     vertical-align: top;
     text-align: center;
+    cursor: pointer;
   }
 }
 .body{

@@ -7,12 +7,10 @@ import store from './store'
 import './assets/css/index.scss';
 import eventHub from './event-hub/index';
 import VueDragula from 'vue-dragula';
-import currentDate from '@/assets/js/setCurrentDate';
 require('webpack-jquery-ui');
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);
-Vue.use(VueDragula);
 new Vue({
   router,
   store,
