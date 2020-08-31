@@ -1,8 +1,9 @@
 <template>
-<div>
+<div :class="{'showAll':isHiddenHead}">
   <div class="head">
       <div class="button" @click="showBodySet">body设置</div>
       <div class="button" @click="viewAfter">发布</div>
+      <div class="button hidden-button" @click="hiddenAll">{{isHiddenHead?'显示':'隐藏工具栏'}}</div>
       <div class="button">绘制模块工具</div>
       <div class="button">扩展当前组建</div>
   </div>
@@ -28,20 +29,25 @@ export default {
   },
    data() {
       return {
-          
+          isHiddenHead: false,
+          showDrawEdit: true
       }
   },
   methods: {
     viewAfter(){
-      console.log(this.$store.state.bodySet);
        thingFlowDate.save({
           body: this.$store.state.bodySet
         }, ()=> {
-          
        });
     },
     showBodySet(){
        eventHub.$emit(eventHub.header.SHOW_BODY_SET);
+    },
+    hiddenAll(){
+        this.isHiddenHead = !this.isHiddenHead;
+    },
+    showHiddenDraw(){
+       this.showDrawEdit = !this.showDrawEdit;
     }
   },
   created(){
@@ -61,12 +67,13 @@ export default {
     display: inline-block;
     vertical-align: top;
     text-align: center;
+    opacity: 1;
     cursor: pointer;
   }
 }
 .body{
   width: 100%;
-  height: calc(100% - 40px);
+  height: 100%;
   background: #aaaaaa;
 }
 
@@ -75,7 +82,35 @@ export default {
   height: calc(100% - 20px);
   margin: 0 auto;
   position: relative;
-  top: 10px;
   background: white;
+}
+
+.showAll{
+  .head{
+    position: fixed;
+    width: 40px;
+    height: 40px;
+    z-index: 10;
+    transition: all ease-in 0.15s 0.15s;
+    div{
+      display: none;
+      opacity: 0;
+      
+    }
+    .hidden-button{
+      display: inline-block;
+      opacity: 1;
+      padding: 0px;
+      width: 38px;
+    }
+  }
+  .body{
+    height: 100%;
+    transition: all ease-in 0.15s;
+  }
+}
+
+.hidden {
+  
 }
 </style>

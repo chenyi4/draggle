@@ -28,7 +28,10 @@ export default new Vuex.Store({
       ],  
       isTest: isTest,
       currentDom: null,
-      bodySet: {}
+      bodySet: {
+        bodySet: {} //对body的设置
+
+      }
   },
   mutations: {
      setCunnentDom(state){

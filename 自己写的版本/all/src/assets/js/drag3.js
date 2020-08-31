@@ -160,6 +160,7 @@
         startClick: function(){
             var self = this;
             this.dom.addEventListener('mousedown',function(e){
+                console.log("====");
                 self.getDomPosition();
                 self.move.org = {
                     left: e.x,

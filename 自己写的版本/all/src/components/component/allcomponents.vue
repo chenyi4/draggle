@@ -1,7 +1,7 @@
 <template>
     <div class="allcomponent">
         <div class="draw-head"></div>
-        <div :class="{'draw':true, 'draw-choose': isChoose}" @click="choose">
+        <div :class="{'draw':true, 'draw-choose': isChoose}">
             <div class="before"></div>
         </div>
     </div>

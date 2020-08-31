@@ -84,6 +84,7 @@
 <script>
 import layer from '@/components/all/layer';
 import eventHub from '@/event-hub/index';
+import bodySet from '@/assets/js/component/bodySet.js';
 export default {
   name: 'bodyset',
   components: {
@@ -92,9 +93,9 @@ export default {
    data() {
       return {
           form: {
-              widthSet: 1,
+              widthSet: 2,
               widthShow: 1,
-              width: 100,
+              width: 80,
               backgroundColor: '#AAAAAA',
               bodyColor: '#FFFFFF',
               heightSet: 1,
@@ -114,6 +115,7 @@ export default {
       clickSure(value){
           this.showBody = false;
           this.$store.state.bodySet = this.outSet;
+          bodySet(this.outSet);
       },
       setOutSet(){
           //宽度
@@ -162,10 +164,10 @@ export default {
                     this.form.width = 100;
                 }
 
-                if(newName.heightSet == 1 || newName.heightSet == 2){
+                if(newName.heightSet == 1){
                     this.form.height = 100;
                 }else if(newName.heightSet == 4){
-                    this.form.height = 'calc(100% - 50px)';
+                    // this.form.height = 'calc(100% - 50px)';
                 }   
 
                 this.setOutSet();

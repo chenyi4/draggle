@@ -27,6 +27,7 @@ function setCSS(POST) {
                 width: `+body.width+`;
                 margin: 0 auto;
                 height: `+body.height+`;
+                position: 'relative';
                 background: `+body.mainColor+`;
                 `+(body.height=='auto'?`min-height: 100%;`:``)+`
             }
