@@ -17,7 +17,7 @@
                  </el-radio-group>
             </el-form-item>
             <el-form-item label="宽度" v-if="(form.widthSet == 2 && form.widthShow)||form.widthSet == 1">
-                 <el-radio-group >
+                 <el-radio-group>
                     <el-input v-model="form.width" :disabled="form.widthSet==1"></el-input>
                  </el-radio-group>  <span>{{(form.widthShow==1)||form.widthSet==1?'%':'px'}}</span>
             </el-form-item> 
@@ -35,10 +35,10 @@
                     <el-radio  :label="2">定高</el-radio>
                  </el-radio-group>
             </el-form-item>
-            <el-form-item label="高度" >
+            <el-form-item label="高度" v-if="form.heightSet!=3">
                  <el-radio-group >
                     <el-input v-model="form.height" :disabled="form.heightSet==1"></el-input>
-                 </el-radio-group>  <span>{{(form.heightSet==1)||(form.heightSet==2 && form.heightShow == 1)?'%':'px'}}</span>
+                 </el-radio-group>  <span v-if="form.heightSet!=4">{{(form.heightSet==1)||(form.heightSet==2 && form.heightShow == 1)?'%':'px'}}</span>
             </el-form-item> 
             <!-- <el-form-item label="基础颜色设置+++++++++">
             </el-form-item> -->
@@ -135,6 +135,10 @@ export default {
               }else if(this.form.heightShow == 2){
                   this.outSet.height = this.form.height+'px';
               }
+          }else if( this.form.heightSet == 3){
+              this.outSet.height = 'auto'
+          }else if(this.form.heightSet == 4){
+              this.outSet.height = this.form.height;
           }
 
 
@@ -158,9 +162,12 @@ export default {
                     this.form.width = 100;
                 }
 
-                if(newName.heightSet == 1){
+                if(newName.heightSet == 1 || newName.heightSet == 2){
                     this.form.height = 100;
-                }
+                }else if(newName.heightSet == 4){
+                    this.form.height = 'calc(100% - 50px)';
+                }   
+
                 this.setOutSet();
           },
           deep: true

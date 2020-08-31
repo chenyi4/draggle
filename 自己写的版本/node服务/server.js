@@ -28,6 +28,7 @@ function setCSS(POST) {
                 margin: 0 auto;
                 height: `+body.height+`;
                 background: `+body.mainColor+`;
+                `+(body.height=='auto'?`min-height: 100%;`:``)+`
             }
     `;
 }

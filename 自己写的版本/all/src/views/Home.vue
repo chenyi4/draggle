@@ -3,23 +3,28 @@
   <div class="head">
       <div class="button" @click="showBodySet">body设置</div>
       <div class="button" @click="viewAfter">发布</div>
+      <div class="button">绘制模块工具</div>
+      <div class="button">扩展当前组建</div>
   </div>
   <div class="body">
      <div class="trueBody"></div>
   </div>
+  <allcomponents></allcomponents>
   <bodySet></bodySet>
   <!-- <layer></layer> -->
 </div>
 </template>
 <script>
 import bodySet from '@/components/all/bodySet'
+import allcomponents from '@/components/component/allcomponents';
 import eventHub from '@/event-hub/index';
 import {  thingFlowDate } from '@/api/index';
 // @ is an alias to /src
 export default {
   name: 'home',
   components: {
-    bodySet
+    bodySet,
+    allcomponents
   },
    data() {
       return {

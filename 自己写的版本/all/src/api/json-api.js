@@ -56,9 +56,9 @@ class JsonAPI {
         return new Promise((resolve, reject) => {
                this._request(this.baseUrl+url, args, conf)
                 .then((date) => {
-                    if(date.code == 1){
-                        eventHub.$emit(eventHub.notify.MESSAGE, date.message);
-                    }
+                    // if(date.code == 1){
+                    //     eventHub.$emit(eventHub.notify.MESSAGE, date.message);
+                    // }
                     resolve();
                     if(fun){  
                         fun(date); 
