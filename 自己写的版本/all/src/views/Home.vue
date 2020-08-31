@@ -32,7 +32,7 @@ export default {
        thingFlowDate.save({
           body: this.$store.state.bodySet
         }, ()=> {
-
+          
        });
     },
     showBodySet(){

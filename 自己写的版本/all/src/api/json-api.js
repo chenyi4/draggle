@@ -16,7 +16,7 @@ class JsonAPI {
         });
         this.baseUrl =  process.env.NODE_ENV == 'production'?process.env.VUE_APP_HOST:'';
     }
-
+    
 
     set authConf(conf){
         this._authConf = conf;
