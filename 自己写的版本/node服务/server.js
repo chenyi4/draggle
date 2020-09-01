@@ -3,12 +3,34 @@ var fs = require('fs');
 var querystring = require('querystring');
 var util = require('util');
 
-function setHtml(){
+function setHtml(POST){
+    var components;
+    for(var item in POST){
+        var oneItem = JSON.parse(item);
+        components = oneItem.all;
+    }
+    var Alldiv = ``;
+    components.forEach((item) => {
+        var style = item.style;
+        Alldiv = Alldiv + `
+            <div class="box"
+                style="width:`+style.width+style.widthSet+`;
+                       height: `+style.height + style.heightSet +`;
+                       position: `+style.position+`;
+                       left: `+style.left+`;
+                       top: `+style.top+`;
+                "
+            ></div>
+        `;
+    });
+    
     return  `<head>
                 <link href="./test.css" rel="stylesheet"/>
             </head>
             <body>
-                <div class="all"></div>
+                <div class="all">
+                `+Alldiv+`
+                </div>
             </body>
     `;
 }
@@ -31,12 +53,15 @@ function setCSS(POST) {
                 background: `+body.mainColor+`;
                 `+(body.height=='auto'?`min-height: 100%;`:``)+`
             }
+            .box{
+                border: 1px dashed #8bc34a;
+            }
     `;
 }
 
 function createHtml(POST) {  
     fs.writeFile("./all/test.html", 
-    setHtml()
+    setHtml(POST)
     , function(err) {
         if(err) {
             return console.log(err);

@@ -32,17 +32,20 @@ scaleCY.init = function(dom){
         self.setChange.orgX = e.screenX;
         self.setChange.orgY = e.screenY;
         self.onmousemove();
+        self.onmouseup();
     }
 
     
-    document.onmouseup = function(e){
-        self.isClick = false;
-        self.position = {
-            width: self.dom.offsetWidth,
-            height:self.dom.offsetHeight
-        };
-        document.onmousemove = self.oldMouseMove;
-    }
+   
+}
+
+scaleCY.prototype.getPosition = function(){
+    const self = this;
+    self.position = {
+        width: Number((self.dom.style.width).replace('px', '')),
+        height: Number((self.dom.style.height).replace('px', ''))
+    };
+    console.log(self.position);
 }
 
 scaleCY.init.prototype = scaleCY.prototype;
@@ -61,6 +64,17 @@ scaleCY.prototype.onmousemove = function(){
             self.dom.style.width =  width >=18?width:18 + 'px';
             self.dom.style.height = height >=18?height:18 + 'px';
         }
+    }
+}
+
+scaleCY.prototype.onmouseup = function(){
+    var self = this;
+    this.oldMouseUp = document.onmouseup;
+    document.onmouseup = function(e){
+        self.isClick = false;
+        self.getPosition();
+        document.onmousemove = self.oldMouseMove;
+        document.onmouseup = self.oldMouseUp;
     }
 }
 

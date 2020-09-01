@@ -11,6 +11,7 @@
 import drag from '@/assets/js/drag3.js'
 import utils from '@/assets/js/utils.js';
 import scaleCY from '@/assets/js/scale.js';
+import edit from '@/assets/js/edit.js';
 export default {
   name: 'allComponents',
   components: {
@@ -54,13 +55,13 @@ export default {
                             }
                         }
                     }
-
                     if(isTrue){
                         dom.style.left = Number(dom.style.left.replace('px', '')) -  back.left +'px';
                         dom.style.top = Number(dom.style.top.replace('px', '')) - back.top + dom.offsetHeight +'px';
                         dom.style.position = "absolute";
                         drawHome.appendChild(dom);
-                        scaleCY(dom);
+                        
+                        edit({dom:dom, move: ui, scale: scaleCY(dom)});
                     }
                     else{
                         dom.remove();

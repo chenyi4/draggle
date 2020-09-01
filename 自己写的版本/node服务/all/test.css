@@ -3,11 +3,14 @@ body{
                 background: #AAAAAA
             }
             .all{ 
-                width: 100%;
+                width: 80%;
                 margin: 0 auto;
                 height: 100%;
                 position: 'relative';
-                background: #FFFFFF;
+                background: #551D1D;
                 
+            }
+            .box{
+                border: 1px dashed #8bc34a;
             }
     

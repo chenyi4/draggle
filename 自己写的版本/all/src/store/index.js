@@ -24,13 +24,11 @@ export default new Vuex.Store({
   state: {
       name: 'store',
       currentDraw: [ 
-        
+          
       ],  
-      isTest: isTest,
-      currentDom: null,
+      currentChoose: [],
       bodySet: {
-        bodySet: {} //对body的设置
-
+        bodySet: {}, //对body的设置
       }
   },
   mutations: {

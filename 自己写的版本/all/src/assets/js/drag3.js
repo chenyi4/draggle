@@ -92,6 +92,10 @@
             width: 0,
             height: 0
         }
+        this.endPosition = {
+            left: null,
+            top: null
+        }
 
         self.getDomPosition();
 
@@ -157,10 +161,12 @@
     }
 
     drag.fn.extend({
+        test: function(){
+            console.log("测试");
+        },
         startClick: function(){
             var self = this;
             this.dom.addEventListener('mousedown',function(e){
-                console.log("====");
                 self.getDomPosition();
                 self.move.org = {
                     left: e.x,
@@ -239,7 +245,17 @@
                 if(self.stop){
                     self.stop(self.dom, self);
                 }
+                self.setEndPosition();
+                document.onmouseup = self.orgDocuemntMouseUp;
             }
+        },
+        setEndPosition(){
+            const self = this;
+            self.endPosition = {
+                left: Number((this.dom.style.left).replace('px', '')),
+                top: Number((this.dom.style.top).replace('px', ''))
+            };
+
         },
         isAccept(){
             var self = this;
@@ -264,13 +280,19 @@
             const self = this;
             var x = self.move.moveLength.left - self.move.org.left;
             var y = self.move.moveLength.top - self.move.org.top;
+            var dom = null;
             if(this.moveSelect){
-                this.moveDom.style.left = this.orgStyleData.left + x + 'px';
-                this.moveDom.style.top = this.orgStyleData.top + y + 'px';
+                dom = this.moveDom;
             }else{
-                this.dom.style.left = this.orgStyleData.left + x + 'px';
-                this.dom.style.top = this.orgStyleData.top + y + 'px';
+                dom = this.dom;
+                // this.dom.style.left = this.orgStyleData.left + x + 'px';
+                // this.dom.style.top = this.orgStyleData.top + y + 'px';
             }
+
+            dom.style.left = this.orgStyleData.left + x + 'px';
+            dom.style.top = this.orgStyleData.top + y + 'px';
+
+            return self.endPosition;
         }
     });
 
