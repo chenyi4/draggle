@@ -155,12 +155,12 @@ export default {
 </script>
 <style scoped lang="scss">
 .editLayer{
-    width: 80%;
-    height: 60%;
+    width: 564px;
+    height: 764px;
     background: #eeeeee;
     position: fixed;
-    left: 20%;
-    top: 40%;
+    left: calc(100% - 574px);
+    top: calc(100% - 774px);
     overflow: hidden;
     .editLayer-Head{
         width: 100%;

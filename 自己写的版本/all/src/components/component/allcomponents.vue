@@ -78,8 +78,8 @@ export default {
         width: 200px;
         height: 400px;
         position: fixed;
-        left: 14px;
-        top: 100px;
+        left: calc(100% - 210px);
+        top: calc(100% - 410px);
         background: #eeeeee;
        
         .draw-choose{
@@ -89,6 +89,7 @@ export default {
             width: 100%;
             height: 30px;
             background: black;
+            cursor: pointer;
         }
     }
      
