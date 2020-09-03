@@ -2,8 +2,11 @@
     <div>
         <div class="bottomList"  @mousemove="change"></div>
         <div :class="{'bottomAllList':true, 'bottomAllList-dis': !isShowAll, 'bottomAllList-change': isHoverButton}">
-            <div class="button-box" @mouseenter="hoverButton" @mouseleave="leaveButton">
-                <div class="title" v-for="(item, key) in lists" :key="key">{{item.name}}</div>
+            <div class="button-box" >
+                <div :class="{'title':true, 'title-choose': currentChoose == key}" 
+                    v-for="(item, key) in lists" :key="key" @mouseenter="hoverButton(key)" @mouseleave="leaveButton">
+                    {{item.name}}
+                </div>
                     <!-- 1.历史记录  2.组件栏 3.编辑box显示  4.菜单显示设置-->
                     <!-- <div class="title">菜单</div>
                     <div class="title">扩展组件</div>
@@ -12,7 +15,11 @@
                 </div>
             <div class="el-icon-caret-bottom hidden"></div>
         </div>
-        <div :class="{'ListDetail':true, 'ListDetail-hidden': !isHoverButton}" ></div>
+        <div 
+            :class="{'ListDetail':true, 'ListDetail-hidden': !isHoverButton}" 
+            @mouseenter="MenuListShow"    
+        >
+        </div>
         <!-- @mouseenter="change" -->
     </div>
 </template>
@@ -20,8 +27,8 @@
 export default {
   name: 'bottomList', //底部菜单
   components: {
-      
-  },
+
+  },    
   data() {
     return {
         lists: [
@@ -55,24 +62,29 @@ export default {
             {
                 name: "发布"
             },
-            {
-                name: "帮助"
+            {   
+                name: "帮助"     
             }    
         ],
         isShowAll: false,
         isHoverButton: false,
-        isClickButton: false
+        isClickButton: false,
+        currentChoose: null
     }
   },
   methods: {
        change(){
            this.isShowAll = true;
        },
-       hoverButton(){
+       hoverButton(key){
+           this.currentChoose = key;
            this.isHoverButton = true;
        },
        leaveButton(){
            this.isHoverButton = false;
+       },
+       MenuListShow(){
+           this.isHoverButton = true;
        }
    },
    created(){
@@ -136,6 +148,15 @@ $color: #cddc39;
             padding-right: 10px;
         }
     }
+    .title-choose{
+        background: $color !important;
+        color: white;
+        transform: scale(1.2);
+        top: -2px;
+        text-shadow: 0px 0px 2px rgba(0,0,0,0.5);
+        z-index: 10;
+        padding-right: 10px !important;
+    }
     .hidden{
         position: absolute;
         right: 10px;
@@ -158,9 +179,9 @@ $color: #cddc39;
     }
 }
 .ListDetail{
-    width: 200px;
+    width: 100%;
     height: calc(100% - 30px);
-    background: black;
+    background: rgba(0,0,0,0.1);
     position: fixed;
     left: 0px;
     top: 0px;
@@ -168,6 +189,6 @@ $color: #cddc39;
     z-index: 8;
 }
 .ListDetail-hidden{
-    left: -200px;
+    left: -100%;
 }
 </style>
