@@ -47,7 +47,10 @@ export default {
                 ]
             },
             {
-                name: "扩展组件"
+                name: "扩展组件",
+                list: [
+                    
+                ]
             }, 
             {
                 name: "发布"
@@ -98,6 +101,7 @@ $color: #cddc39;
     position: fixed;
     bottom: 0px;
     right: 0px;
+    z-index: 11;
     box-sizing: border-box;
     padding: 0px 20px;
     transition: bottom ease 0.15s, width ease 0.25s 0.2s, background-color ease 0.3s;
@@ -161,6 +165,7 @@ $color: #cddc39;
     left: 0px;
     top: 0px;
     transition: all ease  0.5s;
+    z-index: 8;
 }
 .ListDetail-hidden{
     left: -200px;
