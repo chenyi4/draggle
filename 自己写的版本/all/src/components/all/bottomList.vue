@@ -19,6 +19,13 @@
             :class="{'ListDetail':true, 'ListDetail-hidden': !isHoverButton}" 
             @mouseenter="MenuListShow"    
         >
+            <div class="allMenuBox">
+                <div class="menu">111</div>
+                <div class="menu">111</div>
+                <div class="menu">111</div>
+                <div class="menu">111</div>
+                <div class="menu">111</div>
+            </div>
         </div>
         <!-- @mouseenter="change" -->
     </div>
@@ -96,6 +103,7 @@ export default {
 </script>
 <style scoped lang="scss">
 $color: #cddc39;
+$number: 10;
 .bottomList{
     height: 100%;
     width: 2px;
@@ -181,14 +189,48 @@ $color: #cddc39;
 .ListDetail{
     width: 100%;
     height: calc(100% - 30px);
-    background: rgba(0,0,0,0.1);
+    background: rgba(0,0,0,0);
     position: fixed;
     left: 0px;
     top: 0px;
     transition: all ease  0.5s;
     z-index: 8;
+    .allMenuBox{
+        width: 200px;
+        height: 100%;
+        // background: grey;
+        .menu{
+            transition: all ease 0.2s 0.63s;
+            width: 100%;
+            font-size: 20px;
+            padding: 10px 0px;
+            text-align: center;
+            background: black;
+            overflow: hidden;
+            color: white;
+             @for $i from 0 through $number
+            {
+                &:nth-of-type(#{$i}){
+                    transition: all 0.2s ease (0.53s+0.12s*$i); 
+                }
+            }
+        }
+    }
 }
 .ListDetail-hidden{
     left: -100%;
+    .allMenuBox{
+        .menu{
+            width: 0%;
+            overflow: hidden;
+            transition: all ease 0s;
+             @for $i from 0 through $number
+            {
+                &:nth-of-type(#{$i}){
+                    transition: all 0s ease; 
+                }
+            }
+        }
+    }
 }
 </style>

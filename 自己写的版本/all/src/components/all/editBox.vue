@@ -112,8 +112,9 @@ export default {
   },
   created(){
       const self = this;
+      var dragDom;
       this.$nextTick(() => {
-           drag({
+           dragDom = drag({
                 select: 'edit-box',
                 orgMove: function(){
                     if(!self.isShowCover){
