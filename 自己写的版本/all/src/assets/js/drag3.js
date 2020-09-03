@@ -216,6 +216,7 @@
                         left: e.x,
                         top: e.y
                     }
+                    self.orgMove();
                     self.changeClassName();
                     self.changeMoveThing();
                 }
@@ -314,6 +315,7 @@
             if(this.moveSelect){
                 this.moveDom = document.getElementsByClassName(this.moveSelect)[0];
             }
+            this.orgMove = this.param.orgMove?this.param.orgMove: function(){};
             //
             this.isChangeClassName = false; 
         }
@@ -348,3 +350,5 @@
 })(window || this);
 
 export default window.drag;
+
+//限制组件不可超出屏幕，禁止移除屏幕以外

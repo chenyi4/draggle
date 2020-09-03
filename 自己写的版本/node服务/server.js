@@ -10,19 +10,23 @@ function setHtml(POST){
         components = oneItem.all;
     }
     var Alldiv = ``;
-    components.forEach((item) => {
-        var style = item.style;
-        Alldiv = Alldiv + `
-            <div class="box"
-                style="width:`+style.width+style.widthSet+`;
-                       height: `+style.height + style.heightSet +`;
-                       position: `+style.position+`;
-                       left: `+style.left+`;
-                       top: `+style.top+`;
-                "
-            ></div>
-        `;
-    });
+    if(components.length > 0){
+        components.forEach((item) => {
+            var style = item.style;
+            if(style){
+                Alldiv = Alldiv + `
+                    <div class="box"
+                        style="width:`+style.width+style.widthSet+`;
+                            height: `+style.height + style.heightSet +`;
+                            position: `+style.position+`;
+                            left: `+style.left+`;
+                            top: `+style.top+`;
+                        "
+                    ></div>
+                `;
+            }
+        });
+    }
     
     return  `<head>
                 <link href="./test.css" rel="stylesheet"/>

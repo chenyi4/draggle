@@ -3,11 +3,11 @@ body{
                 background: #AAAAAA
             }
             .all{ 
-                width: 80%;
+                width: 100%;
                 margin: 0 auto;
                 height: 100%;
                 position: 'relative';
-                background: #551D1D;
+                background: #FFFFFF;
                 
             }
             .box{

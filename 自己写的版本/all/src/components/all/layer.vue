@@ -48,6 +48,7 @@ export default {
     position: fixed;
     left: 0px;
     top: 0px;
+    z-index: 11;
     .center{
       width: 80%;
       height: 90%;
