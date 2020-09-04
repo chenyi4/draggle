@@ -5,7 +5,7 @@
             <div class="button-box" >
                 <div :class="{'title':true, 'title-choose': currentChoose == key && (isHoverButton||isClickButton) }" 
                     v-for="(item, key) in lists" :key="key" 
-                    @click.stop="clickButoonThing(item)"
+                    @click.stop="clickButoonThing(key)"
                     @mouseenter="hoverButton(key)" 
                     @mouseleave="leaveButton">
                         {{item.name}}
@@ -19,11 +19,10 @@
         >
             <div>
                 <div class="allMenuBox">
-                    <div v-for="(item, key) in showTableList" @click.stop="consoleTest('true')"  :class="['menu', 'menu-'+key]" :key="key">{{item.name}}</div>
+                    <div v-for="(item, key) in showTableList" @click.stop="consoleTest(key)"  :class="['menu', 'menu-'+key]" :key="key">{{item.name}}</div>
                 </div>
             </div>
         </div>
-        <!-- @mouseenter="change" -->
     </div>
 </template>
 <script>
@@ -48,21 +47,25 @@ export default {
                         name: "历史记录"
                     },
                     {
-                        name: "组件栏"
+                        name: "组件栏" //显示//不显示 
                     },
                     {
                         name: "编辑显示"
                     },
                     {
                         name: "菜单显示设置"
-                    }
+                    },
+                    {
+                        name: "缩小放大画布栏"
+                    }, 
+                    
                 ]
             },
             {
                 name: "扩展组件",
                 list: [
                    {
-                       name: "选择新增组件"
+                       name: "从库里面选择新增组件"
                    },
                    {
                        name: '绘制新组件'
@@ -72,7 +75,19 @@ export default {
             {
                 name: "发布",
                 list: [
-                   
+                   {
+                        name: "是否重置所有组件位置" 
+                        //如果组件是显示出来的，就把组件的位置放置到菜单初始位置
+                   },
+                   {
+                       name: "保存当前位置"
+                   }, 
+                   {
+                       name: "显示当前所有菜单位置" 
+                       // 是否锁定组件 
+                       // 组件
+                       // editBox小盒子（删除组件什么的）
+                   }
                 ]
             },
             {   
@@ -95,13 +110,26 @@ export default {
        hoverButton(key){
            if(this.isClickButton) return false;
 
-           this.currentChoose = key;
+           this.setChooseTableList(key);
+
+        //    console.log(this.isHoverButton);
+       },
+       clickButoonThing(key){
+           var item = this.lists[key];
+           if(item.list.length > 0){
+               
+               this.isClickButton = true;
+               this.setChooseTableList(key);
+           }else{
+               this.consoleTest('false');
+           }
+       },
+       setChooseTableList(key){
            this.isHoverButton = true; //是否移动到按钮上面
+           this.currentChoose = key;
 
            var list = (this.lists[key]).list;
            this.showTableList = list;
-
-        //    console.log(this.isHoverButton);
        },
        leaveButton(){
            this.isHoverButton = false;
@@ -109,11 +137,6 @@ export default {
        MenuListShow(){
             console.log('consoleTest');
         //    this.isHoverButton = true;
-       },
-       clickButoonThing(item){
-           if(item.list.length > 0){
-               this.isClickButton = !this.isClickButton;
-           }
        },
        hiddenAllBottom(){
             this.isShowAll = false;
@@ -125,7 +148,9 @@ export default {
        consoleTest(value){
            if(value == 'false'){
                this.isClickButton = false;
-               
+           }else{
+               var item = this.showTableList[value];
+               console.log(item);
            }
        }
    },

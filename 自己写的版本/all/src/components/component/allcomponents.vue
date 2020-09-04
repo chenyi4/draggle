@@ -6,7 +6,6 @@
         </div>
     </div>
 </template>
-
 <script>
 import drag from '@/assets/js/drag3.js'
 import utils from '@/assets/js/utils.js';
@@ -29,11 +28,10 @@ export default {
   },
   created(){
       this.$nextTick(() => {
-          drag({
-                select: 'draw-head',
-                moveSelect: 'allcomponent',
-          });
-
+        //   drag({
+        //         select: 'draw-head',
+        //         moveSelect: 'allcomponent',
+        //   });
           const drawHome = document.getElementsByClassName('trueBody')[0];
           drag({ //碰撞检测
                 select: 'draw',
@@ -75,22 +73,21 @@ export default {
 
 <style scoped lang="scss">
     .allcomponent{
-        width: 200px;
-        height: 400px;
+        width: 100%;
+        height: 60px;
         position: fixed;
-        left: calc(100% - 210px);
-        top: calc(100% - 410px);
+        left: 0;
+        top: 0;
         background: #eeeeee;
-       
         .draw-choose{
            background: blue; 
         }
-        .draw-head{
-            width: 100%;
-            height: 30px;
-            background: black;
-            cursor: pointer;
-        }
+        // .draw-head{
+        //     width: 100%;
+        //     height: 30px;
+        //     background: black;
+        //     cursor: pointer;
+        // }
     }
      
 </style>
