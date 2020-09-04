@@ -35,9 +35,14 @@ export default {
     return {
         lists: [
             {
-                name: "body设置",
+                name: "画布设置",
                 list: [
-                   
+                   {
+                        name: "body设置"
+                   },
+                   {
+                        name: "缩小放大画布栏"
+                   }, 
                 ]
             },
             {
@@ -56,9 +61,8 @@ export default {
                         name: "菜单显示设置"
                     },
                     {
-                        name: "缩小放大画布栏"
-                    }, 
-                    
+                        name: "发布路径设置"
+                    }
                 ]
             },
             {
@@ -75,8 +79,19 @@ export default {
             {
                 name: "发布",
                 list: [
+                    
+                ]
+            },
+             {
+                name: "导入",
+                list: [
+                ]
+            },
+            {   
+                name: "帮助",
+                list: [
                    {
-                        name: "是否重置所有组件位置" 
+                        name: "是否重置所有菜单位置" 
                         //如果组件是显示出来的，就把组件的位置放置到菜单初始位置
                    },
                    {
@@ -87,12 +102,10 @@ export default {
                        // 是否锁定组件 
                        // 组件
                        // editBox小盒子（删除组件什么的）
+                   },
+                   {
+                       name: "是否开启提示消息"
                    }
-                ]
-            },
-            {   
-                name: "帮助",
-                list: [
                 ]     
             }    
         ],
