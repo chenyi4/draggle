@@ -14,7 +14,7 @@ import edit from '@/assets/js/edit.js';
 export default {
   name: 'allComponents',
   components: {
-
+      
   },
   data() {
       return {
