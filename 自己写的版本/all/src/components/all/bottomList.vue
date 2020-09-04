@@ -1,30 +1,26 @@
 <template>
     <div>
         <div class="bottomList"  @mousemove="change"></div>
-        <div :class="{'bottomAllList':true, 'bottomAllList-dis': !isShowAll, 'bottomAllList-change': isHoverButton}">
+        <div :class="{'bottomAllList':true, 'bottomAllList-dis': !isShowAll, 'bottomAllList-change': isHoverButton || isClickButton}">
             <div class="button-box" >
-                <div :class="{'title':true, 'title-choose': currentChoose == key}" 
-                    v-for="(item, key) in lists" :key="key" @mouseenter="hoverButton(key)" @mouseleave="leaveButton">
-                    {{item.name}}
+                <div :class="{'title':true, 'title-choose': currentChoose == key && (isHoverButton||isClickButton) }" 
+                    v-for="(item, key) in lists" :key="key" 
+                    @click.stop="clickButoonThing(item)"
+                    @mouseenter="hoverButton(key)" 
+                    @mouseleave="leaveButton">
+                        {{item.name}}
                 </div>
-                    <!-- 1.历史记录  2.组件栏 3.编辑box显示  4.菜单显示设置-->
-                    <!-- <div class="title">菜单</div>
-                    <div class="title">扩展组件</div>
-                    <div class="title">发布</div>
-                    <div class="title">帮助</div> -->
-                </div>
-            <div class="el-icon-caret-bottom hidden"></div>
+            </div>
+            <div class="el-icon-caret-bottom hidden" @click="hiddenAllBottom"></div>
         </div>
         <div 
-            :class="{'ListDetail':true, 'ListDetail-hidden': !isHoverButton}" 
-            @mouseenter="MenuListShow"    
+            :class="{'ListDetail':true, 'ListDetail-hidden': !isHoverButton && !isClickButton}" 
+            @click.stop="consoleTest('false')"    
         >
-            <div class="allMenuBox">
-                <div class="menu">111</div>
-                <div class="menu">111</div>
-                <div class="menu">111</div>
-                <div class="menu">111</div>
-                <div class="menu">111</div>
+            <div>
+                <div class="allMenuBox">
+                    <div v-for="(item, key) in showTableList" @click.stop="consoleTest('true')"  :class="['menu', 'menu-'+key]" :key="key">{{item.name}}</div>
+                </div>
             </div>
         </div>
         <!-- @mouseenter="change" -->
@@ -41,7 +37,9 @@ export default {
         lists: [
             {
                 name: "body设置",
-                list: []
+                list: [
+                   
+                ]
             },
             {
                 name: "菜单",
@@ -63,20 +61,31 @@ export default {
             {
                 name: "扩展组件",
                 list: [
-                    
+                   {
+                       name: "选择新增组件"
+                   },
+                   {
+                       name: '绘制新组件'
+                   }
                 ]
             }, 
             {
-                name: "发布"
+                name: "发布",
+                list: [
+                   
+                ]
             },
             {   
-                name: "帮助"     
+                name: "帮助",
+                list: [
+                ]     
             }    
         ],
         isShowAll: false,
         isHoverButton: false,
         isClickButton: false,
-        currentChoose: null
+        currentChoose: null,
+        showTableList: []
     }
   },
   methods: {
@@ -84,14 +93,40 @@ export default {
            this.isShowAll = true;
        },
        hoverButton(key){
+           if(this.isClickButton) return false;
+
            this.currentChoose = key;
-           this.isHoverButton = true;
+           this.isHoverButton = true; //是否移动到按钮上面
+
+           var list = (this.lists[key]).list;
+           this.showTableList = list;
+
+        //    console.log(this.isHoverButton);
        },
        leaveButton(){
            this.isHoverButton = false;
        },
        MenuListShow(){
-           this.isHoverButton = true;
+            console.log('consoleTest');
+        //    this.isHoverButton = true;
+       },
+       clickButoonThing(item){
+           if(item.list.length > 0){
+               this.isClickButton = !this.isClickButton;
+           }
+       },
+       hiddenAllBottom(){
+            this.isShowAll = false;
+            this.isHoverButton = false;
+            this.currentChoose = null;
+            this.showTableList = [];
+            this.isShowAll = false;
+       },
+       consoleTest(value){
+           if(value == 'false'){
+               this.isClickButton = false;
+               
+           }
        }
    },
    created(){
@@ -127,12 +162,6 @@ $number: 10;
     transition: bottom ease 0.15s, width ease 0.25s 0.2s, background-color ease 0.3s;
     text-align: left;
     vertical-align: top;
-    // &:hover{
-    //     background:  black;
-    //     .title{
-    //         // background: black;
-    //     }
-    // }
     .button-box{
         display: inline-block;
     }
@@ -169,8 +198,14 @@ $number: 10;
         position: absolute;
         right: 10px;
         top: 50%;
-        margin-top: -8px;
+        transform:rotate(180deg);
+        transition: all ease-in-out 0.8s;
+        margin-top: -7px;
         cursor: pointer;
+        &:hover{
+            transform: rotate(360deg+360deg) scale(1.7);
+            color: $color;
+        }
     }
 }
 .bottomAllList-dis{
@@ -193,44 +228,78 @@ $number: 10;
     position: fixed;
     left: 0px;
     top: 0px;
-    transition: all ease  0.5s;
+    transition: all ease  0.5s 0s;
     z-index: 8;
     .allMenuBox{
         width: 200px;
-        height: 100%;
-        // background: grey;
+        height: auto;
+        position: absolute;
+        bottom: 20px;
+        left: 0px;
         .menu{
-            transition: all ease 0.2s 0.63s;
-            width: 100%;
-            font-size: 20px;
-            padding: 10px 0px;
+            transition: all ease 0.8s;
+            width: 0%;
+            font-size: 16px;
+            padding: 14px 0px;
             text-align: center;
             background: black;
             overflow: hidden;
             color: white;
-             @for $i from 0 through $number
+            white-space: nowrap;
+            animation: mymove 0.5s 1;
+            cursor: pointer;
+            animation-fill-mode: forwards;
+            text-align: left;
+            position: relative;
+            @for $i from 0 through $number
             {
-                &:nth-of-type(#{$i}){
-                    transition: all 0.2s ease (0.53s+0.12s*$i); 
+                    &:nth-of-type(#{$i}){
+                        animation: mymove 0.5s 1;
+                        animation-delay: (0.12s+$i*0.12s);
+                        animation-fill-mode: forwards;
                 }
             }
+            &:hover{
+                left: 30px;
+                background: $color;
+                color: grey;
+            }
         }
+       
     }
 }
+@keyframes mymove
+{
+    from { width: 0%; }
+    to   { width: 100%; padding-left: 30px; }
+}
+   
 .ListDetail-hidden{
     left: -100%;
+    transition: all ease  0.5s 0.6s;
     .allMenuBox{
         .menu{
             width: 0%;
-            overflow: hidden;
-            transition: all ease 0s;
-             @for $i from 0 through $number
-            {
-                &:nth-of-type(#{$i}){
-                    transition: all 0s ease; 
+            animation: hiddenButton 0.5s 1;
+        //     overflow: hidden;
+        //     transition: all ease 0s;
+        //      @for $i from 0 through $number
+            @for $i from 0 through $number
+                {
+                    &:nth-of-type(#{$i}){
+                        animation: hiddenButton 0.5s 1;
+                        animation-delay: 0;
+                        animation-fill-mode: forwards;
+                    }
                 }
-            }
+      
         }
     }
+}
+
+@keyframes hiddenButton
+{
+    from { width: 100%; padding-left: 30px; }
+    to   { width: 0%;  }
 }
 </style>
