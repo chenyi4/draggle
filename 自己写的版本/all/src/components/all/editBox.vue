@@ -68,7 +68,7 @@ export default {
               }
           ],
           isUseTip: true, //是否显示提示
-          isShowAll: false, //是否显示所有模块
+          isShowAll: true, //是否显示所有模块
           isShowCover: false, //是否显示遮挡层
           orgIsUseTip: null,
           show: true
@@ -220,12 +220,14 @@ $number:5;
     background-color: black;
     padding: 9px 0px;
     width: 32px;
+    opacity: 0.5;
     cursor: pointer;
     i{
         color: $color;
     }
     &:hover{
         background-color: $color;
+        opacity: 1;
         i{
            color: black;
            transform: scale(1.8) rotate(45deg); 

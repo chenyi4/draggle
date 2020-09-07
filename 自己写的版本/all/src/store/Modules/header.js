@@ -40,6 +40,10 @@ const header = {
         setButtomTrue: (state,name) => {
             state.allBoolean['is'+name] = true;
             eventHub.$emit(eventHub.header['SHOW_'+name]);
+        },
+        setButtomFalse: (state,name) => {
+            state.allBoolean['is'+name] = false;
+            eventHub.$emit(eventHub.header['SHOW_'+name]);
         }
     }
 };

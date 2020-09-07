@@ -1,8 +1,14 @@
 <template>
-    <div class="allcomponent">
-        <div class="draw-head"></div>
-        <div :class="{'draw':true, 'draw-choose': isChoose}">
-            <div class="before"></div>
+    <div :class="{'allcomponent':true, 'allcomponent-hidden': !iscomponentBox}">
+        <div class="content">
+            <div :class="{'draw':true, 'draw-choose': isChoose}">
+                <div class="before"></div>
+            </div>
+            <div class="close">
+                <div class="close-box">
+                    <i class="el-icon-close" @click.stop="closeAll"></i>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -11,6 +17,8 @@ import drag from '@/assets/js/drag3.js'
 import utils from '@/assets/js/utils.js';
 import scaleCY from '@/assets/js/scale.js';
 import edit from '@/assets/js/edit.js';
+
+import eventHub from '@/event-hub/index';
 export default {
   name: 'allComponents',
   components: {
@@ -18,15 +26,22 @@ export default {
   },
   data() {
       return {
-          isChoose: false
+          isChoose: false,
+          iscomponentBox: false
       }
   },
   methods: {
       choose(){
           this.isChoose = !this.isChoose;
+      },
+      closeAll(){
+        //更新store里面的值
+        this.$store.commit('setButtomFalse', 'componentBox');
+        //   eventHub.$emit(eventHub.header.SHOW_componentBox);
       }
   },
   created(){
+      const self = this;
       this.$nextTick(() => {
         //   drag({
         //         select: 'draw-head',
@@ -66,7 +81,12 @@ export default {
                     }
                 },
             });
+
       });
+
+       eventHub.$on(eventHub.header.SHOW_componentBox, () => {
+        self.iscomponentBox = !self.iscomponentBox;
+       });
   }
 }
 </script>
@@ -80,8 +100,18 @@ export default {
         top: 0;
         background: #eeeeee;
         text-align: left;
+        opacity: 0.6;
+        transition: all ease 0.2s;
+        cursor: pointer;
+        .content{
+            transition: all ease 0.2s 0.2s;
+            opacity: 1;
+        }
         .draw-choose{
            background: blue; 
+        }
+        &:hover{
+            opacity: 1;
         }
         // .draw-head{
         //     width: 100%;
@@ -89,6 +119,46 @@ export default {
         //     background: black;
         //     cursor: pointer;
         // }
+        .close{
+            width: 40px;
+            height: 100%;
+            background: none;
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            opacity: 0;
+            transition: all ease 0.4s;
+            &:hover{
+                height: calc(100% + 30px);
+                opacity: 1;
+                .close-box{
+                    position: absolute;
+                    width: 30px;
+                    height: 30px;
+                    background: black;
+                    bottom: 0px;
+                    right: 0px;
+                    font-size: 20px;
+                    color: white;
+                    text-align: center;
+                    i{
+                        line-height: 30px;
+                    }
+                }
+            }
+            .close-box{
+                font-size: 0px;
+            }
+        }
     }
-     
+    .allcomponent-hidden{
+        width: 0px;
+        height: 0px;
+        overflow: hidden;
+        transition: all ease 0.2s 0.3s;
+        .content{
+            opacity: 0;
+            transition: all ease 0s;
+        }
+    }        
 </style>

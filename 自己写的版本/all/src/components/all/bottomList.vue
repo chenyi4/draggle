@@ -75,7 +75,7 @@ export default {
                         isShow: false
                     },
                     {
-                        name: "编辑显示",
+                        name: "编辑",
                         value: 'editShow',
                         isShow: false
                     },
@@ -258,10 +258,12 @@ $number: 10;
     left: -1px;
     opacity: 0;
     z-index: 15;
+   
 }
 .bottomAllList{
     width: 100%;
     height: 30px;
+    opacity: 0.6;
     background: #eee;
     position: fixed;
     bottom: 0px;
@@ -272,6 +274,9 @@ $number: 10;
     transition: bottom ease 0.15s, width ease 0.25s 0.2s, background-color ease 0.3s;
     text-align: left;
     vertical-align: top;
+    &:hover{
+        opacity: 1;
+    }
     .button-box{
         display: inline-block;
     }
@@ -323,7 +328,8 @@ $number: 10;
     width: 1%;
 }
 .bottomAllList-change{
-    background: none;
+    background: white;
+    opacity: 1;
     border-top: 1px solid #eee;
     .title{
         background: none;

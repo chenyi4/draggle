@@ -14,12 +14,12 @@
   <div class="body">
      <div class="trueBody"></div>
   </div>
-  <allcomponents :class="{'hidden': !iscomponentBox}"></allcomponents>
-  
+
+  <allcomponents></allcomponents>
   <bodySet ></bodySet>
   <editBox></editBox>
   <bottomList></bottomList>
-  <editLayer  :class="{'hidden': !isEditShow}" :isShow.sync="isEditShow"></editLayer>
+  <editLayer></editLayer>
   <!-- <layer></layer> -->
 </div>
 </template>
@@ -46,7 +46,6 @@ export default {
       return {
           isHiddenHead: true,
           iscomponentBox: false,
-          isEditShow: false
       }
   },
   methods: {
@@ -66,9 +65,6 @@ export default {
           all: components
         }, ()=> {
        });
-    },
-    showBodySet(){
-       eventHub.$emit(eventHub.header.SHOW_BODY_SET);
     },
     hiddenAll(){
         this.isHiddenHead = !this.isHiddenHead;
@@ -105,9 +101,7 @@ export default {
   },
   created(){
     const self = this;
-    eventHub.$on(eventHub.header.SHOW_componentBox, () => {
-      self.iscomponentBox = !self.iscomponentBox;
-    });
+   
     
     
   },
