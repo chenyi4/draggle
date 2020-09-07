@@ -14,12 +14,25 @@
             <div class="el-icon-caret-bottom hidden" @click="hiddenAllBottom"></div>
         </div>
         <div 
-            :class="{'ListDetail':true, 'ListDetail-hidden': !isHoverButton && !isClickButton}" 
-            @click.stop="consoleTest('false')"    
+            :class="{'ListDetail':true, 'ListDetail-hidden': !isHoverButton && !isClickButton}"
+            @click.stop="hiddenAllBottom"
         >
             <div>
                 <div class="allMenuBox">
-                    <div v-for="(item, key) in showTableList" @click.stop="consoleTest(key)"  :class="['menu', 'menu-'+key]" :key="key">{{item.name}}</div>
+                    <div v-for="(item, key) in showTableList" @click.stop="consoleTest(key)"  :class="['menu', 'menu-'+key]" :key="key">
+                        {{item.name}}
+                        <span v-if="typeof(item.isShow) == 'boolean'">
+                            <i class="el-icon-success" v-if="item.isShow"></i>
+                            <i class="el-icon-error" v-if="!item.isShow"></i>
+                        </span>
+                    </div>
+                    <div class="menu-close">
+                        <i 
+                            class="el-icon-close" 
+                            v-if="showTableList.length"
+                            @click.stop="consoleTest('false')">
+                        </i>
+                    </div>
                 </div>
             </div>
         </div>
@@ -38,10 +51,13 @@ export default {
                 name: "画布设置",
                 list: [
                    {
-                        name: "body设置"
+                        name: "body设置",
+                        value: 'bodySet'
                    },
                    {
-                        name: "缩小放大画布栏"
+                        name: "缩小放大画布栏",
+                        value: 'scaleDraw',
+                        isShow: false
                    }, 
                 ]
             },
@@ -49,19 +65,28 @@ export default {
                 name: "菜单",
                 list: [
                     {
-                        name: "历史记录"
+                        name: "历史记录",
+                        value: 'hisTory',
+                        isShow: false
                     },
                     {
-                        name: "组件栏" //显示//不显示 
+                        name: "组件栏", //显示//不显示
+                        value: 'componentBox',
+                        isShow: false
                     },
                     {
-                        name: "编辑显示"
+                        name: "编辑显示",
+                        value: 'editShow',
+                        isShow: false
                     },
                     {
-                        name: "菜单显示设置"
+                        name: "通用编辑栏",
+                        value: 'editBox',
+                        isShow: false
                     },
                     {
-                        name: "发布路径设置"
+                        name: "发布路径设置",
+                        value: 'publishHref'
                     }
                 ]
             },
@@ -69,21 +94,33 @@ export default {
                 name: "扩展组件",
                 list: [
                    {
-                       name: "从库里面选择新增组件"
+                       name: "从库里面选择新增组件",
+                       value: 'chooseNewComponent'
                    },
                    {
-                       name: '绘制新组件'
+                       name: '绘制新组件',
+                       value: 'drawNewComponent'
+                   },
+                   {
+                       name: '默认组件布局', //flex布局设置
+                       value: 'defaultViewSet'
+                   },
+                   {
+                       name: '图标库', //flex布局设置
+                       value: 'iconBox'
                    }
                 ]
             }, 
             {
                 name: "发布",
+                value: 'publish',
                 list: [
                     
                 ]
             },
              {
                 name: "导入",
+                value: 'import',
                 list: [
                 ]
             },
@@ -91,23 +128,30 @@ export default {
                 name: "帮助",
                 list: [
                    {
-                        name: "还原菜单位置" 
+                        name: "还原菜单位置",
+                        value: 'restoreListPosition'
                         //如果组件是显示出来的，就把组件的位置放置到菜单初始位置
                    },
                    {
-                       name: "保存当前位置"
+                       name: "保存当前位置",
+                       value: 'storeCurrentPosition'
                    }, 
                    {
-                       name: "显示当前所有菜单位置" 
+                       name: "显示当前所有菜单位置",
+                       value: 'showCurrentAllPosition'
                        // 是否锁定组件 
                        // 组件
                        // editBox小盒子（删除组件什么的）
                    },
                    {
-                       name: "是否开启提示消息"
+                       name: "开启提示消息",
+                       value: 'OpenTips',
+                       isShow: false
                    },
                    {
-                       name: "页面引导"
+                       name: "页面引导",
+                       value: 'helper',
+                       isShow: false
                    }
                 ]     
             }    
@@ -121,23 +165,41 @@ export default {
   },
   methods: {
        change(){
-           this.isShowAll = true;
+           if(!this.isShowAll){
+               this.isShowAll = true;
+               //获取store里面的值
+               this.getStoreData();
+               //console.log("ddddddddddd");
+           }
+       },
+       getStoreData(){
+           var values = this.$store.getters.getBottomValue;
+           this.lists.forEach((item) => {
+               if(item.list.length > 0){
+                   item.list.forEach((dom) => {
+                       if(typeof(dom.isShow) == 'boolean'){
+                           var name = dom.value;
+                           var isTureOrFalse = values['is'+name];
+                           dom.isShow = isTureOrFalse; 
+                       }
+                   });
+               }    
+           });
        },
        hoverButton(key){
            if(this.isClickButton) return false;
 
            this.setChooseTableList(key);
-
-        //    console.log(this.isHoverButton);
        },
        clickButoonThing(key){
            var item = this.lists[key];
            if(item.list.length > 0){
-               
                this.isClickButton = true;
                this.setChooseTableList(key);
            }else{
+               //一级按钮的显示
                this.consoleTest('false');
+               this.$store.commit('setButtomTrue', item.value);
            }
        },
        setChooseTableList(key){
@@ -160,13 +222,20 @@ export default {
             this.currentChoose = null;
             this.showTableList = [];
             this.isShowAll = false;
+            this.consoleTest('false');
        },
        consoleTest(value){
            if(value == 'false'){
                this.isClickButton = false;
            }else{
                var item = this.showTableList[value];
-               console.log(item);
+               if(typeof(item.isShow) == 'boolean'){
+                   this.$store.commit('changeButtomValue', item.value);
+               }else{
+                    this.$store.commit('setButtomTrue', item.value);
+                    this.hiddenAllBottom();
+               }
+               this.getStoreData();
            }
        }
    },
@@ -304,9 +373,35 @@ $number: 10;
                 left: 30px;
                 background: $color;
                 color: grey;
+                span{
+                    color: black;
+                }
+            }
+            span{
+                position: absolute;
+                right: 10px;
+                top: 16px;
+                color: $color;
+                opacity: 0.4;
             }
         }
-       
+        .menu-close{
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            right: -100px;
+            top: -6px;
+            font-size: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all ease 0.4s;
+            i{
+                line-height: 40px;
+            }
+            &:hover{
+               transform: rotate(180deg) scale(0.6);
+            }
+        }
     }
 }
 @keyframes mymove
@@ -334,6 +429,9 @@ $number: 10;
                     }
                 }
       
+        }
+        .menu-close{
+            display: none;
         }
     }
 }

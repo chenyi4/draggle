@@ -79,6 +79,7 @@ export default {
         left: 0;
         top: 0;
         background: #eeeeee;
+        text-align: left;
         .draw-choose{
            background: blue; 
         }

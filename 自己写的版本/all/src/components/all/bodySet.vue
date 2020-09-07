@@ -153,7 +153,7 @@ export default {
   },
   created(){
       const self = this;
-      eventHub.$on(eventHub.header.SHOW_BODY_SET, () => {
+      eventHub.$on(eventHub.header.SHOW_bodySet, () => {
           self.showBody = true;
       });
   },

@@ -4,12 +4,14 @@
     border: 1px dashed black;
     cursor: pointer;
     position: relative;
+    display: inline-block;
 }
 
 .allcomponent{
     .draw{
         margin:  0 auto;
         margin-top: 15px;
+        margin-left: 20px;
     }
 }
 

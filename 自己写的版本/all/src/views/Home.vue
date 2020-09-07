@@ -14,8 +14,9 @@
   <div class="body">
      <div class="trueBody"></div>
   </div>
-  <allcomponents :class="{'hidden': !showDrawEdit}"></allcomponents>
-  <bodySet></bodySet>
+  <allcomponents :class="{'hidden': !iscomponentBox}"></allcomponents>
+  
+  <bodySet ></bodySet>
   <editBox></editBox>
   <bottomList></bottomList>
   <editLayer  :class="{'hidden': !isEditShow}" :isShow.sync="isEditShow"></editLayer>
@@ -44,7 +45,7 @@ export default {
    data() {
       return {
           isHiddenHead: true,
-          showDrawEdit: false,
+          iscomponentBox: false,
           isEditShow: false
       }
   },
@@ -103,7 +104,12 @@ export default {
     }
   },
   created(){
-   
+    const self = this;
+    eventHub.$on(eventHub.header.SHOW_componentBox, () => {
+      self.iscomponentBox = !self.iscomponentBox;
+    });
+    
+    
   },
 }
 </script>

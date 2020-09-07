@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'edit-box':true, 'edit-box-ed': !isShowAll}" >
+    <div :class="{'edit-box':true, 'edit-box-ed': !isShowAll}" v-if="show">
         <div>
              <!-- v-if="isShowAll" -->
             <el-tooltip :class="{'item':true}" effect="dark" :content="isUseTip?'关闭提示':'显示提示'" placement="left">
@@ -27,6 +27,7 @@
 </template>
 <script>
 import drag from '@/assets/js/drag3.js';
+import eventHub from '@/event-hub/index';
 export default {
   name: 'home',
   components: {
@@ -69,7 +70,8 @@ export default {
           isUseTip: true, //是否显示提示
           isShowAll: false, //是否显示所有模块
           isShowCover: false, //是否显示遮挡层
-          orgIsUseTip: null
+          orgIsUseTip: null,
+          show: true
       }
   },
   methods: {
@@ -114,6 +116,7 @@ export default {
       const self = this;
       var dragDom;
       this.$nextTick(() => {
+          
            dragDom = drag({
                 select: 'edit-box',
                 orgMove: function(){
@@ -125,6 +128,9 @@ export default {
                     self.isShowCover = false;
                 }
           });
+      });
+      eventHub.$on(eventHub.header.SHOW_editBox, () => {
+        self.show = !self.show;
       });
   }
 }
