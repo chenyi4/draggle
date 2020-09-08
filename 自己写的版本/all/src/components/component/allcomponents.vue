@@ -38,6 +38,9 @@ export default {
         //更新store里面的值
         this.$store.commit('setButtomFalse', 'componentBox');
         //   eventHub.$emit(eventHub.header.SHOW_componentBox);
+      },
+      addComponent(obj){
+          this.$store.dispatch('addComponents', obj);
       }
   },
   created(){
@@ -74,12 +77,16 @@ export default {
                         dom.style.position = "absolute";
                         drawHome.appendChild(dom);
                         
-                        edit({dom:dom, move: ui, scale: scaleCY(dom)});
+                        
                     }
                     else{
                         dom.remove();
                     }
                 },
+                out(dom, ui){
+                    var obj = edit({dom:dom, move: ui, scale: scaleCY(dom)});
+                    self.addComponent(obj);
+                }
             });
 
       });

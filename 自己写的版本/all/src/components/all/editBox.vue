@@ -14,7 +14,7 @@
                     :disabled ="!isUseTip"
                     class="item" effect="dark" :content="item.name" placement="left">
                     <i
-                        :class="[item.class, isShowAll?'':'div-block-hidden']"
+                        :class="[item.class, isShowAll?'':'div-block-hidden', item.isChoose?'choose-i':'']"
                         @click.stop="clickButton(key)"
                         >
                     </i>
@@ -39,31 +39,37 @@ export default {
               {
                   name: "删除选中组件",
                   disabled: true,
+                  isChoose: false,
                   class: "el-icon-delete-solid"
               },
               {
                   name: "选择组件",
                   disabled: false,
+                  isChoose: false,
                   class: "el-icon-plus"
               },
               {
                   name: "锁定选中组件",
                   disabled: false,
+                  isChoose: false,
                   class: "el-icon-attract"
               },
               {
                   name:　"编辑选中组件",
                   disabled: false,
+                  isChoose: false,
                   class: "el-icon-s-open"
               },
               {
                   name: "全屏隐藏多余菜单",
                   disabled: false,
+                  isChoose: false,
                   class: "el-icon-full-screen"
               },
               {
                   name: "缩小此菜单",
                   disabled: false,
+                  isChoose: false,
                   class: "el-icon-arrow-up"
               }
           ],
@@ -71,7 +77,8 @@ export default {
           isShowAll: true, //是否显示所有模块
           isShowCover: false, //是否显示遮挡层
           orgIsUseTip: null,
-          show: true
+          show: true,
+          currentChoose: null //选中的obj
       }
   },
   methods: {
@@ -94,29 +101,39 @@ export default {
           }
       },
       deleteDom(){
-          console.log("删除组件");
+          this.$store.dispatch('deleteComponents');
+        //   console.log("删除组件");
       },
       selectDom(){
+          this.array[1].isChoose = !this.array[1].isChoose;
+          eventHub.$emit(eventHub.editBox.CHOOSE_AREA);
           console.log("选中组件");
       },
       lockDom(){
-          console.log("锁定组件");
+          var obj = this.$store.dispatch('lockComponent');
+          
+          // console.log("锁定组件");
       },
       editDom(){
-          console.log("编辑组件");
+          //显示编辑弹窗页面
+          eventHub.$emit(eventHub.header.SHOW_editShow, true);
       },
       scale(){
           console.log("全屏显示画布隐藏多余菜单");
       },
       showAll(){
           this.isShowAll = true;
-      }
+      },
+      setInitParam(obj){
+         var orgParam = JSON.parse(JSON.stringify(obj));
+         this.array[2].isChoose = orgParam.unuse;
+      },
+
   },
   created(){
       const self = this;
       var dragDom;
       this.$nextTick(() => {
-          
            dragDom = drag({
                 select: 'edit-box',
                 orgMove: function(){
@@ -129,8 +146,14 @@ export default {
                 }
           });
       });
+
       eventHub.$on(eventHub.header.SHOW_editBox, () => {
         self.show = !self.show;
+      });
+
+      eventHub.$on(eventHub.editBox.SELECT_CHOOSE_DOM, (obj) => {
+          self.$store.dispatch('setCurrentChooseDom', obj);
+          self.setInitParam(obj);
       });
   }
 }
@@ -210,6 +233,9 @@ $number:5;
         &:hover{
             color: $color;
         }
+    }
+    .choose-i{
+        color: $color;
     }
     .no-padding{
         padding-bottom: 0px;

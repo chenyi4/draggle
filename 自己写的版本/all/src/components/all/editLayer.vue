@@ -1,5 +1,5 @@
 <template>
-    <div class="editLayer">
+    <div class="editLayer" v-if="show">
         <div class="editLayer-Head">
         </div>
         <div class="editLayer-body">
@@ -76,6 +76,7 @@
 <script>
 import drag from '@/assets/js/drag3.js';
 import scaleCY from '@/assets/js/scale.js';
+import eventHub from '@/event-hub/index';
 export default {
   name: 'editLayer',
   components: {
@@ -88,6 +89,7 @@ export default {
   },
   data() {
       return {
+          show: false,
           form: {
               Set: '',
               height: 0,
@@ -104,23 +106,42 @@ export default {
   created(){
       const self = this;
       this.$nextTick(() => {
-          var dragDom = drag({
-                select: 'editLayer-Head',
-                moveSelect: 'editLayer',
-          });
-          scaleCY(dragDom.moveDom);
+          
       });
+      eventHub.$on(eventHub.header.SHOW_editShow, (value) => {
+        if(typeof(value) == 'boolean'){
+            self.show = !self.show;
+        }
+        else{
+            self.show = value;
+        }
+        if(self.show){
+            self.showDom();
+        }
+      });
+      
+      eventHub.$on(eventHub.editBox.SELECT_CHOOSE_DOM, (obj) => {
+          self.currentChoose = obj;
+          self.setOrg();
+      });
+    //   editShow
   },
   methods: {
+      showDom(){
+          setTimeout(function(){
+              var dragDom = drag({
+                select: 'editLayer-Head',
+                moveSelect: 'editLayer',
+              });
+              scaleCY(dragDom.moveDom);
+          },20);
+      },
       setOrg(){
           const self = this;
-          if(self.$store.state.currentChoose.length == 0) return false; 
-          var obj = self.$store.state.currentChoose[0];
-          var objData = JSON.parse(JSON.stringify(obj));
+          var objData  = self.currentChoose;
           self.form = {};
-          if(obj){
-            self.currentChoose = obj;
-            if(obj.scale){
+          if(objData){
+            if(objData.scale){
                 self.form.width = objData.scale.position.width;
                 self.form.height = objData.scale.position.height;
                 self.form.left = objData.move.endPosition.left;
@@ -144,10 +165,8 @@ export default {
           handler(newName, oldName) {
               const self = this;
               if(self.currentChoose){
-                //   console.log(self.currentChoose.change);
                   self.currentChoose.change(newName);
               }
-            //   console.log(newName);
           }
       }
   }

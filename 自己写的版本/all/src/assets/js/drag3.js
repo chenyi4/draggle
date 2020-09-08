@@ -73,7 +73,7 @@
     }
     
     drag.fn.orgPosition = function(){
-        const self = this;
+        var self = this;
         this.move = {
             org: {
                 left: 0,
@@ -102,6 +102,8 @@
         this.isStart = false;
         this.orgDocumentMoveThing = null;
         this.orgDocuemntMouseUp = null;
+
+        this.unuse = false; //是否可用 \ 禁用
     }
 
     drag.fn.extend({
@@ -153,60 +155,57 @@
             offsetRight: this.dom.offsetLeft+this.dom.offsetWidth,
             offsetBottom: this.dom.offsetTop+this.dom.offsetHeight,
          };
-       }
+       },
     });
 
-    drag.fn.moveThing = function(){
-        this.startClick();
+    drag.fn.unUseSet = function(value){
+        this.unuse = value;
     }
+
+    drag.fn.startClick = function(){
+        var self = this;
+        this.dom.addEventListener('mousedown',function(e){
+            if(self.unuse) return false; 
+            self.getDomPosition();
+            self.move.org = {
+                left: e.x,
+                top: e.y
+            };
+            if(self.isCopy){
+                self.dom = self.orgDom.cloneNode(true);
+                document.body.appendChild(self.dom);
+                drag({
+                    dom: self.dom,   
+                    param: Object.assign(self.param||{}, {
+                        isCopy: false
+                    })
+                });
+            }
+            if(self.helper){
+                var dom = self.dom = self.helper(self.orgDom);
+                self.getDomPosition();
+                dom.style.left = self.orgStyleData.left+"px";
+                dom.style.top = self.orgStyleData.top+"px";
+
+                // dom.style.left = 111+"px";
+                // dom.style.top = 111+"px";
+                document.body.appendChild(dom);
+              
+               
+            }
+            self.isStart = true;
+            self.mouseMove();
+            self.mouseUp();
+        });
+        return this;
+    },
 
     drag.fn.extend({
         test: function(){
             console.log("测试");
         },
-        startClick: function(){
-            var self = this;
-            this.dom.addEventListener('mousedown',function(e){
-                self.getDomPosition();
-                self.move.org = {
-                    left: e.x,
-                    top: e.y
-                };
-                if(self.isCopy){
-                    self.dom = self.orgDom.cloneNode(true);
-                    document.body.appendChild(self.dom);
-                    drag({
-                        dom: self.dom,   
-                        param: Object.assign(self.param||{}, {
-                            isCopy: false
-                        })
-                    });
-                }
-                if(self.helper){
-                    var dom = self.dom = self.helper(self.orgDom);
-                    self.getDomPosition();
-                    dom.style.left = self.orgStyleData.left+"px";
-                    dom.style.top = self.orgStyleData.top+"px";
-
-                    // dom.style.left = 111+"px";
-                    // dom.style.top = 111+"px";
-                    document.body.appendChild(dom);
-                    drag({
-                        dom: dom,   
-                        param: Object.assign(self.param||{}, {
-                            isCopy: false,
-                            helper: false,
-                            stop: null,
-                            orgDom: self.orgDom
-                        })
-                    });
-                }
-                self.isStart = true;
-                self.mouseMove();
-                self.mouseUp();
-            });
-            return this;
-        },
+        
+       
         mouseMove: function(){
             const self = this;
             if(self.isStart){
@@ -235,7 +234,7 @@
             }
         },
         mouseUp: function(){
-            const self = this;
+            var self = this;
             self.orgDocuemntMouseUp = document.mouseUp;
             document.onmouseup = function(e){
                 self.isStart = false;
@@ -245,6 +244,20 @@
                 self.isAccept();
                 if(self.stop){
                     self.stop(self.dom, self);
+                    if(self.helper){
+                        self = drag({
+                            dom: self.dom,   
+                            param: Object.assign(self.param||{}, {
+                                isCopy: false,
+                                helper: false,
+                                stop: null,
+                                orgDom: self.orgDom
+                            })
+                        });
+                        if(self.param.out){
+                            self.param.out(self.dom, self);
+                        }
+                    }
                 }
                 self.setEndPosition();
                 document.onmouseup = self.orgDocuemntMouseUp;
@@ -329,13 +342,13 @@
             this.dom = param.dom;
             this.orgDom = param.param.orgDom;
             this.orgPosition();
-            this.moveThing();
+            this.startClick();
             drag.store.push(this);
         }else{
             this.param = param;
             this.setParam();
             this.orgPosition();
-            this.moveThing();
+            this.startClick();
         }
         
     }

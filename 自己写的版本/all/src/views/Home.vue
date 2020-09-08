@@ -11,8 +11,9 @@
       <div class="button" @click="deleteDom">删除</div>
       <div class="button" @click="editShowHidden">属性编辑</div>
   </div> -->
-  <div class="body">
+  <div :class="{'body':true}">
      <div class="trueBody"></div>
+     <cover></cover>
   </div>
 
   <allcomponents></allcomponents>
@@ -29,6 +30,7 @@ import allcomponents from '@/components/component/allcomponents';
 import editLayer from '@/components/all/editLayer.vue';
 import editBox from '@/components/all/editBox.vue';
 import bottomList from '@/components/all/bottomList.vue';
+import cover from '@/components/all/cover.vue';
 
 import eventHub from '@/event-hub/index';
 import {  thingFlowDate } from '@/api/index';
@@ -40,7 +42,8 @@ export default {
     editBox,
     editLayer,
     bottomList,
-    allcomponents
+    allcomponents,
+    cover
   },
    data() {
       return {
@@ -99,12 +102,7 @@ export default {
       this.$store.state.currentDraw = newArray;
     }
   },
-  created(){
-    const self = this;
-   
-    
-    
-  },
+  
 }
 </script>
 <style scoped lang="scss">
@@ -135,6 +133,7 @@ export default {
   width: 100%;
   height: 100%;
   background: #aaaaaa;
+  
 }
 
 .trueBody{
@@ -143,6 +142,7 @@ export default {
   margin: 0 auto;
   position: relative;
   background: white;
+  
 }
 
 .showAll{

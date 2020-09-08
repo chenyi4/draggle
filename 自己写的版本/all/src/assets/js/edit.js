@@ -1,4 +1,4 @@
-import indexStore from '@/store/index';
+import eventHub from '@/event-hub/index';
 
 var edit = function(param){
    return new edit.init(param);
@@ -7,7 +7,7 @@ edit.init = function(param){
     this.dom = param.dom;
     this.move = param.move;
     this.scale = param.scale;
-    indexStore.state.currentDraw.push(this);
+    this.unuse = false; //false 可以使用 true 不可使用
     this.init();
 }
 
@@ -37,11 +37,26 @@ edit.prototype.chooseSet = function(){
     const self = this;
     self.isChoose = !self.isChoose;
     if(self.isChoose){
+        eventHub.$emit(eventHub.editBox.SELECT_CHOOSE_DOM, self);
         self.addClass();
     }else{
         self.removeClass();
     }
 }
+
+edit.prototype.setUnChoose = function(){
+    const self = this;
+    self.isChoose = false;
+    self.removeClass();
+}
+
+
+edit.prototype.setDomChoose = function(){
+    const self = this;
+    self.isChoose = true;
+    self.addClass();
+}
+
 
 edit.prototype.addClass = function(){
     const self = this;
@@ -72,11 +87,20 @@ edit.prototype.change = function(param){
 
 
 edit.prototype.clear = function(){
+    // console.log("执行了删除操作");
     const self = this;
+    if(self.unuse) return false;
+    self.dom.remove();
     this.move = null;
     this.scale = null;
-    self.dom.remove();
     this.dom = null;
+}
+
+edit.prototype.unUse = function(value){
+    this.unuse = value;
+    this.scale.unuseSet(value);
+    this.move.unUseSet(value);
+    // console.log(this.move);
 }
 
 export default edit;

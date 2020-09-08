@@ -28,4 +28,9 @@ eventHub.header = {
     SHOW_import: 'menu.import' //导入
 }
 
+eventHub.editBox = {
+    SELECT_CHOOSE_DOM: 'current.dom.choose', //当前组件选中
+    CHOOSE_AREA: 'area.choose' //启动框架框选
+};
+
 export default eventHub;

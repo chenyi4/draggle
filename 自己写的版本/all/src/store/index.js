@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import header from './Modules/header';
+import component from './Modules/component';
 
 // ======================================
 import { isTest } from './defaultDate';
@@ -29,6 +30,7 @@ export default new Vuex.Store({
     
   },
   modules: {
-    header
+    header,
+    component
   }
 })

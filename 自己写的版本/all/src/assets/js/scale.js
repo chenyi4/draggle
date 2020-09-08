@@ -19,10 +19,13 @@ scaleCY.init = function(dom){
         changeY: 0
     }
 
+    this.unuse = false; //禁止使用
+
     // var 
     this.isClick = false;
    
     point.onmousedown = function(e){
+        if(self.unuse) return false;
         e.stopPropagation();
         self.isClick = true;
         self.position = {
@@ -38,6 +41,11 @@ scaleCY.init = function(dom){
     
    
 }
+
+scaleCY.prototype.unuseSet = function(value){
+    this.unuse = value;
+}
+
 
 scaleCY.prototype.getPosition = function(){
     const self = this;
