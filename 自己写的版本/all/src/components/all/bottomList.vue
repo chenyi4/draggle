@@ -94,6 +94,7 @@ export default {
                 name: "扩展组件",
                 list: [
                    {
+                       //新增库组件组件
                        name: "从库里面选择新增组件",
                        value: 'chooseNewComponent'
                    },

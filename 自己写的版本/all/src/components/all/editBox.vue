@@ -124,7 +124,8 @@ export default {
       showAll(){
           this.isShowAll = true;
       },
-      setInitParam(obj){
+      setInitParam(objs){
+         return false;
          var orgParam = JSON.parse(JSON.stringify(obj));
          this.array[2].isChoose = orgParam.unuse;
       },
@@ -151,9 +152,9 @@ export default {
         self.show = !self.show;
       });
 
-      eventHub.$on(eventHub.editBox.SELECT_CHOOSE_DOM, (obj) => {
-          self.$store.dispatch('setCurrentChooseDom', obj);
-          self.setInitParam(obj);
+      eventHub.$on(eventHub.editBox.SELECT_CHOOSE_DOM, (array) => {
+          self.$store.dispatch('setCurrentChooseDom', array);
+          self.setInitParam(array);
       });
 
       eventHub.$on(eventHub.editBox.CHOOSE_AREA, (value) => {

@@ -32,13 +32,23 @@ edit.prototype.thingSet = function(){
     this.move.stop = function(value, obj){
         self.style.left = self.dom.offsetLeft;
         self.style.top = self.dom.offsetTop;
+        self.changePrint();
     }
 
     this.scale.stop = function(value){
         self.style.width = value.width;
         self.style.height = value.height;
+        self.changePrint();
     }
 }
+
+edit.prototype.changePrint = function(){
+    if(this.setPrint){
+        this.setPrint(this.style);
+    }
+}
+
+
 
 edit.prototype.setInit = function(){
     this.isChoose = false;
@@ -59,7 +69,7 @@ edit.prototype.chooseSet = function(){
     const self = this;
     self.isChoose = !self.isChoose;
     if(self.isChoose){
-        eventHub.$emit(eventHub.editBox.SELECT_CHOOSE_DOM, self);
+        eventHub.$emit(eventHub.editBox.SELECT_CHOOSE_DOM, [self]);
         self.addClass();
     }else{
         self.removeClass();

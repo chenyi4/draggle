@@ -3,9 +3,39 @@
         <div class="editLayer-Head">
         </div>
         <div class="editLayer-body">
+            <div class="show-box">
+                <div class="line">
+                    <div class="left">宽度</div>
+                    <div class="right">{{form.width}} px</div>
+                </div>
+                <div class="line">
+                    <div class="left">高度</div>
+                    <div class="right">{{form.height}} px</div>
+                </div>
+                <div class="line">
+                    <div class="left">左边距</div>
+                    <div class="right">{{form.left}} px</div>
+                </div>
+                <div class="line">
+                    <div class="left">右边距</div>
+                    <div class="right">{{form.top}} px</div>
+                </div>
+            </div>
              <el-form ref="form" :model="form" label-width="120px" size="mini">
-                <!-- <el-form-item label="宽度设置+++++++++">
-                </el-form-item>   -->
+                <!-- <el-form-item label="宽度" >
+                    <el-input v-model="form.width" :disabled="true"/> px
+                </el-form-item>
+                <el-form-item label="高度" >
+                    <el-input v-model="form.height" :disabled="true"/> px
+                </el-form-item>  
+                <el-form-item label="左边距" >
+                    <el-input v-model="form.left" :disabled="true"/>    px
+                </el-form-item>
+                <el-form-item label="顶边距" >
+                    <el-input v-model="form.top" :disabled="true"/>    px
+                </el-form-item>  -->
+
+                 <!-- 保存此样式为class
                 <el-form-item label="模式" >
                     <el-radio-group v-model="form.Set">
                         <el-radio  :label="1">css模式</el-radio><br/>
@@ -59,7 +89,7 @@
                 </el-form-item>
                 <el-form-item label="顶边距" >
                     <el-input v-model="form.top"/>    px
-                </el-form-item>        
+                </el-form-item>         -->
                 <!-- <el-form-item label="宽度显示" v-if="form.widthSet!=1">
                     <el-radio-group v-model="form.widthShow">
                         <el-radio  :label="1">百分比</el-radio>
@@ -89,7 +119,7 @@ export default {
   },
   data() {
       return {
-          show: false,
+          show: true,
           form: {
               Set: '',
               height: 0,
@@ -106,8 +136,13 @@ export default {
   created(){
       const self = this;
       this.$nextTick(() => {
-          
+          var dragDom = drag({
+              select: 'editLayer-Head',
+              moveSelect: 'editLayer'
+          });
+          scaleCY(dragDom.moveDom);
       });
+      /**显示通用样式 */
       eventHub.$on(eventHub.header.SHOW_editShow, (value) => {
         if(typeof(value) == 'boolean'){
             self.show = !self.show;
@@ -120,7 +155,7 @@ export default {
         }
       });
       
-      eventHub.$on(eventHub.editBox.SELECT_CHOOSE_DOM, (obj) => {
+      eventHub.$on(eventHub.editBox.SELECT_CHOOSE_DOM, (obj) => { //当页面选中组件的时候
           self.currentChoose = obj;
           self.setOrg();
       });
@@ -136,18 +171,18 @@ export default {
               scaleCY(dragDom.moveDom);
           },20);
       },
-      setOrg(){
+      setOrg(value){
           const self = this;
-          var objData  = self.currentChoose;
+          var objData  = self.currentChoose[0];
           self.form = {};
           if(objData){
             if(objData.scale){
-                self.form.width = objData.scale.position.width;
-                self.form.height = objData.scale.position.height;
-                self.form.left = objData.move.endPosition.left;
-                self.form.top = objData.move.endPosition.top;
-                var back = objData.move;
+                self.form = objData.style;
+                objData.setPrint = self.setOrg;
             }
+          }
+          if(value){
+              self.form = value;
           }
           self.form = JSON.parse(JSON.stringify(self.form));
       }
@@ -165,7 +200,7 @@ export default {
           handler(newName, oldName) {
               const self = this;
               if(self.currentChoose){
-                  self.currentChoose.change(newName);
+                  //self.currentChoose.change(newName);
               }
           }
       }
@@ -191,9 +226,34 @@ export default {
         width: 100%;
         text-align: left;
         overflow: auto;
+        padding-top: 20px;
         height: calc(100% - 30px);
         .el-input {
             width: 300px;
+        }
+        .show-box{
+            width: 80%;
+            padding: 5px;
+            border: 1px solid #c9c8c8;
+            margin: 0 auto;
+            border-right: none;
+            border-left: none;
+            .line{
+                font-size: 14px;
+                color: #939191;
+                .left,.right{
+                    width: 50%;
+                    box-sizing: border-box;
+                    padding-right: 15px;
+                    text-align: right;
+                    line-height: 28px;
+                    display: inline-block;
+                }
+                .right{
+                    display: inline-block;
+                    text-align: left;
+                }
+            }
         }
     }
 }
