@@ -9,11 +9,10 @@ const component = {
         }
     },
     mutations: {
-
+        
     },
     actions: {
         addComponents({state}, obj){
-            console.log(state.componentsList);
             state.componentsList.push(obj);
         },
         /**
@@ -23,7 +22,6 @@ const component = {
             var components = state.componentsList;
             components.forEach((item, key) => {
                 if(item.isChoose){
-                    console.log(item);
                     item.clear();
                     components[key] = null;
                 }
@@ -41,7 +39,6 @@ const component = {
             //设置当前选中的dom 
             state.currentChooseDomObj = obj;
             dispatch('unChooseOtherDoms');
-            // console.log(obj);
         },
         /**
          * 将不选中的其余组件不被选中
@@ -49,7 +46,7 @@ const component = {
         unChooseOtherDoms({state}){
             state.componentsList.forEach((item) => {
                 if(item == state.currentChooseDomObj){
-                    // console.log("++++++++++");
+
                 }else{
                     item.setUnChoose();
                 }
@@ -62,6 +59,24 @@ const component = {
             state.componentsList.forEach((item) => {
                 if(item.isChoose){
                     item.unUse(!item.unuse);
+                }
+            });
+        },
+        computeChooseComponent({state}, value){
+            if(value.endLeft == 0) return false;
+            state.componentsList.forEach((item) => {
+                item.setUnChoose();
+            });
+
+            state.componentsList.forEach((item) => {
+                if((value.left - (item.style.width/2)) < item.style.left){
+                    if(value.endLeft > (item.style.left + (item.style.width/2))){
+                        if(value.top < (item.style.top + (item.style.height/2))){
+                            if(value.endTop > (item.style.top + item.style.height/2)){
+                                item.setDomChoose();
+                            }
+                        }
+                    }
                 }
             });
         }

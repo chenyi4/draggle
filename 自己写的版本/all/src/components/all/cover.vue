@@ -1,9 +1,12 @@
 <template>
-    <div :class="{'cover-true':true, 'cover-true-all': isSelect}"></div>
+    <div :class="{'cover-true':true, 'cover-true-all': isSelect}">
+        <div class="chooseDom"></div>
+    </div>
 </template>
 
 <script>
 import eventHub from '@/event-hub/index';
+import chooseDom from '@/assets/js/chooseDom.js';
 export default {
   name: 'cover',
   data() {
@@ -12,15 +15,24 @@ export default {
       }
   },
   created(){
+        var obj;
         const self = this;
         eventHub.$on(eventHub.editBox.CHOOSE_AREA, (value) => {
-            console.log("执行了具体内容");
             if(typeof(value) == 'boolean'){
             self.isSelect = value;
             }
             else{
             self.isSelect = !self.isSelect;
             }
+            if(self.isSelect){
+                obj.start();
+            }else{
+                obj.close();
+            }
+        });
+        this.$nextTick(() => {
+            obj = new chooseDom();
+            
         });
   },
 }
@@ -28,11 +40,12 @@ export default {
 
 <style scoped lang="scss">
   .cover-true{
-    position: absolute;
+    position: fixed;
     width: 0%;
     height: 0%;
     left: 0px;
     top: 0px;
+    z-index: 20;
     display: block;
     cursor: crosshair;
   }

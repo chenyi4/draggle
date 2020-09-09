@@ -30,7 +30,8 @@ eventHub.header = {
 
 eventHub.editBox = {
     SELECT_CHOOSE_DOM: 'current.dom.choose', //当前组件选中
-    CHOOSE_AREA: 'area.choose' //启动框架框选
+    CHOOSE_AREA: 'area.choose', //启动框架框选
+    POST_CHOOSE_AREA: 'post.choose.area' //传递选中的区域值给全局计算碰撞的组件
 };
 
 export default eventHub;

@@ -106,8 +106,8 @@ export default {
       },
       selectDom(){
           this.array[1].isChoose = !this.array[1].isChoose;
-          eventHub.$emit(eventHub.editBox.CHOOSE_AREA);
-          console.log("选中组件");
+          eventHub.$emit(eventHub.editBox.CHOOSE_AREA)
+        //   console.log("选中组件");
       },
       lockDom(){
           var obj = this.$store.dispatch('lockComponent');
@@ -134,19 +134,19 @@ export default {
       const self = this;
       var dragDom;
       this.$nextTick(() => {
-           dragDom = drag({
-                select: 'edit-box',
-                orgMove: function(){
-                    if(!self.isShowCover){
-                        self.isShowCover = true;
-                    }
-                },
-                stop: function(){
-                    self.isShowCover = false;
-                }
-          });
+        //    dragDom = drag({
+        //         select: 'edit-box',
+        //         orgMove: function(){
+        //             if(!self.isShowCover){
+        //                 self.isShowCover = true;
+        //             }
+        //         },
+        //         stop: function(){
+        //             self.isShowCover = false;
+        //         }
+        //   });
       });
-
+      
       eventHub.$on(eventHub.header.SHOW_editBox, () => {
         self.show = !self.show;
       });
@@ -155,6 +155,17 @@ export default {
           self.$store.dispatch('setCurrentChooseDom', obj);
           self.setInitParam(obj);
       });
+
+      eventHub.$on(eventHub.editBox.CHOOSE_AREA, (value) => {
+          if(value === false){
+              self.array[1].isChoose = false;
+          }
+      });
+
+      eventHub.$on(eventHub.editBox.POST_CHOOSE_AREA, (value) => {
+          self.$store.dispatch('computeChooseComponent',value );
+        //   console.log(value);
+      }); 
   }
 }
 
@@ -170,6 +181,7 @@ $number:5;
     position: fixed;
     right: 12px;
     top: 9px;
+    z-index: 21;
     padding: 20px 0px;
     padding-top: 15px;
     padding-bottom: 15px;

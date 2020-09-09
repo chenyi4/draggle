@@ -23,31 +23,6 @@
 
 //startClick  这种内部方法，希望可以被其方法调用，但是不想被组件访问到
 
-/**
- * A simple, efficent mobile slider solution
- * @file drag.js
- * @author CHENYI
- *    chenyi chenyi4@qq.com
- *
- * @LICENSE https://github.com/BE-FE/iSlider/blob/master/LICENSE
- */
-
- //1.初始化// 和可以拖拽的方法，模块现在混淆，希望能够单个模块，不会混淆
- //实现了
-
- //2.能返回链式操作
-
- //返回工厂模式实现
-
- //drag.prototype.moveThing 可以调用 drag.prototype.moveThing.math方法，因为
- //这个function只和它自己有关系, 如何让 drag.prototype.moveThing.math 里面的this
- //指向 drag.prototype.moveThing
-
- //https://blog.csdn.net/IT_czh/article/details/80454070
- //对不同浏览器兼容方法的封装
-
-//startClick  这种内部方法，希望可以被其方法调用，但是不想被组件访问到
-
 (function (global) {
 
     'use strict';

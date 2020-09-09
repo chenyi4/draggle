@@ -1,3 +1,5 @@
+
+
 var scaleCY = function(dom){
     return new scaleCY.init(dom);
 }
@@ -53,7 +55,6 @@ scaleCY.prototype.getPosition = function(){
         width: Number((self.dom.style.width).replace('px', '')),
         height: Number((self.dom.style.height).replace('px', ''))
     };
-    console.log(self.position);
 }
 
 scaleCY.init.prototype = scaleCY.prototype;
@@ -83,6 +84,9 @@ scaleCY.prototype.onmouseup = function(){
         self.getPosition();
         document.onmousemove = self.oldMouseMove;
         document.onmouseup = self.oldMouseUp;
+        if(self.stop){
+            self.stop(self.position);
+        }
     }
 }
 

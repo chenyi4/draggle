@@ -4,9 +4,17 @@ var edit = function(param){
    return new edit.init(param);
 }
 edit.init = function(param){
+    var self = this;
     this.dom = param.dom;
     this.move = param.move;
     this.scale = param.scale;
+
+    this.style = {
+        left: this.dom.offsetLeft,
+        top: this.dom.offsetTop,
+        width: this.dom.offsetWidth,
+        height: this.dom.offsetHeight
+    };
     this.unuse = false; //false 可以使用 true 不可使用
     this.init();
 }
@@ -16,6 +24,20 @@ edit.init.prototype = edit.prototype;
 edit.prototype.init = function(){
     this.choose();
     this.setInit();
+    this.thingSet();
+}
+
+edit.prototype.thingSet = function(){
+    var self = this;
+    this.move.stop = function(value, obj){
+        self.style.left = self.dom.offsetLeft;
+        self.style.top = self.dom.offsetTop;
+    }
+
+    this.scale.stop = function(value){
+        self.style.width = value.width;
+        self.style.height = value.height;
+    }
 }
 
 edit.prototype.setInit = function(){
