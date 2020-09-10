@@ -39,6 +39,8 @@
     </div>
 </template>
 <script>
+import showLayerSave from '@/assets/js/store/showLayerSave';
+import {  thingFlowDate } from '@/api/index';
 export default {
   name: 'bottomList', //底部菜单
   components: {
@@ -153,6 +155,10 @@ export default {
                        name: "页面引导",
                        value: 'helper',
                        isShow: false
+                   },
+                   {
+                       name: '清除所有缓存记录',
+                       view: 'clearAllCache'
                    }
                 ]     
             }    
@@ -163,6 +169,11 @@ export default {
         currentChoose: null,
         showTableList: []
     }
+  },
+  watch: {
+      isShowAll(value){
+          showLayerSave.setChoose('bottomList', value);
+      }
   },
   methods: {
        change(){
@@ -201,7 +212,26 @@ export default {
                //一级按钮的显示
                this.consoleTest('false');
                this.$store.commit('setButtomTrue', item.value);
+               switch(item.name){
+                   case '发布': 
+                        this.publish();
+                        break;
+               }
            }
+       },
+       publish(){
+            var all = this.$store.dispatch('publishAllComponents');
+            all.then((components) => {
+                 thingFlowDate.save({
+                        body: this.$store.state.bodySet,
+                        all: components
+                    }, ()=> {
+                        console.log("发布成功");
+                });
+            });
+            
+           
+           //发布
        },
        setChooseTableList(key){
            this.isHoverButton = true; //是否移动到按钮上面
@@ -241,8 +271,10 @@ export default {
        }
    },
    created(){
+       const self = this;
        this.$nextTick(() => {
            var bottomList = document.getElementsByClassName('bottomList')[0];
+           self.isShowAll = showLayerSave.getBooleanValue('bottomList');
        });
    }
 }

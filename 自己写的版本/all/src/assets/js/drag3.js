@@ -169,6 +169,7 @@
                
             }
             self.isStart = true;
+            self.orgDocuemntMouseUp = document.onmouseup;
             self.mouseMove();
             self.mouseUp();
         });
@@ -186,13 +187,15 @@
             if(self.isStart){
                 self.orgDocumentMoveThing = document.onmousemove;
                 document.onmousemove = function(e){
-                    self.move.moveLength = {
-                        left: e.x,
-                        top: e.y
+                    if(self.isStart){
+                        self.move.moveLength = {
+                            left: e.x,
+                            top: e.y
+                        }
+                        self.orgMove();
+                        self.changeClassName();
+                        self.changeMoveThing();
                     }
-                    self.orgMove();
-                    self.changeClassName();
-                    self.changeMoveThing();
                 }
             }
         },
@@ -210,11 +213,11 @@
         },
         mouseUp: function(){
             var self = this;
-            self.orgDocuemntMouseUp = document.mouseUp;
+            
             document.onmouseup = function(e){
                 self.isStart = false;
                 document.onmousemove = self.orgDocumentMoveThing;
-                document.mouseUp = self.orgDocuemntMouseUp;
+                document.onmouseup = self.orgDocuemntMouseUp;
                 self.setPosition();
                 self.isAccept();
                 if(self.stop){
@@ -235,7 +238,6 @@
                     }
                 }
                 self.setEndPosition();
-                document.onmouseup = self.orgDocuemntMouseUp;
             }
         },
         setEndPosition(){

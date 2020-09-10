@@ -28,6 +28,7 @@
 <script>
 import drag from '@/assets/js/drag3.js';
 import eventHub from '@/event-hub/index';
+import showLayerSave from '@/assets/js/store/showLayerSave';
 export default {
   name: 'home',
   components: {
@@ -81,6 +82,18 @@ export default {
           currentChoose: null //选中的obj
       }
   },
+  watch: {
+      show(value){
+        //   try{
+              showLayerSave.setChoose('editBox', value);
+        //   }catch(err){
+        //       console.log(err);
+        //   }
+          
+        //   showLayerSave.setName();
+        //   console.log("sssssssss");
+      }
+  },
   methods: {
       clickButton(key){
           const self = this;
@@ -129,7 +142,6 @@ export default {
          var orgParam = JSON.parse(JSON.stringify(obj));
          this.array[2].isChoose = orgParam.unuse;
       },
-
   },
   created(){
       const self = this;
@@ -154,7 +166,7 @@ export default {
 
       eventHub.$on(eventHub.editBox.SELECT_CHOOSE_DOM, (array) => {
           self.$store.dispatch('setCurrentChooseDom', array);
-          self.setInitParam(array);
+        //   self.setInitParam(array);
       });
 
       eventHub.$on(eventHub.editBox.CHOOSE_AREA, (value) => {

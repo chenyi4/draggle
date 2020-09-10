@@ -1,7 +1,8 @@
+import eventHub from '@/event-hub/index';
 const component = {
     state: {
         componentsList: [],
-        currentChooseDomObj: null
+        currentChooseDomObj: [], //当前选中的dom
     },
     getters: {
         currentDomObj(state){
@@ -37,7 +38,11 @@ const component = {
          */
         setCurrentChooseDom({state, dispatch}, obj){
             //设置当前选中的dom 
-            state.currentChooseDomObj = obj;
+            if(obj.length == 1 && state.currentChooseDomObj.length == 1 && (state.currentChooseDomObj[0].dom == obj[0].dom)){
+                state.currentChooseDomObj = [];
+            }else{
+                state.currentChooseDomObj = obj;
+            }
             dispatch('unChooseOtherDoms');
         },
         /**
@@ -45,12 +50,19 @@ const component = {
          */
         unChooseOtherDoms({state}){
             state.componentsList.forEach((item) => {
-                if(item == state.currentChooseDomObj){
-
+                var chooseDom = null;
+                state.currentChooseDomObj.forEach((chooseItem) => {
+                    if(item == chooseItem){
+                        chooseDom = item;
+                    }
+                });
+                if(chooseDom){
+                    item.setDomChoose();
                 }else{
                     item.setUnChoose();
                 }
             });
+            
         },
         /**
          * 锁定选中组件
@@ -63,22 +75,34 @@ const component = {
             });
         },
         computeChooseComponent({state}, value){
+            var publishArray = [];
             if(value.endLeft == 0) return false;
             state.componentsList.forEach((item) => {
                 item.setUnChoose();
             });
 
             state.componentsList.forEach((item) => {
-                if((value.left - (item.style.width/2)) < item.style.left){
-                    if(value.endLeft > (item.style.left + (item.style.width/2))){
-                        if(value.top < (item.style.top + (item.style.height/2))){
-                            if(value.endTop > (item.style.top + item.style.height/2)){
+                if((value.left - (item.style.width/2)) < item.style.offsetLeft){
+                    if(value.endLeft > (item.style.offsetLeft + (item.style.width/2))){
+                        if(value.top < (item.style.offsetTop + (item.style.height/2))){
+                            if(value.endTop > (item.style.offsetTop + item.style.height/2)){
+                                publishArray.push(item);
                                 item.setDomChoose();
                             }
                         }
                     }
                 }
             });
+
+            
+            eventHub.$emit(eventHub.editBox.SELECT_CHOOSE_DOM, publishArray);
+        },
+        publishAllComponents({state}){
+            var components = [];
+            state.componentsList.forEach((item) => {
+                components.push(item.style);
+            });
+            return components;
         }
     }
 }

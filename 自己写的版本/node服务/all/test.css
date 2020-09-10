@@ -1,13 +1,13 @@
 body{
                 margin:0px;padding: 0px; 
-                background: #AAAAAA
+                background: undefined
             }
             .all{ 
-                width: 100%;
+                width: undefined;
                 margin: 0 auto;
-                height: 100%;
-                position: 'relative';
-                background: #FFFFFF;
+                height: undefined;
+                position: relative;
+                background: undefined;
                 
             }
             .box{

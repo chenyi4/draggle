@@ -1,27 +1,52 @@
 <template>
-    <div class="editLayer" v-if="show">
+    <div :class="{'editLayer':true}"> 
+        <!-- , -->
         <div class="editLayer-Head">
         </div>
         <div class="editLayer-body">
             <div class="show-box">
                 <div class="line">
                     <div class="left">宽度</div>
-                    <div class="right">{{form.width}} px</div>
+                    <div class="right">{{form.width}}</div>
                 </div>
                 <div class="line">
                     <div class="left">高度</div>
-                    <div class="right">{{form.height}} px</div>
+                    <div class="right">{{form.height}}</div>
                 </div>
                 <div class="line">
                     <div class="left">左边距</div>
-                    <div class="right">{{form.left}} px</div>
+                    <div class="right">{{form.left}}</div>
                 </div>
                 <div class="line">
-                    <div class="left">右边距</div>
-                    <div class="right">{{form.top}} px</div>
+                    <div class="left">顶边距</div>
+                    <div class="right">{{form.top}}</div>
                 </div>
             </div>
-             <el-form ref="form" :model="form" label-width="120px" size="mini">
+            <el-form ref="form" :model="form" label-width="120px" size="mini">
+                 <el-form-item label="position">
+                    <el-radio-group v-model="form.position" @input="changeValue">
+                        <el-radio  :label="'relative'">relative</el-radio><br/>
+                        <el-radio  :label="'absolute'">absolute</el-radio><br/>
+                        <el-radio  :label="'fixed'">fixed</el-radio><br/>
+                        <el-radio  :label="'inherit'">inherit</el-radio><br/>
+                        <el-radio  :label="'initial'">initial</el-radio><br/>
+                        <el-radio  :label="'static'">static</el-radio><br/>
+                        <el-radio  :label="'sticky'">sticky</el-radio><br/>
+                        <el-radio  :label="'unset'">unset</el-radio><br/>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="宽度模式" >
+                    <el-radio-group v-model="form.widthSet" @input="changeValue">
+                        <el-radio  :label="'px'">像素分变量px</el-radio><br/>
+                        <el-radio  :label="'%'">百分比模式%</el-radio><br/>
+                        <el-radio  :label="''">calc()计算模式</el-radio><br/>
+                        <el-radio  :label="'rem'">rem相对于根元素html的字体大小</el-radio><br/>
+                        <el-radio  :label="'vw'">vw相对于视口的宽度（1vw 等于1/100的视口宽度）</el-radio><br/>
+                        <el-radio  :label="'vh'">vh相对于视口的高度（1vh 等于1/100的视口高度）</el-radio><br/>
+                        <el-radio :label="'vmin'">vmin (关于视口高度和宽度两者的最小值)</el-radio><br/>
+                        <el-radio :label="'vmax'">vmax (关于视口高度和宽度两者的最大值)</el-radio><br/>
+                    </el-radio-group>
+                </el-form-item>
                 <!-- <el-form-item label="宽度" >
                     <el-input v-model="form.width" :disabled="true"/> px
                 </el-form-item>
@@ -42,30 +67,8 @@
                         <el-radio  :label="2">flex模式</el-radio>
                     </el-radio-group>
                 </el-form-item>  
-                <el-form-item label="position">
-                    <el-radio-group v-model="form.position">
-                        <el-radio  :label="'relative'">relative</el-radio><br/>
-                        <el-radio  :label="'absolute'">absolute</el-radio><br/>
-                        <el-radio  :label="'fixed'">fixed</el-radio><br/>
-                        <el-radio  :label="'inherit'">inherit</el-radio><br/>
-                        <el-radio  :label="'initial'">initial</el-radio><br/>
-                        <el-radio  :label="'static'">static</el-radio><br/>
-                        <el-radio  :label="'sticky'">sticky</el-radio><br/>
-                        <el-radio  :label="'unset'">unset</el-radio><br/>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="宽度模式" >
-                    <el-radio-group v-model="form.widthSet">
-                        <el-radio  :label="'px'">像素分变量px</el-radio><br/>
-                        <el-radio  :label="'%'">百分比模式%</el-radio><br/>
-                        <el-radio  :label="''">calc()计算模式</el-radio><br/>
-                        <el-radio  :label="'rem'">rem相对于根元素html的字体大小</el-radio><br/>
-                        <el-radio  :label="'vw'">vw相对于视口的宽度（1vw 等于1/100的视口宽度）</el-radio><br/>
-                        <el-radio  :label="'vh'">vh相对于视口的高度（1vh 等于1/100的视口高度）</el-radio><br/>
-                        <el-radio :label="'vmin'">vmin (关于视口高度和宽度两者的最小值)</el-radio><br/>
-                        <el-radio :label="'vmax'">vmax (关于视口高度和宽度两者的最大值)</el-radio><br/>
-                    </el-radio-group>
-                </el-form-item>
+               
+                
                 <el-form-item label="宽度" >
                     <el-input v-model="form.width"/>    {{form.widthSet}}
                 </el-form-item>
@@ -102,7 +105,6 @@
         <div class="before"></div>
     </div>
 </template>
-
 <script>
 import drag from '@/assets/js/drag3.js';
 import scaleCY from '@/assets/js/scale.js';
@@ -119,14 +121,14 @@ export default {
   },
   data() {
       return {
-          show: true,
+          show: false,
           form: {
               Set: '',
               height: 0,
               width: 0,
               left: 0,
               top: 0,
-              widthSet: null,
+              widthSet: 'px',
               heightSet: null,
               position: ''
           },
@@ -148,8 +150,9 @@ export default {
             self.show = !self.show;
         }
         else{
-            self.show = value;
+            self.show = !self.show;
         }
+        
         if(self.show){
             self.showDom();
         }
@@ -173,19 +176,38 @@ export default {
       },
       setOrg(value){
           const self = this;
+          if(self.currentChoose.length > 1) 
+          {
+               self.clearParam();
+               return false;
+          }  
+         
           var objData  = self.currentChoose[0];
           self.form = {};
           if(objData){
             if(objData.scale){
                 self.form = objData.style;
-                objData.setPrint = self.setOrg;
+                // objData.setPrint = self.setOrg;
             }
           }
           if(value){
               self.form = value;
           }
-          self.form = JSON.parse(JSON.stringify(self.form));
-      }
+        //   self.form = JSON.parse(JSON.stringify(self.form));
+      },
+      clearParam(){
+          this.form = {
+              position: ''
+          };
+      },
+      changeValue(value){
+          const self = this;
+          if(self.currentChoose){
+              self.currentChoose.forEach((item) => {
+                  item.change(self.form);
+              });
+          }
+      },
   },
   watch: {
       isShow(value){
@@ -200,7 +222,12 @@ export default {
           handler(newName, oldName) {
               const self = this;
               if(self.currentChoose){
-                  //self.currentChoose.change(newName);
+                  console.log(self.form);
+                  if(self.form.widthSet == '%'){
+                      if(self.form.width == self.form.trueWidth){
+                        //   self.form.width = self.form.width/
+                      }
+                  }
               }
           }
       }
@@ -208,7 +235,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-.editLayer{
+.editLayer, .editLayer-box{
     width: 564px;
     height: 764px;
     background: #eeeeee;
@@ -238,6 +265,7 @@ export default {
             margin: 0 auto;
             border-right: none;
             border-left: none;
+            margin-bottom: 12px;
             .line{
                 font-size: 14px;
                 color: #939191;
@@ -256,6 +284,11 @@ export default {
             }
         }
     }
+
+}
+.editLayer-ed{
+    // left: 120%;
+    // top: -200%;
 }
 .box{
     position: absolute;

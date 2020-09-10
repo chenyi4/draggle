@@ -10,17 +10,19 @@ function setHtml(POST){
         components = oneItem.all;
     }
     var Alldiv = ``;
+    if(!components) return false;
     if(components.length > 0){
         components.forEach((item) => {
-            var style = item.style;
+            var style = item;
             if(style){
                 Alldiv = Alldiv + `
                     <div class="box"
-                        style="width:`+style.width+style.widthSet+`;
-                            height: `+style.height + style.heightSet +`;
+                        style="width:`+style.width+`;
+                            height: `+style.height+`;
                             position: `+style.position+`;
                             left: `+style.left+`;
                             top: `+style.top+`;
+                            display: inline-block;
                         "
                     ></div>
                 `;
@@ -53,7 +55,7 @@ function setCSS(POST) {
                 width: `+body.width+`;
                 margin: 0 auto;
                 height: `+body.height+`;
-                position: 'relative';
+                position: relative;
                 background: `+body.mainColor+`;
                 `+(body.height=='auto'?`min-height: 100%;`:``)+`
             }

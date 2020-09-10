@@ -33,7 +33,7 @@ import bottomList from '@/components/all/bottomList.vue';
 import cover from '@/components/all/cover.vue';
 
 import eventHub from '@/event-hub/index';
-import {  thingFlowDate } from '@/api/index';
+
 // @ is an alias to /src
 export default {
   name: 'home',
@@ -63,11 +63,7 @@ export default {
        this.$store.state.bodyComponents;
 
       // this.$store.state.bodySet.bodyComponents
-       thingFlowDate.save({
-          body: this.$store.state.bodySet,
-          all: components
-        }, ()=> {
-       });
+      
     },
     hiddenAll(){
         this.isHiddenHead = !this.isHiddenHead;
@@ -142,7 +138,7 @@ export default {
   margin: 0 auto;
   position: relative;
   background: white;
-  
+  text-align: left;
 }
 
 .showAll{

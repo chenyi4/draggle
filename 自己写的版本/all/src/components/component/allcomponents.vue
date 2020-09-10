@@ -13,6 +13,7 @@
     </div>
 </template>
 <script>
+import showLayerSave from '@/assets/js/store/showLayerSave';
 import drag from '@/assets/js/drag3.js'
 import utils from '@/assets/js/utils.js';
 import scaleCY from '@/assets/js/scale.js';
@@ -27,7 +28,7 @@ export default {
   data() {
       return {
           isChoose: false,
-          iscomponentBox: false
+          iscomponentBox: false,
       }
   },
   methods: {
@@ -41,6 +42,11 @@ export default {
       },
       addComponent(obj){
           this.$store.dispatch('addComponents', obj);
+      }
+  },
+  watch: {
+      iscomponentBox(value){
+         showLayerSave.setChoose('allcomponents', value);
       }
   },
   created(){
@@ -90,9 +96,11 @@ export default {
             });
 
       });
+      self.iscomponentBox = showLayerSave.getBooleanValue('allcomponents');  
 
-       eventHub.$on(eventHub.header.SHOW_componentBox, () => {
-        self.iscomponentBox = !self.iscomponentBox;
+
+      eventHub.$on(eventHub.header.SHOW_componentBox, () => {
+            self.iscomponentBox = !self.iscomponentBox;
        });
   }
 }
