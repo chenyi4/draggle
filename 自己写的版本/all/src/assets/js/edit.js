@@ -136,12 +136,19 @@ edit.prototype.change = function(param){
     // this.dom.style.position = param.position;
 }
 edit.prototype.setWidth = function(){
-    if(!this.trueBody){
-        this.trueBody = document.getElementsByClassName('trueBody')[0];
+    if(this.style.isWriteValue == false){
+        this.dom.width = this.style.width;
+    }else{
+        console.log("执行了");
+        console.log(this.style.inputWidth);
+        console.log(this.style.widthSet);
+
+        this.dom.style.width = this.style.inputWidth + this.style.widthSet;
     }
     // else if(this.style.widthSet == 'px'){
     //     this.style.width = this.dom.offsetWidth;
     // }
+    // this.style.trueWidth = this.dom.offsetWidth;
 } 
 
 

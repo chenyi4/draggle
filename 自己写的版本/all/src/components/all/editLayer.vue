@@ -7,7 +7,7 @@
             <div class="show-box">
                 <div class="line">
                     <div class="left">宽度</div>
-                    <div class="right">{{form.width}}</div>
+                    <div class="right">{{form.trueWidth}}</div>
                 </div>
                 <div class="line">
                     <div class="left">高度</div>
@@ -24,7 +24,7 @@
             </div>
             <el-form ref="form" :model="form" label-width="120px" size="mini">
                  <el-form-item label="position">
-                    <el-radio-group v-model="form.position" @input="changeValue">
+                    <el-radio-group v-model="form.position" @input="changeValue('position')">
                         <el-radio  :label="'relative'">relative</el-radio><br/>
                         <el-radio  :label="'absolute'">absolute</el-radio><br/>
                         <el-radio  :label="'fixed'">fixed</el-radio><br/>
@@ -35,17 +35,26 @@
                         <el-radio  :label="'unset'">unset</el-radio><br/>
                     </el-radio-group>
                 </el-form-item>
+                <el-form-item label="宽度输值">
+                    <el-radio-group v-model="form.isWriteValue" @input="changeValue('widthSet')">
+                        <el-radio  :label="false">默认</el-radio><br/>
+                        <el-radio  :label="true">启用输入值</el-radio><br/>
+                    </el-radio-group>
+                </el-form-item>
                 <el-form-item label="宽度模式" >
-                    <el-radio-group v-model="form.widthSet" @input="changeValue">
+                    <el-radio-group v-model="form.widthSet" @input="changeValue('widthSet')">
                         <el-radio  :label="'px'">像素分变量px</el-radio><br/>
                         <el-radio  :label="'%'">百分比模式%</el-radio><br/>
-                        <el-radio  :label="''">calc()计算模式</el-radio><br/>
-                        <el-radio  :label="'rem'">rem相对于根元素html的字体大小</el-radio><br/>
-                        <el-radio  :label="'vw'">vw相对于视口的宽度（1vw 等于1/100的视口宽度）</el-radio><br/>
-                        <el-radio  :label="'vh'">vh相对于视口的高度（1vh 等于1/100的视口高度）</el-radio><br/>
-                        <el-radio :label="'vmin'">vmin (关于视口高度和宽度两者的最小值)</el-radio><br/>
-                        <el-radio :label="'vmax'">vmax (关于视口高度和宽度两者的最大值)</el-radio><br/>
+                        <el-radio  :label="''" :disabled="!form.isWriteValue">calc()计算模式</el-radio><br/>
+                        <el-radio  :label="'rem'" :disabled="!form.isWriteValue">rem相对于根元素html的字体大小</el-radio><br/>
+                        <el-radio  :label="'vw'" :disabled="!form.isWriteValue">vw相对于视口的宽度（1vw 等于1/100的视口宽度）</el-radio><br/>
+                        <el-radio  :label="'vh'" :disabled="!form.isWriteValue">vh相对于视口的高度（1vh 等于1/100的视口高度）</el-radio><br/>
+                        <el-radio :label="'vmin'" :disabled="!form.isWriteValue">vmin (关于视口高度和宽度两者的最小值)</el-radio><br/>
+                        <el-radio :label="'vmax'" :disabled="!form.isWriteValue">vmax (关于视口高度和宽度两者的最大值)</el-radio><br/>
                     </el-radio-group>
+                </el-form-item>
+                 <el-form-item label="宽度" v-if="form.isWriteValue">
+                    <el-input v-model="form.inputWidth" @input="changeValue('widthValue')"/> {{form.widthSet}}
                 </el-form-item>
                 <!-- <el-form-item label="宽度" >
                     <el-input v-model="form.width" :disabled="true"/> px
@@ -122,15 +131,20 @@ export default {
   data() {
       return {
           show: false,
-          form: {
+          formSet: {
               Set: '',
               height: 0,
               width: 0,
               left: 0,
               top: 0,
+              isWriteValue: false,
               widthSet: 'px',
+              inputWidth: 0,
               heightSet: null,
               position: ''
+          },
+          form: {
+             
           },
           currentChoose: null
       }
@@ -186,8 +200,7 @@ export default {
           self.form = {};
           if(objData){
             if(objData.scale){
-                self.form = objData.style;
-                // objData.setPrint = self.setOrg;
+                self.form = Object.assign(self.formSet, objData.style);
             }
           }
           if(value){
@@ -202,12 +215,58 @@ export default {
       },
       changeValue(value){
           const self = this;
+          switch(value){
+              case 'widthSet':
+                    self.setWidth('widthSet');
+                    break;
+              case 'widthValue':
+                    self.setWidth('widthValue');
+                    break;
+          }
+
           if(self.currentChoose){
               self.currentChoose.forEach((item) => {
                   item.change(self.form);
               });
           }
       },
+      setWidth(VALUE){
+          const self = this;
+          if(VALUE == "widthSet"){
+                var allWidth = (document.getElementsByClassName('trueBody')[0]).offsetWidth;
+                if(self.currentChoose){
+                    if(!self.form.isWriteValue){
+                            if(self.form.widthSet == '%'){
+                                if(self.form.width == self.form.trueWidth){
+                                self.form.width = (self.form.width/allWidth)*100 +'%';
+                                }
+                            }else if(self.form.widthSet == 'px'){
+                                if(self.form.width == self.form.trueWidth){
+
+                                }else{
+                                    self.form.width = self.form.trueWidth;
+                                }
+                            }else{
+                                self.form.widthSet = 'px';
+                                self.form.width = self.form.trueWidth
+                            }
+                    }else{
+                        //self.form.inputWidth = self.form.width.replace(/\%/, '');
+                        var stringType = typeof(self.form.width);
+                        if(stringType == "number"){
+                            self.form.inputWidth = self.form.width;
+                        }else{
+                            self.form.inputWidth = self.form.width.replace(/\%/g, '');
+                        }
+                        //   self.form.inputWidth = self.form.width.replace(/\%/, '');
+                        //   self.form.width = self.form.inputWidth + self.form.widthSet;
+                        // .replace('px', '').replace('%', '');
+                    }
+                }  
+          }else if(VALUE == "widthValue"){
+
+          }
+      }
   },
   watch: {
       isShow(value){
@@ -221,14 +280,7 @@ export default {
           deep: true,
           handler(newName, oldName) {
               const self = this;
-              if(self.currentChoose){
-                  console.log(self.form);
-                  if(self.form.widthSet == '%'){
-                      if(self.form.width == self.form.trueWidth){
-                        //   self.form.width = self.form.width/
-                      }
-                  }
-              }
+              
           }
       }
   }
