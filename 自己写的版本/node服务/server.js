@@ -14,6 +14,7 @@ function setHtml(POST){
     if(components.length > 0){
         components.forEach((item) => {
             var style = item;
+            console.log(style);
             if(style){
                 Alldiv = Alldiv + `
                     <div class="box"
@@ -22,9 +23,17 @@ function setHtml(POST){
                             position: `+style.position+`;
                             left: `+style.left+`;
                             top: `+style.top+`;
+                            background-color: `+style['backgroundColor']+`;
+                            color: `+style.color+`;
+                            font-size: `+style.fontSize+`;
+                            border:`+style.border+`;
+                            border-radius: `+style.borderRadius+`;
                             display: inline-block;
+                            word-wrap: break-word;
+                            word-break: normal;
                         "
-                    ></div>
+                        
+                    >`+(style.content?style.content:'')+`</div>
                 `;
             }
         });

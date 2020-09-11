@@ -2,6 +2,7 @@
     <div :class="{'allcomponent':true, 'allcomponent-hidden': !iscomponentBox}">
         <div class="content">
             <div :class="{'draw':true, 'draw-choose': isChoose}">
+                <div class="content"></div>
                 <div class="before"></div>
             </div>
             <div class="close">

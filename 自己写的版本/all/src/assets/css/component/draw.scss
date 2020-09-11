@@ -21,7 +21,8 @@
         background: none;
         border: 1px dashed grey;
         border-radius: 0px;
-        
+        word-wrap: break-word;
+        word-break: normal;
     }
     .draw.choose{
         border: 1px dashed #8bc34a;

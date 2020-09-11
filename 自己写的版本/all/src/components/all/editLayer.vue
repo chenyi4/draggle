@@ -5,8 +5,8 @@
         </div>
         <div class="editLayer-body">
             <div class="show-box">
-                <div class="line">
-                    <div class="left">宽度</div>
+                <div class="line" v-if="!form.isWriteValue">
+                    <div class="left">实际宽度</div>
                     <div class="right">{{form.trueWidth}}</div>
                 </div>
                 <div class="line">
@@ -20,6 +20,10 @@
                 <div class="line">
                     <div class="left">顶边距</div>
                     <div class="right">{{form.top}}</div>
+                </div>
+                <div class="line">
+                    <div class="left">宽度设置值</div>
+                    <div class="right">{{form.width}}</div>
                 </div>
             </div>
             <el-form ref="form" :model="form" label-width="120px" size="mini">
@@ -37,7 +41,7 @@
                 </el-form-item>
                 <el-form-item label="宽度输值">
                     <el-radio-group v-model="form.isWriteValue" @input="changeValue('widthSet')">
-                        <el-radio  :label="false">默认</el-radio><br/>
+                        <el-radio  :label="false">拖拽默认值</el-radio><br/>
                         <el-radio  :label="true">启用输入值</el-radio><br/>
                     </el-radio-group>
                 </el-form-item>
@@ -53,8 +57,26 @@
                         <el-radio :label="'vmax'" :disabled="!form.isWriteValue">vmax (关于视口高度和宽度两者的最大值)</el-radio><br/>
                     </el-radio-group>
                 </el-form-item>
-                 <el-form-item label="宽度" v-if="form.isWriteValue">
+                <el-form-item label="宽度" v-if="form.isWriteValue">
                     <el-input v-model="form.inputWidth" @input="changeValue('widthValue')"/> {{form.widthSet}}
+                </el-form-item>
+                <el-form-item label="背景颜色">
+                    <el-input  v-model="form.backgroundColor" @input="changeValue('backgroundColor')"/>
+                </el-form-item>
+                <el-form-item label="内容输入">
+                    <el-input type="textarea" v-model="form.content" @input="changeValue('content')"/>
+                </el-form-item>
+                <el-form-item label="字体颜色">
+                    <el-input v-model="form.color" @input="changeValue('color')"/>
+                </el-form-item>
+                <el-form-item label="字体大小">
+                    <el-input v-model="form.fontSize" @input="changeValue('fontSize')"/>
+                </el-form-item>
+                <el-form-item label="边框弧度">
+                    <el-input v-model="form.borderRadius" @input="changeValue('borderRadius')"/>
+                </el-form-item>
+                <el-form-item label="边框样式调整">
+                    <el-input v-model="form.border" @input="changeValue('border')"/>
                 </el-form-item>
                 <!-- <el-form-item label="宽度" >
                     <el-input v-model="form.width" :disabled="true"/> px
@@ -141,7 +163,16 @@ export default {
               widthSet: 'px',
               inputWidth: 0,
               heightSet: null,
-              position: ''
+              position: '',
+
+
+              content: "",
+              backgroundColor: "none",
+              color: 'black',
+              borderRadius: '0px',
+              isWrap: true, //是否换行
+              fontSize: 'medium',
+              border: '1px dashed grey'
           },
           form: {
              
@@ -199,14 +230,15 @@ export default {
           var objData  = self.currentChoose[0];
           self.form = {};
           if(objData){
+             objData.setPrint = function(value, type){
+                if(value){
+                   self.form = Object.assign(self.formSet, value);
+                }
+             }
             if(objData.scale){
                 self.form = Object.assign(self.formSet, objData.style);
             }
           }
-          if(value){
-              self.form = value;
-          }
-        //   self.form = JSON.parse(JSON.stringify(self.form));
       },
       clearParam(){
           this.form = {
@@ -222,11 +254,22 @@ export default {
               case 'widthValue':
                     self.setWidth('widthValue');
                     break;
+              case 'content':
+                    self.setContent('content');
+                    break;
           }
 
           if(self.currentChoose){
               self.currentChoose.forEach((item) => {
                   item.change(self.form);
+              });
+          }
+      },
+      setContent(value){
+          var self = this;
+          if(self.currentChoose){
+              self.currentChoose.forEach((item) => {
+                  item.change(self.form, value);
               });
           }
       },
@@ -251,20 +294,16 @@ export default {
                                 self.form.width = self.form.trueWidth
                             }
                     }else{
-                        //self.form.inputWidth = self.form.width.replace(/\%/, '');
                         var stringType = typeof(self.form.width);
-                        if(stringType == "number"){
-                            self.form.inputWidth = self.form.width;
-                        }else{
-                            self.form.inputWidth = self.form.width.replace(/\%/g, '');
-                        }
-                        //   self.form.inputWidth = self.form.width.replace(/\%/, '');
-                        //   self.form.width = self.form.inputWidth + self.form.widthSet;
-                        // .replace('px', '').replace('%', '');
+                        var width = String(self.form.width);
+                        var regex = /([0-9]|\.|[0-9])+/g;
+                        var back = width.match(regex);
+                        self.form.inputWidth = Number(back);
+                        self.form.width = back + self.form.widthSet;
                     }
                 }  
           }else if(VALUE == "widthValue"){
-
+              self.form.width = self.form.inputWidth + self.form.widthSet;
           }
       }
   },

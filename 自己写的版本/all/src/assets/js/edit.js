@@ -18,7 +18,12 @@ edit.init = function(param){
         trueWidth: this.dom.offsetWidth,
         trueHeight: this.dom.offsetHeight,
         position: "absolute",
-        widthSet: 'px'
+        widthSet: 'px',
+        isWrap: true,
+        color: 'black',
+        fontSize: 'medium',
+        borderRadius: '0px',
+        border: '1px dashed grey'
     };
     this.unuse = false; //false 可以使用 true 不可使用
     this.init();
@@ -40,19 +45,21 @@ edit.prototype.thingSet = function(){
         self.style.top = Number((self.dom.style.top).replace('px', ''));
         self.style.offsetLeft = self.dom.offsetLeft;
         self.style.offsetTop = self.dom.offsetTop;
-        self.changePrint();
+        self.changePrint('leftAndTop');
     }
 
     this.scale.stop = function(value){
         self.style.trueWidth = self.style.width = value.width;
         self.style.trueHeight = self.style.height = value.height;
-        self.changePrint();
+        self.style.isWriteValue = false;
+        self.style.widthSet = 'px';
+        self.changePrint('widthAndHeight');
     }
 }
 
-edit.prototype.changePrint = function(){
+edit.prototype.changePrint = function(value){
     if(this.setPrint){
-        this.setPrint(this.style);
+        this.setPrint(this.style, value);
     }
 }
 
@@ -120,35 +127,25 @@ edit.prototype.removeClass = function(){
     this.isChoose = false;
 }
 
-edit.prototype.change = function(param){
-    for(var item in param){
-        this.style[item] = param[item];
-        this.dom.style[item] = param[item];
+edit.prototype.change = function(param, type){
+    if(!type){
+        for(var item in param){
+            this.style[item] = param[item];
+            this.dom.style[item] = param[item];
+        }
+        this.setWidth();
     }
-   
-
-    this.setWidth();
-    // this.style = param;
-    // this.dom.style.width = param.width + param.widthSet;
-    // this.dom.style.height = param.height + param.heightSet;
-    // this.dom.style.position = param.position;
-    // this.style = param;
-    // this.dom.style.position = param.position;
+    else if(type == 'content'){
+       this.style[type] = param[type];
+       this.dom.getElementsByClassName('content')[0].innerHTML = this.style.content;  
+    //    this.dom.innerHTML = this.style.content;     
+    }else if( type == 'backgroundColor'){
+        this.style[type] = param[type];
+        this.dom.style['background-color'] = param[type];
+    }
 }
 edit.prototype.setWidth = function(){
-    if(this.style.isWriteValue == false){
-        this.dom.width = this.style.width;
-    }else{
-        console.log("执行了");
-        console.log(this.style.inputWidth);
-        console.log(this.style.widthSet);
-
-        this.dom.style.width = this.style.inputWidth + this.style.widthSet;
-    }
-    // else if(this.style.widthSet == 'px'){
-    //     this.style.width = this.dom.offsetWidth;
-    // }
-    // this.style.trueWidth = this.dom.offsetWidth;
+    this.dom.width = this.style.width;
 } 
 
 

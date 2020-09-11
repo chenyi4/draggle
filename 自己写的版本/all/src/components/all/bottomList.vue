@@ -121,10 +121,27 @@ export default {
                     
                 ]
             },
-             {
+            {
                 name: "导入",
                 value: 'import',
                 list: [
+                    {
+                        name: "导入图片",
+                        value: 'importPic'
+                    },
+                    {
+                        name: "图片管理",
+                        value: "picProduce"
+                    }
+                ]
+            },
+            {
+                name: "导出",
+                list: [
+                    {
+                        name: "导出设置",
+                        value: 'outPut'
+                    }
                 ]
             },
             {   

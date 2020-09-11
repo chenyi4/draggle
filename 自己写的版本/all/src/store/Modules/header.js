@@ -38,8 +38,13 @@ const header = {
             
         },
         setButtomTrue: (state,name) => {
-            state.allBoolean['is'+name] = true;
-            eventHub.$emit(eventHub.header['SHOW_'+name]);
+            try{
+                state.allBoolean['is'+name] = true;
+                eventHub.$emit(eventHub.header['SHOW_'+name]);
+            }catch(e){
+                console.log(e);
+                console.log('%c没有注册头部事件变量','color:red');
+            }
         },
         setButtomFalse: (state,name) => {
             state.allBoolean['is'+name] = false;
