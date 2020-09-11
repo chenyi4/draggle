@@ -14,7 +14,6 @@ function setHtml(POST){
     if(components.length > 0){
         components.forEach((item) => {
             var style = item;
-            console.log(style);
             if(style){
                 Alldiv = Alldiv + `
                     <div class="box"
