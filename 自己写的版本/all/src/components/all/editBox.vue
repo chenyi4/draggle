@@ -79,7 +79,7 @@ export default {
           isShowCover: false, //是否显示遮挡层
           orgIsUseTip: null,
           show: true,
-          currentChoose: null //选中的obj
+          currentChoose: null, //选中的obj
       }
   },
   watch: {
@@ -129,10 +129,15 @@ export default {
       },
       editDom(){
           //显示编辑弹窗页面
-          eventHub.$emit(eventHub.header.SHOW_editShow, true);
+          eventHub.$emit(eventHub.header.SHOW_editShow);
       },
       scale(){
-          console.log("全屏显示画布隐藏多余菜单");
+          var self = this;
+          var isChoose = self.array[4].isChoose = !self.array[4].isChoose;
+          showLayerSave.hiddenAndShowAll();
+          //console.log("全屏显示画布隐藏多余菜单");
+        //   eventHub.$emit(eventHub.header.SHOW_componentBox, !isChoose);
+        //   eventHub.$emit(eventHub.header.SHOW_editShow, !isChoose);
       },
       showAll(){
           this.isShowAll = true;

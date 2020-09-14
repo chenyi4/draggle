@@ -1,9 +1,9 @@
 <template>
-    <div :class="{'editLayer':true}"> 
-        <!-- , -->
-        <div class="editLayer-Head">
-        </div>
-        <div class="editLayer-body">
+<div :class="{'editLayer':true}" :style="!show?'width: 0px;height:0px':''"> 
+    <div class="editLayer-Head">
+    </div>
+    <div class="editLayer-body">
+        <div class="content-box">
             <div class="show-box">
                 <div class="line" v-if="!form.isWriteValue">
                     <div class="left">实际宽度</div>
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <el-form ref="form" :model="form" label-width="120px" size="mini">
-                 <el-form-item label="position">
+                    <el-form-item label="position">
                     <el-radio-group v-model="form.position" @input="changeValue('position')">
                         <el-radio  :label="'relative'">relative</el-radio><br/>
                         <el-radio  :label="'absolute'">absolute</el-radio><br/>
@@ -91,14 +91,14 @@
                     <el-input v-model="form.top" :disabled="true"/>    px
                 </el-form-item>  -->
 
-                 <!-- 保存此样式为class
+                    <!-- 保存此样式为class
                 <el-form-item label="模式" >
                     <el-radio-group v-model="form.Set">
                         <el-radio  :label="1">css模式</el-radio><br/>
                         <el-radio  :label="2">flex模式</el-radio>
                     </el-radio-group>
                 </el-form-item>  
-               
+                
                 
                 <el-form-item label="宽度" >
                     <el-input v-model="form.width"/>    {{form.widthSet}}
@@ -130,13 +130,15 @@
                         <el-radio  :label="2">定宽</el-radio>
                     </el-radio-group>
                 </el-form-item> -->
-             </el-form>
-             <div class="box"></div>
+            </el-form>
+            <div class="box"></div>
         </div>
-        <div class="before"></div>
     </div>
+    <div class="before"></div>
+</div>
 </template>
 <script>
+import showLayerSave from '@/assets/js/store/showLayerSave';
 import drag from '@/assets/js/drag3.js';
 import scaleCY from '@/assets/js/scale.js';
 import eventHub from '@/event-hub/index';
@@ -192,7 +194,7 @@ export default {
       /**显示通用样式 */
       eventHub.$on(eventHub.header.SHOW_editShow, (value) => {
         if(typeof(value) == 'boolean'){
-            self.show = !self.show;
+            self.show = value;
         }
         else{
             self.show = !self.show;
@@ -201,7 +203,10 @@ export default {
         if(self.show){
             self.showDom();
         }
+        showLayerSave.setChoose('editLayer', self.show);
       });
+
+      self.show = showLayerSave.getBooleanValue('editLayer');
       
       eventHub.$on(eventHub.editBox.SELECT_CHOOSE_DOM, (obj) => { //当页面选中组件的时候
           self.currentChoose = obj;
@@ -211,16 +216,20 @@ export default {
   },
   methods: {
       showDom(){
-          setTimeout(function(){
-              var dragDom = drag({
-                select: 'editLayer-Head',
-                moveSelect: 'editLayer',
-              });
-              scaleCY(dragDom.moveDom);
-          },20);
+          if(self.show){
+            setTimeout(function(){
+                var dragDom = drag({
+                    select: 'editLayer-Head',
+                    moveSelect: 'editLayer',
+                });
+                scaleCY(dragDom.moveDom);
+            },120);
+          }
       },
       setOrg(value){
           const self = this;
+
+        
           if(self.currentChoose.length > 1) 
           {
                self.clearParam();
@@ -238,6 +247,7 @@ export default {
             if(objData.scale){
                 self.form = Object.assign(self.formSet, objData.style);
             }
+            self.form = JSON.parse(JSON.stringify(self.form));
           }
       },
       clearParam(){
@@ -344,8 +354,10 @@ export default {
         width: 100%;
         text-align: left;
         overflow: auto;
-        padding-top: 20px;
         height: calc(100% - 30px);
+        .content-box{
+            padding: 30px 0px;
+        }
         .el-input {
             width: 300px;
         }
