@@ -79,6 +79,8 @@
         this.orgDocuemntMouseUp = null;
 
         this.unuse = false; //是否可用 \ 禁用
+
+        this.isDragMove = false;
     }
 
     drag.fn.extend({
@@ -146,6 +148,7 @@
                 left: e.x,
                 top: e.y
             };
+            self.isDragMove = true;
             if(self.isCopy){
                 self.dom = self.orgDom.cloneNode(true);
                 document.body.appendChild(self.dom);
@@ -188,6 +191,7 @@
                 self.orgDocumentMoveThing = document.onmousemove;
                 document.onmousemove = function(e){
                     if(self.isStart){
+                        self.isDragMove = false;
                         self.move.moveLength = {
                             left: e.x,
                             top: e.y
@@ -213,13 +217,13 @@
         },
         mouseUp: function(){
             var self = this;
-            
             document.onmouseup = function(e){
                 self.isStart = false;
                 document.onmousemove = self.orgDocumentMoveThing;
                 document.onmouseup = self.orgDocuemntMouseUp;
                 self.setPosition();
                 self.isAccept();
+                if(self.isDragMove) return false;
                 if(self.stop){
                     self.stop(self.dom, self);
                     if(self.helper){

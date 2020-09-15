@@ -53,7 +53,6 @@ edit.prototype.thingSet = function(){
         self.style.leftSet = 'px';
         self.style.inputLeft = self.style.left;
         self.style.isWriteLeft = false; 
-
         self.changePrint('leftAndTop');
     }
 
@@ -68,6 +67,7 @@ edit.prototype.thingSet = function(){
 
 edit.prototype.changePrint = function(value){
     if(this.setPrint){
+       
         this.setPrint(this.style, value);
     }
 }
@@ -140,24 +140,20 @@ edit.prototype.change = function(param, type){
             this.style[item] = param[item];
             this.dom.style[item] = param[item];
         }
-        // this.setWidth();
     }
     else if(type == 'content'){
        this.style[type] = param[type];
        this.dom.getElementsByClassName('content')[0].innerHTML = this.style.content;  
-    //    this.dom.innerHTML = this.style.content;     
     }else if( type == 'backgroundColor'){
         this.style[type] = param[type];
         this.dom.style['background-color'] = param[type];
     }
 }
-// edit.prototype.setWidth = function(){
-//     this.dom.width = this.style.width;
-// } 
 
-
+/**
+ * 删除该组件 ,清除此组件的各项属性
+ */
 edit.prototype.clear = function(){
-    // console.log("执行了删除操作");
     const self = this;
     if(self.unuse) return false;
     self.dom.remove();
@@ -166,11 +162,18 @@ edit.prototype.clear = function(){
     this.dom = null;
 }
 
-edit.prototype.unUse = function(value){
+/**
+ * 禁止使用
+ * @param {*} value 
+ * value 是否禁止使用 
+ * true 禁止操作修改该组件
+ * false 允许操作修改该组件
+ */
+
+edit.prototype.unUse = function(value){ 
     this.unuse = value;
     this.scale.unuseSet(value);
     this.move.unUseSet(value);
-    // console.log(this.move);
 }
 
 export default edit;

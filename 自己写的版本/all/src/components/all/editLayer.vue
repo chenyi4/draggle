@@ -26,8 +26,9 @@
                     <div class="right">{{form.width}}</div>
                 </div>
             </div>
+            <el-input class="search-input" size="mini" v-model="searchValue" @input="seachParam"></el-input>
             <el-form ref="form" :model="form" label-width="120px" size="mini">
-                    <el-form-item label="position">
+                    <el-form-item label="position" v-if="seachParam('position位置')">
                     <el-radio-group v-model="form.position" @input="changeValue('position')">
                         <el-radio  :label="'relative'">relative</el-radio><br/>
                         <el-radio  :label="'absolute'">absolute</el-radio><br/>
@@ -39,13 +40,13 @@
                         <el-radio  :label="'unset'">unset</el-radio><br/>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="宽度输值">
+                <el-form-item label="宽度输值" v-if="seachParam('宽度输值拖拽默认值启用输入值widthSetkuandushuzhi')">
                     <el-radio-group v-model="form.isWriteValue" @input="changeValue('widthSet')">
                         <el-radio  :label="false">拖拽默认值</el-radio><br/>
                         <el-radio  :label="true">启用输入值</el-radio><br/>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="宽度模式">     
+                <el-form-item label="宽度模式" v-if="seachParam('宽度模式widthSetkuandumoshi')">     
                     <el-radio-group v-model="form.widthSet" @input="changeValue('widthSet')">
                         <el-radio  :label="'px'">像素分变量px</el-radio><br/>
                         <el-radio  :label="'%'">百分比模式%</el-radio><br/>
@@ -57,16 +58,16 @@
                         <el-radio :label="'vmax'" :disabled="!form.isWriteValue">vmax (关于视口高度和宽度两者的最大值)</el-radio><br/>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="宽度" >
+                <el-form-item label="宽度" v-if="seachParam('宽度widthValuekuandu')">
                     <el-input v-model="form.inputWidth" @input="changeValue('widthValue')" :disabled="!form.isWriteValue"/> {{form.widthSet}}
                 </el-form-item>
-                 <el-form-item label="左边距输值">
+                 <el-form-item label="左边距输值" v-if="seachParam('左边距输值isWriteLeft')">
                     <el-radio-group v-model="form.isWriteLeft" @input="changeValue('left')">
                         <el-radio  :label="false">拖拽默认值</el-radio><br/>
                         <el-radio  :label="true">启用输入值</el-radio><br/>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="左边距模式" >
+                <el-form-item label="左边距模式" v-if="seachParam('左边距模式leftSetzuobianmoshi')">
                     <el-radio-group v-model="form.leftSet" @input="changeValue('left')">
                         <el-radio  :label="'px'">像素分变量px</el-radio><br/>
                         <el-radio  :label="'%'">百分比模式%</el-radio><br/>
@@ -78,61 +79,61 @@
                         <el-radio :label="'vmax'" :disabled="!form.isWriteLeft">vmax (关于视口高度和宽度两者的最大值)</el-radio><br/>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="左边距" >
-                    <el-input v-model="form.inputLeft" @input="changeValue('leftValue')" :disabled="!form.isWriteLeft"/> {{form.leftSet}}
+                <el-form-item label="左边距"  v-if="seachParam('左边距inputLeftzuobianju')">
+                    <el-input v-model="form.inputLeft" @input="changeValue('left')" :disabled="!form.isWriteLeft"/> {{form.leftSet}}
                 </el-form-item>
-                <el-form-item label="背景颜色">
+                <el-form-item label="背景颜色" v-if="seachParam('背景颜色backgroundColorbeijingyanse')">
                     <!-- https://flatuicolors.com -->
                     <el-input  v-model="form.backgroundColor" @input="changeValue('backgroundColor')"/>
                     <el-select v-model="form.backgroundColor" class="select" @input="changeValue('backgroundColor')">
                         <el-option v-for="(item, key) in colors" :key="key" :value="item">{{item}}<span class="span" :style="'background: '+item"></span></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="内容输入">
+                <el-form-item label="内容输入" v-if="seachParam('内容输入contentneirongshuru')">
                     <el-input type="textarea" v-model="form.content" @input="changeValue('content')"/>
                 </el-form-item>
-                <el-form-item label="字体颜色">
+                <el-form-item label="字体颜色" v-if="seachParam('字体颜色colorzitiyanse')">
                     <el-input v-model="form.color" @input="changeValue('color')"/>
                     <el-select v-model="form.color" class="select" @input="changeValue('color')">
                         <el-option v-for="(item, key) in colors" :key="key" :value="item">{{item}}<span class="span" :style="'background: '+item"></span></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="字体大小">
+                <el-form-item label="字体大小" v-if="seachParam('字体大小fontSizezitidaxiao')">
                     <el-input v-model="form.fontSize" @input="changeValue('fontSize')"/>
                     <el-select v-model="form.fontSize" class="select" @input="changeValue('fontSize')">
                         <el-option v-for="(item, key) in fonts" :key="key" :value="item">{{item}}</el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="边框弧度">
+                <el-form-item label="边框弧度" v-if="seachParam('边框弧度borderRadiusbiankuanghudu')">
                     <el-input v-model="form.borderRadius" @input="changeValue('borderRadius')"/>
                     <el-select v-model="form.borderRadius" class="select" @input="changeValue('borderRadius')">
                         <el-option v-for="(item, key) in 20" :key="key" :value="item+'px'">{{item}}px</el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="边框样式调整">
+                <el-form-item label="边框样式调整" v-if="seachParam('边框样式调整borderbiankuangyangshitiaozheng')">
                     <el-input v-model="form.border" @input="changeValue('border')"/>
                     <el-select v-model="form.border" class="select" @input="changeValue('border')">
                         <el-option v-for="(item, key) in borders" :key="key" :value="item">{{item}}</el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="边框颜色">
+                <el-form-item label="边框颜色" v-if="seachParam('边框颜色borderColorbiankuangyanse')">
                     <el-input v-model="form.borderColor" @input="changeValue('borderColor')"/>
                     <el-select v-model="form.borderColor" class="select" @input="changeValue('borderColor')">
                         <el-option v-for="(item, key) in colors" :key="key" :value="item">{{item}}<span class="span" :style="'background: '+item"></span></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="边框样式">
+                <el-form-item label="边框样式" v-if="seachParam('边框样式borderStylebiankuangyangshi')">
                     <el-input v-model="form.borderStyle" @input="changeValue('borderStyle')"/>
                     <el-select v-model="form.borderStyle" class="select" @input="changeValue('borderStyle')">
                         <el-option v-for="(item, key) in borderStyles" :key="key" :value="item">{{item}}</el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="边框宽度">
+                <el-form-item label="边框宽度" v-if="seachParam('边框宽度borderStylebiankuangkuandu')">
                     <el-select v-model="form.borderWidth" class="select" @input="changeValue('borderStyle')">
                         <el-option v-for="(item, key) in 12" :key="key" :value="item">{{item}}px</el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="层级级别">
+                <el-form-item label="层级级别" v-if="seachParam('层级级别z-indexzIndexcengjijibie')">
                     <el-input v-model="form.zIndex" @input="changeValue('zIndex')"/>
                     <el-select v-model="form.zIndex" class="select" @input="changeValue('zIndex')">
                         <el-option v-for="(item, key) in zIndexs" :key="key" :value="item">{{item}}</el-option>
@@ -241,7 +242,7 @@ export default {
               borderColor: 'none',
               borderStyle: 'dashed',
               borderWidth: 1,
-              zIndex: 'auto'
+              zIndex: 'auto',
           },
           form: {
              
@@ -313,7 +314,8 @@ export default {
               3,
               4,
               5
-          ]
+          ],
+          searchValue: ''
       }
   },
   created(){
@@ -360,6 +362,13 @@ export default {
             },120);
           }
       },
+      seachParam(value){
+          var back = false;
+          if(value.indexOf(this.searchValue) >= 0){
+              back = true;
+          }
+          return back;
+      },
       setOrg(value){
           const self = this;
 
@@ -383,7 +392,7 @@ export default {
             }
             self.form = JSON.parse(JSON.stringify(self.form));
           }
-           self.setWidth('widthSet');
+          self.setWidth('widthSet');
       },
       clearParam(){
           this.form = {
@@ -403,17 +412,21 @@ export default {
                     self.setContent('content');
                     break;
               case 'left':
-                    self.setLeftThing('left');
+                    self.setLeftThing('left'); 
                     break;
           }
-
+          
           if(self.currentChoose){
               self.currentChoose.forEach((item) => {
                   item.change(self.form);
               });
           }
       },
-      setLeftThing(value){
+      /**
+       * //设置左侧的距离
+       * value 参数值 left/
+       */
+      setLeftThing(value){ 
           var self = this;
           var allWidth = (document.getElementsByClassName('trueBody')[0]).offsetWidth;
           if(value == 'left'){
@@ -424,9 +437,11 @@ export default {
                         self.form.left = ((self.form.inputLeft/100)*allWidth);
                         self.form.inputLeft = self.form.left;
                     }else if(self.form.leftSet == '%'){
-                        console.log('eeeeee222222测试模块2');
                         self.form.inputLeft  = (self.form.left/allWidth)*100;
                         self.form.left = self.form.inputLeft + '%';
+                    }else{
+                        self.form.left = self.form.inputLeft;
+                        self.form.leftSet = 'px';
                     }
                }
           }
@@ -573,5 +588,10 @@ export default {
 }
 .select{
     width: 120px;
+}
+.search-input{
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 20px;
 }
 </style>
