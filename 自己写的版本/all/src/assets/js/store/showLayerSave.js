@@ -3,11 +3,12 @@ var setLocation = function(name, value){ //构造中的单体模式
     var instance = this;
 
     this.allcomponent = [
-        { name:'bottomList', isChoose: false , thing: null, name:'底部菜单' },
-        { name: 'allcomponents', isChoose: false, thing: 'SHOW_componentBox', name: '所有控件显示' },
-        { name: 'editLayer', isChoose: false , thing: 'SHOW_editShow' ,name: '组件编辑'}
+        { name:'bottomList', isChoose: false , thing: null, type:'底部菜单' },
+        { name: 'allcomponents', isChoose: false, thing: 'SHOW_componentBox', type: '所有控件显示' },
+        { name: 'editLayer', isChoose: false , thing: 'SHOW_editShow' ,type: '组件编辑'}
     ];
   
+    this.isChooseHidden = [];
     setLocation = function(){
         return instance;
     }
@@ -40,16 +41,30 @@ setLocation.prototype.setChoose = function(name, isChoose){
     }
 }
 
-setLocation.prototype.hiddenAndShowAll = function(){
-    this.allcomponent.forEach(item => {
-        if(item.isChoose){
-            if(item.thing){
-                console.log(item.thing);
-                eventHub.$emit(eventHub.header[item.thing], false)
+setLocation.prototype.hiddenAndShowAll = function(value){
+    if(value){
+        this.isChooseHidden = [];
+        this.allcomponent.forEach(item => {
+            if(item.isChoose){
+                if(item.thing){
+                    this.isChooseHidden.push(item);
+                    eventHub.$emit(eventHub.header[item.thing], false)
+                }
             }
-        }
-    });
-    console.log('隐藏或者显示所有组件');
+        });
+    }else{
+        this.allcomponent.forEach(item => {
+            this.isChooseHidden.forEach((choose) => {
+                if(item.name == choose.name){
+                    if(!choose.isChoose){
+                        item.isChoose = true;
+                        eventHub.$emit(eventHub.header[item.thing], true)
+                    }
+                }
+            });
+        });
+        this.isChooseHidden = [];
+    }
 }
 
 setLocation.prototype.getBooleanValue = function(name){

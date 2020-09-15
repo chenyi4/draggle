@@ -99,9 +99,7 @@ export default {
       });
       self.iscomponentBox = showLayerSave.getBooleanValue('allcomponents');  
 
-
       eventHub.$on(eventHub.header.SHOW_componentBox, (value) => {
-            console.log(typeof(value));
             if(typeof(value) == 'boolean'){
                 self.iscomponentBox = value;
             }else{

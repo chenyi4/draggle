@@ -23,7 +23,11 @@ edit.init = function(param){
         color: 'black',
         fontSize: 'medium',
         borderRadius: '0px',
-        border: '1px dashed grey'
+        border: '1px dashed grey',
+        borderColor: 'none',
+        borderStyle: 'dotted',
+        borderWidth: '1',
+        zIndex: 'auto'
     };
     this.unuse = false; //false 可以使用 true 不可使用
     this.init();

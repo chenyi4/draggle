@@ -57,26 +57,65 @@
                         <el-radio :label="'vmax'" :disabled="!form.isWriteValue">vmax (关于视口高度和宽度两者的最大值)</el-radio><br/>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="宽度" v-if="form.isWriteValue">
-                    <el-input v-model="form.inputWidth" @input="changeValue('widthValue')"/> {{form.widthSet}}
+                <el-form-item label="宽度" >
+                    <el-input v-model="form.inputWidth" @input="changeValue('widthValue')" :disabled="!form.isWriteValue"/> {{form.widthSet}}
                 </el-form-item>
                 <el-form-item label="背景颜色">
+                    <!-- https://flatuicolors.com -->
                     <el-input  v-model="form.backgroundColor" @input="changeValue('backgroundColor')"/>
+                    <el-select v-model="form.backgroundColor" class="select" @input="changeValue('backgroundColor')">
+                        <el-option v-for="(item, key) in colors" :key="key" :value="item">{{item}}<span class="span" :style="'background: '+item"></span></el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="内容输入">
                     <el-input type="textarea" v-model="form.content" @input="changeValue('content')"/>
                 </el-form-item>
                 <el-form-item label="字体颜色">
                     <el-input v-model="form.color" @input="changeValue('color')"/>
+                    <el-select v-model="form.color" class="select" @input="changeValue('color')">
+                        <el-option v-for="(item, key) in colors" :key="key" :value="item">{{item}}<span class="span" :style="'background: '+item"></span></el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="字体大小">
                     <el-input v-model="form.fontSize" @input="changeValue('fontSize')"/>
+                    <el-select v-model="form.fontSize" class="select" @input="changeValue('fontSize')">
+                        <el-option v-for="(item, key) in fonts" :key="key" :value="item">{{item}}</el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="边框弧度">
                     <el-input v-model="form.borderRadius" @input="changeValue('borderRadius')"/>
+                    <el-select v-model="form.borderRadius" class="select" @input="changeValue('borderRadius')">
+                        <el-option v-for="(item, key) in 20" :key="key" :value="item+'px'">{{item}}px</el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="边框样式调整">
                     <el-input v-model="form.border" @input="changeValue('border')"/>
+                    <el-select v-model="form.border" class="select" @input="changeValue('border')">
+                        <el-option v-for="(item, key) in borders" :key="key" :value="item">{{item}}</el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="边框颜色">
+                    <el-input v-model="form.borderColor" @input="changeValue('borderColor')"/>
+                    <el-select v-model="form.borderColor" class="select" @input="changeValue('borderColor')">
+                        <el-option v-for="(item, key) in colors" :key="key" :value="item">{{item}}<span class="span" :style="'background: '+item"></span></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="边框样式">
+                    <el-input v-model="form.borderStyle" @input="changeValue('borderStyle')"/>
+                    <el-select v-model="form.borderStyle" class="select" @input="changeValue('borderStyle')">
+                        <el-option v-for="(item, key) in borderStyles" :key="key" :value="item">{{item}}</el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="边框宽度">
+                    <el-select v-model="form.borderWidth" class="select" @input="changeValue('borderStyle')">
+                        <el-option v-for="(item, key) in 12" :key="key" :value="item">{{item}}px</el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="层级级别">
+                    <el-input v-model="form.zIndex" @input="changeValue('zIndex')"/>
+                    <el-select v-model="form.zIndex" class="select" @input="changeValue('zIndex')">
+                        <el-option v-for="(item, key) in zIndexs" :key="key" :value="item">{{item}}</el-option>
+                    </el-select>
                 </el-form-item>
                 <!-- <el-form-item label="宽度" >
                     <el-input v-model="form.width" :disabled="true"/> px
@@ -174,12 +213,83 @@ export default {
               borderRadius: '0px',
               isWrap: true, //是否换行
               fontSize: 'medium',
-              border: '1px dashed grey'
+              border: '1px dashed grey',
+              borderColor: 'none',
+              borderStyle: 'dotted',
+              borderWidth: 1,
+              zIndex: 'auto'
           },
           form: {
              
           },
-          currentChoose: null
+          currentChoose: null,
+          colors: [
+              '#1abc9c',
+              '#2ecc71',
+              '#3498db',
+              '#9b59b6',
+              '#34495e',
+              '#16a085',
+              '#27ae60',
+              '#2980b9',
+              '#8e44ad',
+              '#2c3e50',
+              '#f1c40f',
+              '#e67e22',
+              '#e74c3c',
+              '#ecf0f1',
+              '#95a5a6',
+              '#f39c12',
+              '#d35400',
+              '#c0392b',
+              '#bdc3c7',
+              '#7f8c8d'
+          ],
+          fonts: [
+              '12px',
+              '16px',
+              '20px',
+              '24px',
+              '28px',
+              '32px',
+              '36px',
+              '40px',
+              '44px',
+              '48px',
+              '52px',
+              '56px'
+          ],
+          borders: [
+              '1px solid black',
+              '2px dashed red'
+          ],
+          borderStyles: [
+              'dashed',
+              'dotted',
+              'double',
+              'groove',
+              'inherit',
+              'initial',
+              'inset',
+              'hidden',
+              'none',
+              'outset',
+              'ridge',
+              'solid',
+              'unset'
+          ],
+          zIndexs: [
+              'auto',
+              'inherit',
+              'initial',
+              'unset',
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+          ]
       }
   },
   created(){
@@ -355,6 +465,7 @@ export default {
         text-align: left;
         overflow: auto;
         height: calc(100% - 30px);
+        
         .content-box{
             padding: 30px 0px;
         }
@@ -387,7 +498,7 @@ export default {
             }
         }
     }
-
+    
 }
 .editLayer-ed{
     // left: 120%;
@@ -401,5 +512,15 @@ export default {
     top: 0;
     display: none;
     background: white;
+}
+.span{
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    width: 20px;
+    height: 20px;
+}
+.select{
+    width: 120px;
 }
 </style>

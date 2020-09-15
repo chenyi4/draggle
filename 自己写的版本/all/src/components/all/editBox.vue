@@ -32,7 +32,7 @@ import showLayerSave from '@/assets/js/store/showLayerSave';
 export default {
   name: 'home',
   components: {
-    
+      
   },
    data() {
       return {
@@ -134,7 +134,7 @@ export default {
       scale(){
           var self = this;
           var isChoose = self.array[4].isChoose = !self.array[4].isChoose;
-          showLayerSave.hiddenAndShowAll();
+          showLayerSave.hiddenAndShowAll(isChoose);
           //console.log("全屏显示画布隐藏多余菜单");
         //   eventHub.$emit(eventHub.header.SHOW_componentBox, !isChoose);
         //   eventHub.$emit(eventHub.header.SHOW_editShow, !isChoose);

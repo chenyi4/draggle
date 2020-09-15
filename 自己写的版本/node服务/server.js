@@ -27,6 +27,10 @@ function setHtml(POST){
                             font-size: `+style.fontSize+`;
                             border:`+style.border+`;
                             border-radius: `+style.borderRadius+`;
+                            border-color: `+style.borderColor+`;
+                            border-style: `+style.borderStyle+`;
+                            border-width: `+style.borderWidth+`;
+                            z-index: `+style.zIndex+`;
                             display: inline-block;
                             word-wrap: break-word;
                             word-break: normal;
