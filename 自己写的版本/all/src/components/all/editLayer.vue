@@ -393,6 +393,10 @@ export default {
             self.form = JSON.parse(JSON.stringify(self.form));
           }
           self.setWidth('widthSet');
+
+          //清除搜索
+          self.searchValue = '';
+          self.seachParam('');
       },
       clearParam(){
           this.form = {
