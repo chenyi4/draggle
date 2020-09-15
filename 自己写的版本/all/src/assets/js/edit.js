@@ -19,6 +19,7 @@ edit.init = function(param){
         trueHeight: this.dom.offsetHeight,
         position: "absolute",
         widthSet: 'px',
+        leftSet: 'px',
         isWrap: true,
         color: 'black',
         fontSize: 'medium',
@@ -49,6 +50,10 @@ edit.prototype.thingSet = function(){
         self.style.top = Number((self.dom.style.top).replace('px', ''));
         self.style.offsetLeft = self.dom.offsetLeft;
         self.style.offsetTop = self.dom.offsetTop;
+        self.style.leftSet = 'px';
+        self.style.inputLeft = self.style.left;
+        self.style.isWriteLeft = false; 
+
         self.changePrint('leftAndTop');
     }
 
@@ -66,8 +71,6 @@ edit.prototype.changePrint = function(value){
         this.setPrint(this.style, value);
     }
 }
-
-
 
 edit.prototype.setInit = function(){
     this.isChoose = false;
@@ -137,7 +140,7 @@ edit.prototype.change = function(param, type){
             this.style[item] = param[item];
             this.dom.style[item] = param[item];
         }
-        this.setWidth();
+        // this.setWidth();
     }
     else if(type == 'content'){
        this.style[type] = param[type];
@@ -148,9 +151,9 @@ edit.prototype.change = function(param, type){
         this.dom.style['background-color'] = param[type];
     }
 }
-edit.prototype.setWidth = function(){
-    this.dom.width = this.style.width;
-} 
+// edit.prototype.setWidth = function(){
+//     this.dom.width = this.style.width;
+// } 
 
 
 edit.prototype.clear = function(){

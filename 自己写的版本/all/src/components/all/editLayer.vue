@@ -45,7 +45,7 @@
                         <el-radio  :label="true">启用输入值</el-radio><br/>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="宽度模式" >
+                <el-form-item label="宽度模式">     
                     <el-radio-group v-model="form.widthSet" @input="changeValue('widthSet')">
                         <el-radio  :label="'px'">像素分变量px</el-radio><br/>
                         <el-radio  :label="'%'">百分比模式%</el-radio><br/>
@@ -59,6 +59,27 @@
                 </el-form-item>
                 <el-form-item label="宽度" >
                     <el-input v-model="form.inputWidth" @input="changeValue('widthValue')" :disabled="!form.isWriteValue"/> {{form.widthSet}}
+                </el-form-item>
+                 <el-form-item label="左边距输值">
+                    <el-radio-group v-model="form.isWriteLeft" @input="changeValue('left')">
+                        <el-radio  :label="false">拖拽默认值</el-radio><br/>
+                        <el-radio  :label="true">启用输入值</el-radio><br/>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="左边距模式" >
+                    <el-radio-group v-model="form.leftSet" @input="changeValue('left')">
+                        <el-radio  :label="'px'">像素分变量px</el-radio><br/>
+                        <el-radio  :label="'%'">百分比模式%</el-radio><br/>
+                        <el-radio  :label="''" :disabled="!form.isWriteLeft">calc()计算模式</el-radio><br/>
+                        <el-radio  :label="'rem'" :disabled="!form.isWriteLeft">rem相对于根元素html的字体大小</el-radio><br/>
+                        <el-radio  :label="'vw'" :disabled="!form.isWriteLeft">vw相对于视口的宽度（1vw 等于1/100的视口宽度）</el-radio><br/>
+                        <el-radio  :label="'vh'" :disabled="!form.isWriteLeft">vh相对于视口的高度（1vh 等于1/100的视口高度）</el-radio><br/>
+                        <el-radio :label="'vmin'" :disabled="!form.isWriteLeft">vmin (关于视口高度和宽度两者的最小值)</el-radio><br/>
+                        <el-radio :label="'vmax'" :disabled="!form.isWriteLeft">vmax (关于视口高度和宽度两者的最大值)</el-radio><br/>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="左边距" >
+                    <el-input v-model="form.inputLeft" @input="changeValue('leftValue')" :disabled="!form.isWriteLeft"/> {{form.leftSet}}
                 </el-form-item>
                 <el-form-item label="背景颜色">
                     <!-- https://flatuicolors.com -->
@@ -117,6 +138,7 @@
                         <el-option v-for="(item, key) in zIndexs" :key="key" :value="item">{{item}}</el-option>
                     </el-select>
                 </el-form-item>
+               
                 <!-- <el-form-item label="宽度" >
                     <el-input v-model="form.width" :disabled="true"/> px
                 </el-form-item>
@@ -201,11 +223,13 @@ export default {
               left: 0,
               top: 0,
               isWriteValue: false,
+              isWriteLeft: false,
               widthSet: 'px',
+              leftSet: 'px',
               inputWidth: 0,
+              inputLeft: 0,
               heightSet: null,
               position: '',
-
 
               content: "",
               backgroundColor: "none",
@@ -215,7 +239,7 @@ export default {
               fontSize: 'medium',
               border: '1px dashed grey',
               borderColor: 'none',
-              borderStyle: 'dotted',
+              borderStyle: 'dashed',
               borderWidth: 1,
               zIndex: 'auto'
           },
@@ -339,7 +363,6 @@ export default {
       setOrg(value){
           const self = this;
 
-        
           if(self.currentChoose.length > 1) 
           {
                self.clearParam();
@@ -351,14 +374,16 @@ export default {
           if(objData){
              objData.setPrint = function(value, type){
                 if(value){
-                   self.form = Object.assign(self.formSet, value);
+                   self.form = Object.assign(JSON.parse(JSON.stringify(self.formSet)), value);
+                   self.setWidth('widthSet');
                 }
              }
             if(objData.scale){
-                self.form = Object.assign(self.formSet, objData.style);
+                self.form = Object.assign(JSON.parse(JSON.stringify(self.formSet)), objData.style);
             }
             self.form = JSON.parse(JSON.stringify(self.form));
           }
+           self.setWidth('widthSet');
       },
       clearParam(){
           this.form = {
@@ -377,12 +402,33 @@ export default {
               case 'content':
                     self.setContent('content');
                     break;
+              case 'left':
+                    self.setLeftThing('left');
+                    break;
           }
 
           if(self.currentChoose){
               self.currentChoose.forEach((item) => {
                   item.change(self.form);
               });
+          }
+      },
+      setLeftThing(value){
+          var self = this;
+          var allWidth = (document.getElementsByClassName('trueBody')[0]).offsetWidth;
+          if(value == 'left'){
+              if(self.form.isWriteLeft){  //是自己输入的值
+                    self.form.left = self.form.inputLeft + self.form.leftSet; //设置距离左侧的距离
+              }else{ //是默认拖出的值，不是手动输入的参数
+                    if(self.form.leftSet == 'px'){
+                        self.form.left = ((self.form.inputLeft/100)*allWidth);
+                        self.form.inputLeft = self.form.left;
+                    }else if(self.form.leftSet == '%'){
+                        console.log('eeeeee222222测试模块2');
+                        self.form.inputLeft  = (self.form.left/allWidth)*100;
+                        self.form.left = self.form.inputLeft + '%';
+                    }
+               }
           }
       },
       setContent(value){
@@ -413,6 +459,11 @@ export default {
                                 self.form.widthSet = 'px';
                                 self.form.width = self.form.trueWidth
                             }
+
+                            var width = String(self.form.width);
+                            var regex = /([0-9]|\.|[0-9])+/g;
+                            var back = width.match(regex)[0];
+                            self.form.inputWidth  = back;
                     }else{
                         var stringType = typeof(self.form.width);
                         var width = String(self.form.width);
