@@ -28,7 +28,14 @@
             </div>
             <el-input class="search-input" size="mini" v-model="searchValue" @input="seachParam"></el-input>
             <el-form ref="form" :model="form" label-width="120px" size="mini">
-                    <el-form-item label="position" v-if="seachParam('position位置')">
+                <!-- isBomb -->
+                <el-form-item label="是否接受组件" v-if="seachParam('是否可以接受组件')">
+                    <el-radio-group v-model="form.isBomb" @input="changeValue('isBomb', 'isBomb')">
+                        <el-radio  :label="false">不接受</el-radio><br/>
+                        <el-radio  :label="true">接受</el-radio><br/>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="position" v-if="seachParam('position位置')">
                     <el-radio-group v-model="form.position" @input="changeValue('position', 'position')">
                         <el-radio  :label="'relative'">relative</el-radio><br/>
                         <el-radio  :label="'absolute'">absolute</el-radio><br/>
@@ -504,7 +511,7 @@ export default {
                                 self.form.widthSet = 'px';
                                 self.form.width = self.form.trueWidth
                             }
-                            
+
                             var width = String(self.form.width);
                             var regex = /([0-9]|\.|[0-9])+/g;
                             var back = width.match(regex)[0];
@@ -519,7 +526,6 @@ export default {
                     }
                 }  
           }else if(VALUE == "widthValue"){
-
               self.form.width = self.form.inputWidth + self.form.widthSet;
           }
       }

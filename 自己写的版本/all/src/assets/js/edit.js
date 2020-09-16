@@ -1,4 +1,5 @@
 import eventHub from '@/event-hub/index';
+import component from '@/store/Modules/component.js';
 
 var edit = function(param){
    return new edit.init(param);
@@ -10,6 +11,7 @@ edit.init = function(param){
     this.scale = param.scale;
     
     this.style = {
+        isBomb: false,
         left: this.dom.offsetLeft,
         top: this.dom.offsetTop,
         width: this.dom.offsetWidth,
@@ -29,8 +31,12 @@ edit.init = function(param){
         borderWidth: '1',
         zIndex: 'auto'
     };
+    if(param.style){
+        this.style = JSON.parse(JSON.stringify(Object.assign(this.style, param.style)));
+    }
     this.unuse = false; //false 可以使用 true 不可使用
     this.init();
+
 }
 
 edit.init.prototype = edit.prototype;
@@ -39,6 +45,7 @@ edit.prototype.init = function(){
     this.choose();
     this.setInit();
     this.thingSet();
+    this.bomb();
 }
 
 edit.prototype.thingSet = function(){
@@ -52,8 +59,8 @@ edit.prototype.thingSet = function(){
         self.style.inputLeft = self.style.left;
         self.style.isWriteLeft = false; 
         self.changePrint('leftAndTop');
+        self.bomb();
     }
-
     this.scale.stop = function(value){
         self.style.trueWidth = self.style.width = value.width;
         self.style.trueHeight = self.style.height = value.height;
@@ -62,6 +69,26 @@ edit.prototype.thingSet = function(){
         self.changePrint('widthAndHeight');
     }
 }
+
+edit.prototype.bomb = function(){
+    console.log('碰撞检测');
+    var self = this;
+    for(var item in component.state.componentsList){
+        var editDom = (component.state.componentsList[item]);
+        if(editDom.dom == self.dom){
+            
+        }else{
+            if(editDom.style.isBomb){
+                console.log(self.dom.offsetLeft);
+                console.log(self.dom.offsetTop);
+
+                console.log("=====++++++");
+                console.log(editDom.dom);
+            }
+        }
+    }
+}
+
 
 edit.prototype.changePrint = function(value){
     if(this.setPrint){

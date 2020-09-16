@@ -134,6 +134,7 @@ export default {
           var txt = item.dom.nodeValue;
           var parentNode = item.dom.parentNode;
           var dom = item.dom.cloneNode(true);
+          var style = item.style;
           parentNode.appendChild(dom);
 
           var dragSet = drag({
@@ -141,7 +142,7 @@ export default {
                 param: item.move
           });
 
-          var obj = edit({ dom:dom, move: dragSet, scale: scaleCY(dom)});
+          var obj = edit({ dom:dom, move: dragSet, scale: scaleCY(dom),  style: style});
           this.$store.dispatch('addComponents', obj);
       },
       deleteDom(){
