@@ -207,7 +207,11 @@
             const self = this;
             if(!self.isChangeClassName){
                 var className = self.dom.className;
-                self.dom.className =  className + ' drag-cy';  
+                if(className.indexOf('drag-cy') >= 0){
+
+                }else{
+                    self.dom.className =  className + ' drag-cy';  
+                }
                 if(self.accept){
                     var className = self.dom.className;
                     self.dom.className =  className + ' accept-cy';  
@@ -310,7 +314,6 @@
                 this.moveDom = document.getElementsByClassName(this.moveSelect)[0];
             }
             this.orgMove = this.param.orgMove?this.param.orgMove: function(){};
-            //
             this.isChangeClassName = false; 
         }
     }

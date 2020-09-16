@@ -9,7 +9,6 @@ edit.init = function(param){
     this.move = param.move;
     this.scale = param.scale;
     
-
     this.style = {
         left: this.dom.offsetLeft,
         top: this.dom.offsetTop,
@@ -33,7 +32,6 @@ edit.init = function(param){
     this.unuse = false; //false 可以使用 true 不可使用
     this.init();
 }
-
 
 edit.init.prototype = edit.prototype;
 
@@ -67,7 +65,6 @@ edit.prototype.thingSet = function(){
 
 edit.prototype.changePrint = function(value){
     if(this.setPrint){
-       
         this.setPrint(this.style, value);
     }
 }
@@ -82,9 +79,6 @@ edit.prototype.choose = function(){
     this.dom.addEventListener('mousedown', function(){
         self.chooseSet();
     });
-    // this.dom.addEventListener('mouseup', function(){
-       
-    // });
 }
 
 edit.prototype.chooseSet = function(){
@@ -120,10 +114,8 @@ edit.prototype.addClass = function(){
     }else{
         this.dom.className = className + ' '+this.chooseName;
     }
-   
     this.isChoose = true;
 }
-
 
 edit.prototype.removeClass = function(){
     const self = this;
@@ -147,6 +139,9 @@ edit.prototype.change = function(param, type){
     }else if( type == 'backgroundColor'){
         this.style[type] = param[type];
         this.dom.style['background-color'] = param[type];
+    }else{
+        this.style[type] = param[type];
+        this.dom.style[type] = param[type];
     }
 }
 

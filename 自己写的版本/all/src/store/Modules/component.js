@@ -56,13 +56,13 @@ const component = {
                         chooseDom = item;
                     }
                 });
-                if(chooseDom){
+
+                if(chooseDom){ 
                     item.setDomChoose();
                 }else{
                     item.setUnChoose();
                 }
             });
-            
         },
         /**
          * 锁定选中组件
@@ -94,7 +94,6 @@ const component = {
                 }
             });
 
-            
             eventHub.$emit(eventHub.editBox.SELECT_CHOOSE_DOM, publishArray);
         },
         publishAllComponents({state}){

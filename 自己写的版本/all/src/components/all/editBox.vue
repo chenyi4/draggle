@@ -27,8 +27,10 @@
 </template>
 <script>
 import drag from '@/assets/js/drag3.js';
+import scaleCY from '@/assets/js/scale.js';
 import eventHub from '@/event-hub/index';
 import showLayerSave from '@/assets/js/store/showLayerSave';
+import edit from '@/assets/js/edit.js';
 export default {
   name: 'home',
   components: {
@@ -68,13 +70,19 @@ export default {
                   class: "el-icon-full-screen"
               },
               {
+                  name: "复制该组件",
+                  disabled: false,
+                  isChoose: false,
+                  class: 'el-icon-document-copy'
+              },
+              {
                   name: "缩小此菜单",
                   disabled: false,
                   isChoose: false,
                   class: "el-icon-arrow-up"
-              }
+              },
           ],
-          isUseTip: true, //是否显示提示
+          isUseTip: false, //是否显示提示
           isShowAll: true, //是否显示所有模块
           isShowCover: false, //是否显示遮挡层
           orgIsUseTip: null,
@@ -98,7 +106,7 @@ export default {
       clickButton(key){
           const self = this;
           if(!this.isShowAll) return false; 
-          if(key == 5){
+          if(key == 6){
               this.isShowAll = false;
           }else if(key == 0){
               //删除组件
@@ -111,7 +119,30 @@ export default {
               self.editDom();
           }else if(key == 4){
               self.scale();
+          }else if(key == 5){
+              self.copyDom();
           }
+      },
+      copyDom(){
+          var self = this;
+          var array = this.$store.getters.currentDomObj;
+          array.forEach((item) => {
+              self.cloneOneDon(item);
+          });
+      },
+      cloneOneDon(item){
+          var txt = item.dom.nodeValue;
+          var parentNode = item.dom.parentNode;
+          var dom = item.dom.cloneNode(true);
+          parentNode.appendChild(dom);
+
+          var dragSet = drag({
+                dom: dom,
+                param: item.move
+          });
+
+          var obj = edit({ dom:dom, move: dragSet, scale: scaleCY(dom)});
+          this.$store.dispatch('addComponents', obj);
       },
       deleteDom(){
           this.$store.dispatch('deleteComponents');
