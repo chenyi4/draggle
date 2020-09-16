@@ -284,6 +284,7 @@ export default {
               '56px'
           ],
           borders: [
+              'none',
               '1px solid black',
               '2px dashed red'
           ],
@@ -404,7 +405,7 @@ export default {
       },
       changeValue(value, param){
           const self = this;
-          if(self.currentChoose.length == 1){
+          if(self.currentChoose.length == 1){ //只选了一个
               switch(value){
                 case 'widthSet':
                         self.setWidth('widthSet');
@@ -426,7 +427,24 @@ export default {
                     });
               }
           }else{
-               console.log(param);
+               switch(param){ //多个
+                   case 'inputWidth':
+                       self.form.width = self.form.inputWidth + self.form.widthSet;
+                       param = 'width';
+                       break;
+                   case 'widthSet':
+                       self.form.width = self.form.inputWidth + self.form.widthSet;
+                       param = 'width';
+                       break;
+                   case 'leftSet':
+                       self.form.left = self.form.inputLeft + self.form.leftSet;
+                       param = 'left';
+                       break;
+                   case 'inputLeft':
+                       self.form.left = self.form.inputLeft + self.form.leftSet;
+                       param = 'left';
+                       break;
+               }
                
               //测试内容
                self.currentChoose.forEach((item) => {
@@ -486,10 +504,9 @@ export default {
                                 self.form.widthSet = 'px';
                                 self.form.width = self.form.trueWidth
                             }
-
+                            
                             var width = String(self.form.width);
                             var regex = /([0-9]|\.|[0-9])+/g;
-                            console.log(self.form.width);
                             var back = width.match(regex)[0];
                             self.form.inputWidth  = back;
                     }else{
@@ -502,6 +519,7 @@ export default {
                     }
                 }  
           }else if(VALUE == "widthValue"){
+
               self.form.width = self.form.inputWidth + self.form.widthSet;
           }
       }
