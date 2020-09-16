@@ -29,7 +29,12 @@ edit.init = function(param){
         borderColor: 'none',
         borderStyle: 'dotted',
         borderWidth: '1',
-        zIndex: 'auto'
+        zIndex: 'auto',
+        display: 'inline-block',
+        justifyContent: 'initial',
+        alignItems: 'initial',
+        alignSelf: 'initial',
+        flexDirection: 'initial'
     };
     if(param.style){
         this.style = JSON.parse(JSON.stringify(Object.assign(this.style, param.style)));
@@ -71,7 +76,6 @@ edit.prototype.thingSet = function(){
 }
 
 edit.prototype.bomb = function(){
-    console.log('碰撞检测');
     var self = this;
     for(var item in component.state.componentsList){
         var editDom = (component.state.componentsList[item]);
@@ -79,11 +83,28 @@ edit.prototype.bomb = function(){
             
         }else{
             if(editDom.style.isBomb){
-                console.log(self.dom.offsetLeft);
-                console.log(self.dom.offsetTop);
+                var left = self.dom.offsetLeft;
+                var top = self.dom.offsetTop;
 
-                console.log("=====++++++");
-                console.log(editDom.dom);
+                var checkLeft = editDom.dom.offsetLeft;
+                var checkTop = editDom.dom.offsetTop;
+                var checkRight = checkLeft +  editDom.dom.offsetWidth;
+                var checkButtom = checkTop + editDom.dom.offsetHeight;
+                if((left > checkLeft) && (left < checkRight)){
+                    if((top > checkTop) && (checkButtom > top)){
+                        /**获得到了组建 */
+                        self.style.left = 0;
+                        self.dom.style.left = '0px';
+                        self.dom.style.top = '0px';
+                        self.style.leftSet = 'px';
+                        self.style.top = 0;
+                        self.style.isWriteLeft = false; 
+                        self.changePrint('leftAndTop');
+                        editDom.dom.appendChild(self.dom);
+                        /**获取到了组建 结束 */
+                    }
+                }
+                
             }
         }
     }
@@ -103,20 +124,15 @@ edit.prototype.setInit = function(){
 
 edit.prototype.choose = function(){
     const self = this;
-    this.dom.addEventListener('mousedown', function(){
+    this.dom.addEventListener('mousedown', function(e){
         self.chooseSet();
+        e.preventDefault();
     });
 }
 
 edit.prototype.chooseSet = function(){
     const self = this;
-    // self.isChoose = !self.isChoose;
-    // if(self.isChoose){
     eventHub.$emit(eventHub.editBox.SELECT_CHOOSE_DOM, [self]);
-    //     self.addClass();
-    // }else{
-    //     self.removeClass();
-    // }
 }
 
 edit.prototype.setUnChoose = function(){

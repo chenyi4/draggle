@@ -31,9 +31,12 @@ function setHtml(POST){
                             border-style: `+style.borderStyle+`;
                             border-width: `+style.borderWidth+`;
                             z-index: `+style.zIndex+`;
-                            display: inline-block;
+                            display: `+style.display+`;
                             word-wrap: break-word;
                             word-break: normal;
+                            justify-Content: `+style.justifyContent+`;
+                            align-items:`+style.alignItems+`;
+                            align-self:`+style.alignSelf+`;
                         "
                         
                     >`+(style.content?style.content:'')+`</div>

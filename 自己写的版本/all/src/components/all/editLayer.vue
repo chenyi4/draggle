@@ -27,13 +27,18 @@
                 </div>
             </div>
             <el-input class="search-input" size="mini" v-model="searchValue" @input="seachParam"></el-input>
-            <el-form ref="form" :model="form" label-width="120px" size="mini">
+            <el-form ref="form" :model="form" label-width="170px" size="mini">
                 <!-- isBomb -->
                 <el-form-item label="是否接受组件" v-if="seachParam('是否可以接受组件')">
                     <el-radio-group v-model="form.isBomb" @input="changeValue('isBomb', 'isBomb')">
                         <el-radio  :label="false">不接受</el-radio><br/>
                         <el-radio  :label="true">接受</el-radio><br/>
                     </el-radio-group>
+                </el-form-item>
+                <el-form-item label="显示类型display" v-if="seachParam('显示类型display'+displays)">
+                    <el-select v-model="form.display" class="select" @input="changeValue('display', 'display')">
+                        <el-option v-for="(item, key) in displays" :key="key" :value="item">{{item}}</el-option>
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="position" v-if="seachParam('position位置')">
                     <el-radio-group v-model="form.position" @input="changeValue('position', 'position')">
@@ -105,7 +110,7 @@
                         <el-option v-for="(item, key) in colors" :key="key" :value="item">{{item}}<span class="span" :style="'background: '+item"></span></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="字体大小" v-if="seachParam('字体大小fontSizezitidaxiao')">
+                <el-form-item label="字体大小" v-if="seachParam('字体大小fontSizezitidaxiao')+fonts">
                     <el-input v-model="form.fontSize" @input="changeValue('fontSize', 'fontSize')"/>
                     <el-select v-model="form.fontSize" class="select" @input="changeValue('fontSize', 'fontSize')">
                         <el-option v-for="(item, key) in fonts" :key="key" :value="item">{{item}}</el-option>
@@ -117,19 +122,19 @@
                         <el-option v-for="(item, key) in 20" :key="key" :value="item+'px'">{{item}}px</el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="边框样式调整" v-if="seachParam('边框样式调整borderbiankuangyangshitiaozheng')">
+                <el-form-item label="边框样式调整" v-if="seachParam('边框样式调整borderbiankuangyangshitiaozheng'+borders)">
                     <el-input v-model="form.border" @input="changeValue('border', 'border')"/>
                     <el-select v-model="form.border" class="select" @input="changeValue('border', 'border')">
                         <el-option v-for="(item, key) in borders" :key="key" :value="item">{{item}}</el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="边框颜色" v-if="seachParam('边框颜色borderColorbiankuangyanse')">
+                <el-form-item label="边框颜色" v-if="seachParam('边框颜色borderColorbiankuangyanse'+colors)">
                     <el-input v-model="form.borderColor" @input="changeValue('borderColor', 'borderColor')"/>
                     <el-select v-model="form.borderColor" class="select" @input="changeValue('borderColor', 'borderColor')">
                         <el-option v-for="(item, key) in colors" :key="key" :value="item">{{item}}<span class="span" :style="'background: '+item"></span></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="边框样式" v-if="seachParam('边框样式borderStylebiankuangyangshi')">
+                <el-form-item label="边框样式" v-if="seachParam('边框样式borderStylebiankuangyangshi'+borderStyles)">
                     <el-input v-model="form.borderStyle" @input="changeValue('borderStyle', 'borderStyle')"/>
                     <el-select v-model="form.borderStyle" class="select" @input="changeValue('borderStyle', 'borderStyle')">
                         <el-option v-for="(item, key) in borderStyles" :key="key" :value="item">{{item}}</el-option>
@@ -146,6 +151,35 @@
                         <el-option v-for="(item, key) in zIndexs" :key="key" :value="item">{{item}}</el-option>
                     </el-select>
                 </el-form-item>
+                <hr/>
+                <el-form-item label="justifyContent-Flex" v-if="seachParam('justifyContentflex')">
+                    <!-- Flex子元素左右对齐方式 -->
+                     <el-select v-model="form.justifyContent" @input="changeValue('justifyContent', 'justifyContent')">
+                         <el-option v-for="(item, key) in justifyContents" :key="key" :value="item"></el-option>
+                     </el-select>
+                </el-form-item>
+                <el-form-item label="alignItems-Flex" v-if="seachParam('alignItemsflex')">
+                    <!-- Flex子元素上下对齐方式 -->
+                     <el-select v-model="form.alignItems" @input="changeValue('alignItems', 'alignItems')">
+                         <el-option v-for="(item, key) in justifyContents" :key="key" :value="item"></el-option>
+                     </el-select>
+                </el-form-item>
+                <el-form-item label="align-self-Flex" v-if="seachParam('alignSelf-Flexalign-self-flex')">
+                    <!-- Flex子元素上下对齐方式 -->
+                     <el-select v-model="form.alignSelf" @input="changeValue('alignSelf', 'alignSelf')">
+                         <el-option v-for="(item, key) in justifyContents" :key="key" :value="item"></el-option>
+                     </el-select>
+                </el-form-item>
+                <el-form-item label="flex-direction-Flex" v-if="seachParam('flex-direction-Flex')">
+                    <!-- Flex子元素上下对齐方式 -->
+                     <el-select v-model="form.flexDirection" @input="changeValue('flexDirection', 'flexDirection')">
+                         <el-option v-for="(item, key) in flexDirections" :key="key" :value="item"></el-option>
+                     </el-select>
+                </el-form-item>
+                
+
+                <!-- align-self -->
+
                 <!-- <el-form-item label="宽度" >
                     <el-input v-model="form.width" :disabled="true"/> px
                 </el-form-item>
@@ -249,6 +283,10 @@ export default {
               borderStyle: 'dashed',
               borderWidth: 1,
               zIndex: 'auto',
+              display: 'inline-block',
+              justifyContent: 'initial',
+              alignSelf: 'initial',
+              flexDirection: 'initial'
           },
           form: {
              
@@ -322,7 +360,35 @@ export default {
               4,
               5
           ],
-          searchValue: ''
+          displays: [
+              'inline-block',
+              'inline',
+              'block',
+              'flex',
+              'grid',
+              'none',
+              'list-item',
+              'inherit',
+              'table'
+          ],
+          justifyContents: [
+              'flex-start',
+              'flex-end',
+              'center',
+              'space-between',
+              'space-around',
+              'initial',
+              'inherit'
+          ],
+          searchValue: '',
+          flexDirections: [
+              'row',
+              'row-reverse',
+              'column',
+              'column-reverse',
+              'initial',
+              'inherit'
+          ]
       }
   },
   created(){
@@ -573,7 +639,7 @@ export default {
             padding: 30px 0px;
         }
         .el-input {
-            width: 300px;
+            width: 200px;
         }
         .show-box{
             width: 80%;

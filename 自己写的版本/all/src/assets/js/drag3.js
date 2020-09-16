@@ -144,6 +144,7 @@
         this.dom.addEventListener('mousedown',function(e){
             if(self.unuse) return false; 
             self.getDomPosition();
+            e.preventDefault();
             self.move.org = {
                 left: e.x,
                 top: e.y
@@ -175,6 +176,7 @@
             self.orgDocuemntMouseUp = document.onmouseup;
             self.mouseMove();
             self.mouseUp();
+            e.stopPropagation();
         });
         return this;
     },

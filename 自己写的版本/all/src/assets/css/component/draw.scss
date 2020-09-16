@@ -25,11 +25,19 @@
         word-break: normal;
     }
     .draw.choose{
-        border: 1px dashed #8bc34a;
+        border: 1px solid #8bc34a !important;
         .before{
             border-top: 1px solid #8bc34a;
             &:after{
                 border-top: 1px solid #8bc34a;
+            }
+        }
+        .draw{
+            .before{
+                border-top: 1px solid black;
+                &:after{
+                    border-top: 1px solid black;
+                }
             }
         }
     }
