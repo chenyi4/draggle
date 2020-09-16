@@ -37,6 +37,7 @@ function setHtml(POST){
                             justify-Content: `+style.justifyContent+`;
                             align-items:`+style.alignItems+`;
                             align-self:`+style.alignSelf+`;
+                            flex:`+style.flex+`;
                         "
                         
                     >`+(style.content?style.content:'')+`</div>

@@ -176,8 +176,12 @@
                          <el-option v-for="(item, key) in flexDirections" :key="key" :value="item"></el-option>
                      </el-select>
                 </el-form-item>
-                
-
+                <el-form-item label="flex-Flex" v-if="seachParam('flex-Flex')">
+                    <!-- flex 占屏比 占据屏幕的比例-->
+                     <el-select v-model="form.flex" @input="changeValue('flex', 'flex')">
+                         <el-option v-for="(item, key) in 32" :key="key" :value="item"></el-option>
+                     </el-select>
+                </el-form-item>
                 <!-- align-self -->
 
                 <!-- <el-form-item label="宽度" >
@@ -286,7 +290,8 @@ export default {
               display: 'inline-block',
               justifyContent: 'initial',
               alignSelf: 'initial',
-              flexDirection: 'initial'
+              flexDirection: 'initial',
+              flex: 'initial'
           },
           form: {
              

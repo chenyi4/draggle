@@ -34,7 +34,8 @@ edit.init = function(param){
         justifyContent: 'initial',
         alignItems: 'initial',
         alignSelf: 'initial',
-        flexDirection: 'initial'
+        flexDirection: 'initial',
+        flex: 'initial'
     };
     if(param.style){
         this.style = JSON.parse(JSON.stringify(Object.assign(this.style, param.style)));
