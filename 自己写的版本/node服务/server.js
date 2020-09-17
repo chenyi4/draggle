@@ -2,6 +2,7 @@ var http = require('http');
 var fs = require('fs');
 var querystring = require('querystring');
 var util = require('util');
+//拆分接口
 
 function setHtml(POST){
     var components;

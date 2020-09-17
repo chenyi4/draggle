@@ -69,8 +69,8 @@
                         <el-radio  :label="'rem'" :disabled="!form.isWriteValue">rem相对于根元素html的字体大小</el-radio><br/>
                         <el-radio  :label="'vw'" :disabled="!form.isWriteValue">vw相对于视口的宽度（1vw 等于1/100的视口宽度）</el-radio><br/>
                         <el-radio  :label="'vh'" :disabled="!form.isWriteValue">vh相对于视口的高度（1vh 等于1/100的视口高度）</el-radio><br/>
-                        <el-radio :label="'vmin'" :disabled="!form.isWriteValue">vmin (关于视口高度和宽度两者的最小值)</el-radio><br/>
-                        <el-radio :label="'vmax'" :disabled="!form.isWriteValue">vmax (关于视口高度和宽度两者的最大值)</el-radio><br/>
+                        <el-radio  :label="'vmin'" :disabled="!form.isWriteValue">vmin (关于视口高度和宽度两者的最小值)</el-radio><br/>
+                        <el-radio  :label="'vmax'" :disabled="!form.isWriteValue">vmax (关于视口高度和宽度两者的最大值)</el-radio><br/>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="宽度" v-if="seachParam('宽度widthValuekuandu')">
@@ -221,8 +221,6 @@
                          <el-option v-for="(item, key) in 12" :key="key" :value="item-1" :label="item-1"></el-option>
                      </el-select>
                 </el-form-item>
-
-
                 <!-- align-self -->
                 <!-- <el-form-item label="宽度" >
                     <el-input v-model="form.width" :disabled="true"/> px
