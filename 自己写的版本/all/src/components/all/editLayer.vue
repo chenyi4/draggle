@@ -29,6 +29,9 @@
             <el-input class="search-input" size="mini" v-model="searchValue" @input="seachParam"></el-input>
             <el-form ref="form" :model="form" label-width="170px" size="mini">
                 <!-- isBomb -->
+                 <el-form-item label="id编号" v-if="seachParam('id编号')">
+                    <el-input v-model="form.id" :disabled="true"/>
+                </el-form-item>
                 <el-form-item label="是否接受组件" v-if="seachParam('是否可以接受组件')">
                     <el-radio-group v-model="form.isBomb" @input="changeValue('isBomb', 'isBomb')">
                         <el-radio  :label="false">不接受</el-radio><br/>
@@ -101,6 +104,13 @@
                         <el-option v-for="(item, key) in colors" :key="key" :value="item">{{item}}<span class="span" :style="'background: '+item"></span></el-option>
                     </el-select>
                 </el-form-item>
+                <el-form-item label="背景色填充background-clip" v-if="seachParam('背景色填充backgroundClip')">
+                    <!-- https://flatuicolors.com -->
+                    <el-input  v-model="form.backgroundClip" @input="changeValue('backgroundClip', 'backgroundClip')"/>
+                    <el-select v-model="form.backgroundClip" class="select" @input="changeValue('backgroundClip', 'backgroundClip')">
+                        <el-option v-for="(item, key) in backgroundClips" :key="key" :value="item"></el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="内容输入" v-if="seachParam('内容输入contentneirongshuru')">
                     <el-input type="textarea" v-model="form.content" @input="changeValue('content', 'content')"/>
                 </el-form-item>
@@ -151,23 +161,30 @@
                         <el-option v-for="(item, key) in zIndexs" :key="key" :value="item">{{item}}</el-option>
                     </el-select>
                 </el-form-item>
+                <el-form-item label="text-align字体对齐方式" v-if="seachParam('text-align字体对齐方式')">
+                    <el-input v-model="form.textAlign" @input="changeValue('textAlign', 'textAlign')"/>
+                    <el-select v-model="form.textAlign" class="select" @input="changeValue('textAlign', 'textAlign')">
+                        <el-option v-for="(item, key) in textAligns" :key="key" :value="item">{{item}}</el-option>
+                    </el-select>
+                </el-form-item>
                 <hr/>
                 <el-form-item label="justifyContent-Flex" v-if="seachParam('justifyContentflex')">
                     <!-- Flex子元素左右对齐方式 -->
                      <el-select v-model="form.justifyContent" @input="changeValue('justifyContent', 'justifyContent')">
                          <el-option v-for="(item, key) in justifyContents" :key="key" :value="item"></el-option>
                      </el-select>
+                     横轴对齐方式
                 </el-form-item>
                 <el-form-item label="alignItems-Flex" v-if="seachParam('alignItemsflex')">
                     <!-- Flex子元素上下对齐方式 -->
                      <el-select v-model="form.alignItems" @input="changeValue('alignItems', 'alignItems')">
-                         <el-option v-for="(item, key) in justifyContents" :key="key" :value="item"></el-option>
+                         <el-option v-for="(item, key) in alignItemsList" :key="key" :value="item"></el-option>
                      </el-select>
                 </el-form-item>
                 <el-form-item label="align-self-Flex" v-if="seachParam('alignSelf-Flexalign-self-flex')">
                     <!-- Flex子元素上下对齐方式 -->
                      <el-select v-model="form.alignSelf" @input="changeValue('alignSelf', 'alignSelf')">
-                         <el-option v-for="(item, key) in justifyContents" :key="key" :value="item"></el-option>
+                         <el-option v-for="(item, key) in alignSelfs" :key="key" :value="item"></el-option>
                      </el-select>
                 </el-form-item>
                 <el-form-item label="flex-direction-Flex" v-if="seachParam('flex-direction-Flex')">
@@ -175,15 +192,38 @@
                      <el-select v-model="form.flexDirection" @input="changeValue('flexDirection', 'flexDirection')">
                          <el-option v-for="(item, key) in flexDirections" :key="key" :value="item"></el-option>
                      </el-select>
+                     &nbsp;
+                     <i :class="{'el-icon-right':form.flexDirection == 'row', 'el-icon-back': form.flexDirection == 'row-reverse', 'el-icon-bottom': form.flexDirection == 'column', 'el-icon-top': form.flexDirection == 'column-reverse'}"></i>
                 </el-form-item>
                 <el-form-item label="flex-Flex" v-if="seachParam('flex-Flex')">
                     <!-- flex 占屏比 占据屏幕的比例-->
                      <el-select v-model="form.flex" @input="changeValue('flex', 'flex')">
-                         <el-option v-for="(item, key) in 32" :key="key" :value="item"></el-option>
+                         <el-option v-for="(item, key) in flexs" :key="key" :value="item"></el-option>
+                     </el-select>
+                     占屏比例1:2:2
+                </el-form-item>
+                <el-form-item label="换行flex-wrap-Flex" v-if="seachParam('flex-wrap')">
+                    <!-- flex 换行 -->
+                     <el-select v-model="form.flexWrap" @input="changeValue('flex-wrap', 'flex-wrap')">
+                         <el-option v-for="(item, key) in flexWraps" :key="key" :value="item.type" :label="item.name"></el-option>
                      </el-select>
                 </el-form-item>
-                <!-- align-self -->
+                <el-form-item label="等级flex-order" v-if="seachParam('flex-orderFLEX等级')">
+                    <!-- flex 个数的层级 order属性定义项目的排列顺序。数值越小，排列越靠前，默认为0。-->
+                     <el-select v-model="form.order" @input="changeValue('order', 'order')">
+                         <el-option v-for="(item, key) in 12" :key="key" :value="item-1" :label="item-1"></el-option>
+                     </el-select>
+                     order 越小越靠前
+                </el-form-item>
+                <el-form-item label="缩小flex-shrink" v-if="seachParam('Flex缩小定义flex-shrink')">
+                    <!-- flex-shrink 定义了模块的缩小比例-->
+                     <el-select v-model="form.flexShrink" @input="changeValue('flexShrink', 'flexShrink')">
+                         <el-option v-for="(item, key) in 12" :key="key" :value="item-1" :label="item-1"></el-option>
+                     </el-select>
+                </el-form-item>
 
+
+                <!-- align-self -->
                 <!-- <el-form-item label="宽度" >
                     <el-input v-model="form.width" :disabled="true"/> px
                 </el-form-item>
@@ -278,6 +318,7 @@ export default {
 
               content: "",
               backgroundColor: "none",
+              backgroundClip: "border-box",
               color: 'black',
               borderRadius: '0px',
               isWrap: true, //是否换行
@@ -290,8 +331,13 @@ export default {
               display: 'inline-block',
               justifyContent: 'initial',
               alignSelf: 'initial',
+              alignItems: 'stretch',
               flexDirection: 'initial',
-              flex: 'initial'
+              flex: 'initial',
+              flexWrap: 'nowrap',
+              order: 0,
+              flexShrink: 1,
+              textAlign: 'left' 
           },
           form: {
              
@@ -385,6 +431,21 @@ export default {
               'initial',
               'inherit'
           ],
+          alignSelfs: [
+              'auto',
+              'flex-start',
+              'flex-end',
+              'center',
+              'baseline',
+              'stretch'
+          ],
+          alignItemsList: [
+              'flex-start',
+              'flex-end',
+              'center',
+              'baseline',
+              'stretch'
+          ],
           searchValue: '',
           flexDirections: [
               'row',
@@ -393,6 +454,69 @@ export default {
               'column-reverse',
               'initial',
               'inherit'
+          ],
+          flexs: [
+              'auto',
+              'inherit',
+              'initial',
+              'none',
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22
+          ],
+          flexWraps: [
+              {
+                  name: 'nowrap-不换行',
+                  type: 'nowrap'
+              },
+              {
+                  name: 'wrap-换行',
+                  type: 'warp'
+              },
+              {
+                  name: 'wrap-reverse-换行反向',
+                  type: 'wrap-reverse'
+              },
+              {
+                  name: 'initial-默认不设置',
+                  type: 'initial'
+              }, 
+              {
+                  name: 'inherit-继承',
+                  type: 'inherit'
+              }
+          ],
+          textAligns: [
+              'inherit', //规定应该从父元素继承 text-align 属性的值。
+              'justify', //实现两端对齐文本效果。
+              'center',  //把文本排列到中间。
+              'right',   //把文本排列到右边。
+              'left' //把文本排列到左边。默认值：由浏览器决定。
+          ],
+          backgroundClips: [
+              'border-box',
+              'padding-box',
+              'content-box'
           ]
       }
   },

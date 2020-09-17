@@ -99,7 +99,7 @@ const component = {
         publishAllComponents({state}){
             var components = [];
             state.componentsList.forEach((item) => {
-                components.push(item.style);
+                components.push(Object.assign(item.style, item.publish));
             });
             return components;
         }

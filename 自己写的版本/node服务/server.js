@@ -10,19 +10,21 @@ function setHtml(POST){
         components = oneItem.all;
     }
     var Alldiv = ``;
+    var allDivArray = [];
     if(!components) return false;
     if(components.length > 0){
         components.forEach((item) => {
             var style = item;
             if(style){
-                Alldiv = Alldiv + `
+                var oneDom =  `
                     <div class="box"
-                        style="width:`+style.width+`;
+                            style="width:`+style.width+`;
                             height: `+style.height+`;
                             position: `+style.position+`;
                             left: `+style.left+`;
                             top: `+style.top+`;
                             background-color: `+style['backgroundColor']+`;
+                            background-clip:`+style.backgroundClip+`;
                             color: `+style.color+`;
                             font-size: `+style.fontSize+`;
                             border:`+style.border+`;
@@ -38,14 +40,29 @@ function setHtml(POST){
                             align-items:`+style.alignItems+`;
                             align-self:`+style.alignSelf+`;
                             flex:`+style.flex+`;
+                            flex-wrap: `+style.flexWrap+`;
+                            order: `+style.order+`;
+                            flex-shrink: `+style.flexShrink+`;
+                            text-align:`+style.textAlign+`;
                         "
-                        
-                    >`+(style.content?style.content:'')+`</div>
+                    select="`+style.id+`">`+(style.content?style.content:'')+`</div>
                 `;
+                if(style.parentId){
+                    allDivArray.forEach((item) => {
+                        if(item.id == style.parentId){
+                            item.childs = item.childs + oneDom;
+                            item.dom = item.dom.replace(/\>\<\//,">"+item.childs+"</");
+                        }
+                    })
+                }else{
+                    allDivArray.push({dom:oneDom, id: style.id, childs: ''});
+                }
             }
         });
     }
-    
+    allDivArray.forEach((item) => {
+        Alldiv = Alldiv + item.dom;
+    });
     return  `<head>
                 <link href="./test.css" rel="stylesheet"/>
             </head>
@@ -108,8 +125,6 @@ http.createServer(function(req, res){
     req.on('data', function (chunk) {
         post += chunk;
     });
-
-   
 
     req.on('end',function(){
         var POST = querystring.parse(post);

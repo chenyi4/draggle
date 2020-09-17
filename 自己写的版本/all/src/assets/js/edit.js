@@ -11,6 +11,7 @@ edit.init = function(param){
     this.scale = param.scale;
     
     this.style = {
+        id: self.createHash(),
         isBomb: false,
         left: this.dom.offsetLeft,
         top: this.dom.offsetTop,
@@ -32,17 +33,25 @@ edit.init = function(param){
         zIndex: 'auto',
         display: 'inline-block',
         justifyContent: 'initial',
-        alignItems: 'initial',
+        alignItems: 'stretch',
         alignSelf: 'initial',
         flexDirection: 'initial',
-        flex: 'initial'
+        flex: 'initial',
+        flexWrap: 'nowrap',
+        order: 0,
+        flexShrink: 1,
+        textAlign: 'left'
     };
+
+    this.publish = { //需要被发布出去的参数值
+        parentId: null
+    }
+
     if(param.style){
         this.style = JSON.parse(JSON.stringify(Object.assign(this.style, param.style)));
     }
     this.unuse = false; //false 可以使用 true 不可使用
     this.init();
-
 }
 
 edit.init.prototype = edit.prototype;
@@ -53,6 +62,13 @@ edit.prototype.init = function(){
     this.thingSet();
     this.bomb();
 }
+
+edit.prototype.createHash = function(){
+    var chunk = new Date().getTime();
+    var backValue = chunk + (Math.random(10))*1000;
+    return Math.ceil(backValue);
+}
+
 
 edit.prototype.thingSet = function(){
     var self = this;
@@ -102,6 +118,7 @@ edit.prototype.bomb = function(){
                         self.style.isWriteLeft = false; 
                         self.changePrint('leftAndTop');
                         editDom.dom.appendChild(self.dom);
+                        self.publish.parentId = editDom.style.id;
                         /**获取到了组建 结束 */
                     }
                 }
