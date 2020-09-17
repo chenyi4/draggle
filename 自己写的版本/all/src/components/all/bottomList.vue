@@ -132,12 +132,18 @@ export default {
                     {
                         name: "图片管理",
                         value: "picProduce"
+                    },
+                    {
+                        name: "导入原文件"
                     }
                 ]
             },
             {
                 name: "导出",
                 list: [
+                    {
+                        name: "导出源文件",
+                    },
                     {
                         name: "导出设置",
                         value: 'outPut'
