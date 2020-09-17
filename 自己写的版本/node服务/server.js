@@ -41,6 +41,7 @@ function setHtml(POST){
                             align-self:`+style.alignSelf+`;
                             flex:`+style.flex+`;
                             flex-wrap: `+style.flexWrap+`;
+                            flex-direction: `+style.flexDirection+`;
                             order: `+style.order+`;
                             flex-shrink: `+style.flexShrink+`;
                             text-align:`+style.textAlign+`;
@@ -51,17 +52,17 @@ function setHtml(POST){
                     allDivArray.forEach((item) => {
                         if(item.id == style.parentId){
                             item.childs = item.childs + oneDom;
-                            item.dom = item.dom.replace(/\>\<\//,">"+item.childs+"</");
+                            item.newDom = item.dom.replace(/\>\<\//,">"+item.childs+"</");
                         }
                     })
                 }else{
-                    allDivArray.push({dom:oneDom, id: style.id, childs: ''});
+                    allDivArray.push({dom:oneDom, id: style.id, childs: '', newDom:oneDom});
                 }
             }
         });
     }
     allDivArray.forEach((item) => {
-        Alldiv = Alldiv + item.dom;
+        Alldiv = Alldiv + item.newDom;
     });
     return  `<head>
                 <link href="./test.css" rel="stylesheet"/>
