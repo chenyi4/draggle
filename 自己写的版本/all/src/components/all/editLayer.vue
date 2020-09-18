@@ -3,6 +3,10 @@
     <div class="editLayer-Head">
     </div>
     <div class="editLayer-body">
+        <div class="set-class">
+            <i class="el-icon-folder-add"></i>
+            <i class="save-class-title">保存该class样式</i>
+        </div>
         <div class="content-box">
             <div class="show-box">
                 <div class="line" v-if="!form.isWriteValue">
@@ -283,9 +287,11 @@
 </template>
 <script>
 import showLayerSave from '@/assets/js/store/showLayerSave';
+import editLayerData from '@/store/Defaultdata/editLayer';
 import drag from '@/assets/js/drag3.js';
 import scaleCY from '@/assets/js/scale.js';
 import eventHub from '@/event-hub/index';
+
 export default {
   name: 'editLayer',
   components: {
@@ -297,46 +303,10 @@ export default {
       }
   },
   data() {
+      var defaultData = JSON.parse(JSON.stringify(editLayerData.defaultDate));
       return {
           show: false,
-          formSet: {
-              Set: '',
-              height: 0,
-              width: 0,
-              left: 0,
-              top: 0,
-              isWriteValue: false,
-              isWriteLeft: false,
-              widthSet: 'px',
-              leftSet: 'px',
-              inputWidth: 0,
-              inputLeft: 0,
-              heightSet: null,
-              position: '',
-
-              content: "",
-              backgroundColor: "none",
-              backgroundClip: "border-box",
-              color: 'black',
-              borderRadius: '0px',
-              isWrap: true, //是否换行
-              fontSize: 'medium',
-              border: '1px dashed grey',
-              borderColor: 'none',
-              borderStyle: 'dashed',
-              borderWidth: 1,
-              zIndex: 'auto',
-              display: 'inline-block',
-              justifyContent: 'initial',
-              alignSelf: 'initial',
-              alignItems: 'stretch',
-              flexDirection: 'initial',
-              flex: 'initial',
-              flexWrap: 'nowrap',
-              order: 0,
-              flexShrink: 1,
-              textAlign: 'left' 
-          },
+          formSet: defaultData,
           form: {
              
           },
@@ -761,7 +731,35 @@ export default {
         text-align: left;
         overflow: auto;
         height: calc(100% - 30px);
-        
+        .set-class{
+            position: absolute;
+            cursor: pointer;
+            background: forestgreen;
+            text-align: center;
+            color: white;
+            padding: 7px 9px;
+            transition: all ease 1.2s;
+            z-index: 12;
+            .el-icon-folder-add{
+            }
+            .save-class-title{
+                display: block;
+                width: 0px;
+                height: 0px;
+                overflow: hidden;
+                cursor: pointer;
+            }
+            &:hover{
+                width: 100%;
+                .el-icon-folder-add{
+                    display: none;
+                }
+                .save-class-title{
+                   width: 100%;
+                   height: auto;
+                }
+            }
+        }
         .content-box{
             padding: 30px 0px;
         }

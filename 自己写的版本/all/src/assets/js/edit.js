@@ -1,16 +1,19 @@
 import eventHub from '@/event-hub/index';
 import component from '@/store/Modules/component.js';
+import editLayerData from '@/store/Defaultdata/editLayer';
 
 var edit = function(param){
    return new edit.init(param);
 }
+
+var defaultData = JSON.parse(JSON.stringify(editLayerData.defaultDate));
 edit.init = function(param){
     var self = this;
     this.dom = param.dom;
     this.move = param.move;
     this.scale = param.scale;
     
-    this.style = {
+    this.style = Object.assign(defaultData, {
         id: self.createHash(),
         isBomb: false,
         left: this.dom.offsetLeft,
@@ -19,29 +22,7 @@ edit.init = function(param){
         height: this.dom.offsetHeight,
         trueWidth: this.dom.offsetWidth,
         trueHeight: this.dom.offsetHeight,
-        position: "absolute",
-        widthSet: 'px',
-        leftSet: 'px',
-        isWrap: true,
-        color: 'black',
-        fontSize: 'medium',
-        borderRadius: '0px',
-        border: '1px dashed grey',
-        borderColor: 'none',
-        borderStyle: 'dotted',
-        borderWidth: '1',
-        zIndex: 'auto',
-        display: 'inline-block',
-        justifyContent: 'initial',
-        alignItems: 'stretch',
-        alignSelf: 'initial',
-        flexDirection: 'initial',
-        flex: 'initial',
-        flexWrap: 'nowrap',
-        order: 0,
-        flexShrink: 1,
-        textAlign: 'left'
-    };
+    });
 
     this.publish = { //需要被发布出去的参数值
         parentId: null
