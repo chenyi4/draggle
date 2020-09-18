@@ -111,6 +111,9 @@ export default {
                    {
                        name: '图标库', //flex布局设置
                        value: 'iconBox'
+                   }, 
+                   {
+                       name: '扩展类',
                    }
                 ]
             }, 

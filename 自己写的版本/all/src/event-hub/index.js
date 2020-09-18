@@ -34,4 +34,9 @@ eventHub.editBox = {
     POST_CHOOSE_AREA: 'post.choose.area' //传递选中的区域值给全局计算碰撞的组件
 };
 
+eventHub.loading = {
+    LOADING_SHOW: 'set.loading.show', //设置loading显示
+    LOADING_HIDDEN: 'set.loading.hidden' //设置loading隐藏
+}
+
 export default eventHub;

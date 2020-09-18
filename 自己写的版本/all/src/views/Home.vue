@@ -22,6 +22,9 @@
   <bottomList></bottomList>
   <editLayer></editLayer>
   <!-- <layer></layer> -->
+  <div v-if="isShowLoading">
+    <i class="el-icon-loading loading-box"></i>
+  </div>
 </div>
 </template>
 <script>
@@ -49,7 +52,17 @@ export default {
       return {
           isHiddenHead: true,
           iscomponentBox: false,
+          isShowLoading: false
       }
+  },
+  created(){
+    const self = this;
+    eventHub.$on(eventHub.loading.LOADING_SHOW, ()=>{
+      self.isShowLoading = true;
+    });
+    eventHub.$on(eventHub.loading.LOADING_HIDDEN, ()=>{
+      self.isShowLoading = false;
+    });
   },
   methods: {
     viewAfter(){
@@ -173,5 +186,15 @@ export default {
   width: 0px;
   height: 0px;
   overflow: hidden;
+}
+.loading-box{
+  font-size: 55px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 100;
+  margin-top: -34px;
+  margin-left: -34px;
+  color: #27ae60;
 }
 </style>
