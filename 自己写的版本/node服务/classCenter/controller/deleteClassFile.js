@@ -15,12 +15,12 @@ var deleteClassFile = function(request, response){
     files.forEach(function (item, index) {
        if(item == fileName){
         let stat = fs.lstatSync(path + '/'+ item);
-        if (stat.isDirectory() === true) { 
+         if (stat.isDirectory() === true) { 
             fs.rmdir(path + '/'+ item, ()=> {
                 
             });
             back = "文件删除成功";
-        }
+         }
        }
     });
     console.log(back);
