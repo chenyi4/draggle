@@ -23,7 +23,6 @@ var deleteClassFile = function(request, response){
          }
        }
     });
-    console.log(back);
     response.setHeader("Content-type","application/json");
     response.end(JSON.stringify({
         value: back
