@@ -36,8 +36,6 @@ const edit = {
         order: 0,
         flexShrink: 1,
         textAlign: 'left',
-
-        
     }
 }
 

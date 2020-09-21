@@ -1,0 +1,34 @@
+
+
+/saveClass  保存class (post提交)
+
+OK /getAllClasses  获取所有的class 
+
+OK /getClassStyle?fileName=flex父类&name=class1  获取class的具体样式
+
+OK /createClassFile?fileName=文件1 创建类class的相关文件
+
+OK /deleteClassFile?fileName=文件1 删除class文件
+
+/deleteClass?fileName=flex父类&name=class1  删除类class
+
+
+++++++++++++++++
+
+/createHtml 把html发布出来
+
+/importHtml 导入html格式文件
+
+/exportHtml 导出html格式文件
+
++++++++++++++++++
+
+========================
+
+
+getAllIcons /图标库
+
+/获取用户
+
+/登陆账号
+

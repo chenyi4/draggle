@@ -1,0 +1,22 @@
+{
+    "Set": "",
+    "height": 0,
+    "width": 0,
+    "left": 0,
+    "top": 0,
+    "isWriteValue": false,
+    "isWriteLeft": false,
+    "widthSet": "px",
+    "leftSet": "px",
+    "inputWidth": 0,
+    "inputLeft": 0,
+    "heightSet": null,
+    "position": "absolute",
+    "content": "",
+    "backgroundColor": "none",
+    "backgroundClip": "border-box",
+    "color": "black",
+    "borderRadius": "0px",
+    "isWrap": true, 
+    "fontSize": "medium"
+}

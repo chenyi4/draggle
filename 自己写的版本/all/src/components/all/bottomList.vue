@@ -113,7 +113,7 @@ export default {
                        value: 'iconBox'
                    }, 
                    {
-                       name: '扩展类',
+                       name: '扩展类', //获取所有的class类
                    }
                 ]
             }, 
