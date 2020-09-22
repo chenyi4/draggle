@@ -20,10 +20,8 @@ var saveClass = function(request, response){
 
     var text = "保存成功";
     var ixExist = true;
-   
-
     
-     back.then((data) => {
+    back.then((data) => {
             fs.access(path+'/'+data.fileName, (err) => {
                 if(!err){
 

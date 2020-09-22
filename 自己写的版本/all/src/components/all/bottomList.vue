@@ -20,7 +20,7 @@
             <div>
                 <div class="allMenuBox">
                     <div v-for="(item, key) in showTableList" @click.stop="consoleTest(key)"  :class="['menu', 'menu-'+key]" :key="key">
-                        {{item.name}}
+                        {{item.name}}               
                         <span v-if="typeof(item.isShow) == 'boolean'">
                             <i class="el-icon-success" v-if="item.isShow"></i>
                             <i class="el-icon-error" v-if="!item.isShow"></i>
