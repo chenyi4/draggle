@@ -1,6 +1,5 @@
 
-
-/saveClass  保存class (post提交)
+OK /saveClass  保存class (post提交)
 
 OK /getAllClasses  获取所有的class 
 
@@ -10,10 +9,9 @@ OK /createClassFile?fileName=文件1 创建类class的相关文件
 
 OK /deleteClassFile?fileName=文件1 删除class文件
 
-/deleteClass?fileName=flex父类&name=class1  删除类class
+OK /deleteClass?fileName=flex父类&name=class1  删除类class
 
-
-++++++++++++++++
++++++++++++++++++
 
 /createHtml 把html发布出来
 

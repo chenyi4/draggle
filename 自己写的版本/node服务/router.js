@@ -5,6 +5,8 @@ var getAllClasses = require('./classCenter/controller/getAllClasses');
 var getClassStyle = require('./classCenter/controller/getClassStyle');
 var createClassFile = require('./classCenter/controller/createClassFile');
 var deleteClassFile = require('./classCenter/controller/deleteClassFile');
+var deleteClass = require('./classCenter/controller/deleteClass');
+var saveClass = require('./classCenter/controller/saveClass');
 
 function route(pathname, request, response){
     switch(pathname){
@@ -17,7 +19,6 @@ function route(pathname, request, response){
             break;
         case '/testmore':
             var post = '';
-            
             request.on('data', function(chunk){
                 post += chunk;
                 console.log("test more 模块");
@@ -47,7 +48,12 @@ function route(pathname, request, response){
         case '/deleteClassFile':
             deleteClassFile.init(request, response);
             break;
-
+        case '/deleteClass':
+            deleteClass.init(request, response);
+            break;
+        case '/saveClass':
+            saveClass.init(request, response);
+            break;
     }
 }
 

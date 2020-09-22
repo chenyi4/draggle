@@ -11,12 +11,12 @@ module.exports = {
       ]
   },
   devServer: {
-    port: 8080,
+    port: 8081,
     proxy: {
       '/': {
         // target: 'http://10.12.42.65:8080', //文路的接口
         // target: 'http://10.12.42.127:8090/', //王欣的接口
-        target: 'http://localhost:3000',
+        target: 'http://localhost:8888',
         changeOrigin: true,
         pathRewrite: {
             
