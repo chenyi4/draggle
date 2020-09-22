@@ -18,28 +18,57 @@ var saveClass = function(request, response){
         });
     });
 
-    back.then((data) => {
-        
-        //查询文件，如果是文件夹，就到目录下面创建json文件
+    var text = "保存成功";
+    var ixExist = true;
+   
 
-        let stat = fs.lstatSync(path+'/'+data.fileName);
-        if (stat.isDirectory() === true) { 
-            fs.writeFile(path+'/'+data.fileName+'/'+ data.name + '.json', JSON.stringify(data.content, null,'\t'), function (err) {
-                console.log(err);
-            });
-        }
-        // console.log(data.fileName);
-        // console.log(data.name);
-        // console.log(data.content);
-
-        response.setHeader("Content-type","application/json");
-        response.end(JSON.stringify(data));
-    });
     
+     back.then((data) => {
+            fs.access(path+'/'+data.fileName, (err) => {
+                if(!err){
 
-   
+                }else{
+                    if(err.code == "ENOENT"){
+                        text = ("文件夹不存在");
+                        ixExist = false;
+                    }
+                }
+            }); 
+            //查询文件，如果是文件夹，就到目录下面创建json文件
+            try{
+                if(!ixExist){
+                    text = "不存在该文件";
+                    response.setHeader("Content-type","application/json");
+                    response.end(JSON.stringify({value: text}));
+                    return false;
+                }else{
+                    let stat = fs.lstatSync(path+'/'+data.fileName);
+                    if (stat.isDirectory() === true) { 
+                        end = new Promise((resolve,reject) => {
+                            fs.writeFile(path+'/'+data.fileName+'/'+ data.name + '.json', JSON.stringify(data.content, null,'\t'), function (err) {
+                                if(err){
+                                    text = "保存失败";
+                                }else{
+                
+                                }
+                                resolve();
+                            });
+                        });
+                    }else{
+                    
+                    }
+                }
+                end.then(() => {
+                    response.setHeader("Content-type","application/json");
+                    response.end(JSON.stringify({value: text}));
+                });
+            }catch(error){
+                text = error;
+                response.setHeader("Content-type","application/json");
+                response.end(JSON.stringify({value: text}));
+            }
+        });
     // console.log("保存CLASS调用了");
-   
 }
 
 exports.init = saveClass;

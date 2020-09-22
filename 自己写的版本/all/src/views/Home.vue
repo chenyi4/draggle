@@ -66,7 +66,7 @@ export default {
     });
     thingFlowDate.saveClass({
           fileName:"flex父类",
-          name: "class1",
+          name: "class11",
           content: {
               Set: '',
               height: 0,

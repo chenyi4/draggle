@@ -1,5 +1,13 @@
 
 OK /saveClass  保存class (post提交)
+param: {
+          fileName:"flex父类",
+          name: "class11",
+          content: {
+              Set: '',
+              height: 0
+          }
+}
 
 OK /getAllClasses  获取所有的class 
 
