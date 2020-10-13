@@ -189,7 +189,7 @@ export default {
                 ]     
             }    
         ],
-        isShowAll: false,
+        isShowAll: true,
         isHoverButton: false,
         isClickButton: false,
         currentChoose: null,

@@ -13,7 +13,7 @@
   </div> -->
   <div :class="{'body':true}">
      <div class="trueBody"></div>
-     <cover></cover>
+     <cover></cover>         
   </div>
   
   <allcomponents></allcomponents>
