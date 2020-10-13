@@ -1,14 +1,15 @@
 (function(){
-    var scaleCY = function(name){
-        return new scaleCY.init(name);
+    var scaleCY = function(dom){
+        return new scaleCY.init(dom);
     }
 
-    scaleCY.init = function(name){
+    scaleCY.init = function(dom){
         var self = this;
-        this.dom = document.getElementsByClassName(name)[0];
-        console.log(name);
+        this.dom = dom;
 
-        var point = this.dom.getElementsByClassName('before')[0];
+        //点击事件缺少原事件冲突问题
+        
+        var point = this.dom.getElementsByClassName('scale')[0];
         var position = {
             width: this.dom.offsetWidth,
             height: this.dom.offsetHeight

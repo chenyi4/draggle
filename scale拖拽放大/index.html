@@ -15,7 +15,7 @@
         margin-left: -50px;
         margin-top: -50px;
     }
-    .a .before{
+    .a .scale{
         content: '';
         position: absolute;
         bottom: -5px;
@@ -30,12 +30,13 @@
 </style>
 <body>
     <div class="a">
-        <div class="before"></div>
+        <div class="scale"></div>
     </div>
 </body>
 <script src="./scale.js"></script>
 <script>
-    scaleCY('a')
+    var dom = document.getElementsByClassName("a")[0];
+    scaleCY(dom);
     // console.log('ssssssss');
 </script>
 </html>
