@@ -4,11 +4,10 @@
     }
 
     scaleCY.init = function(dom){
-        var self = this;
+        var self = this
         this.dom = dom;
-
         //点击事件缺少原事件冲突问题
-        
+
         var point = this.dom.getElementsByClassName('scale')[0];
         var position = {
             width: this.dom.offsetWidth,
@@ -22,6 +21,8 @@
             changeY: 0
         }
 
+        this.onmousemove = null;
+        this.onmouseup = null;
         var isClick = false;
         point.onmousedown = function(e){
             isClick = true;
@@ -31,6 +32,8 @@
             };
             setChange.orgX = e.screenX;
             setChange.orgY = e.screenY;
+            self.onmousemove = document.onmousemove;
+            self.onmouseup = document.onmouseup;
         }
 
         document.onmousemove = function(e){
@@ -47,12 +50,14 @@
         }
 
         document.onmouseup = function(e){
-            isClick = false;
-            var position = {
-                width: self.dom.offsetWidth,
-                height:self.dom.offsetHeight
-            };
+                isClick = false;
+                var position = {
+                    width: self.dom.offsetWidth,
+                    height:self.dom.offsetHeight
+                };
+                document.onmousemove = self.onmousemove;
+                document.onmouseup = self.onmouseup;
+            }
         }
-    }
-    window.scaleCY = scaleCY;
+        window.scaleCY = scaleCY;
 })(window);
